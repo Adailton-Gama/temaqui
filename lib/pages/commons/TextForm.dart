@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:temaqui/data/config.dart';
 
 class CustomTextForm extends StatefulWidget {
   CustomTextForm(
@@ -22,24 +23,25 @@ class _CustomTextFormState extends State<CustomTextForm> {
       child: TextFormField(
         controller: widget.userControler,
         obscureText: widget.isObscure,
-        style: TextStyle(color: Colors.orange),
+        style: TextStyle(color: primaryColor),
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide(
-                  color: Colors.orange, width: 2, style: BorderStyle.solid)),
+                  color: primaryColor, width: 2, style: BorderStyle.solid)),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide(
-                  color: Colors.orange, width: 2, style: BorderStyle.solid)),
+                  color: primaryColor, width: 2, style: BorderStyle.solid)),
           label: Text(
             widget.label,
-            style: TextStyle(color: Colors.orange),
+            style: TextStyle(color: primaryColor),
           ),
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide(
-                  color: Colors.orange, width: 2, style: BorderStyle.solid)),
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide(
+                color: primaryColor, width: 2, style: BorderStyle.solid),
+          ),
         ),
       ),
     );

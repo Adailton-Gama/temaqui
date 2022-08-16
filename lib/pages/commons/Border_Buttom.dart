@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:temaqui/data/config.dart';
 
+// ignore: must_be_immutable
 class BorderButtom extends StatefulWidget {
   BorderButtom({Key? key, required this.label}) : super(key: key);
   String label;
@@ -15,13 +17,13 @@ class _BorderButtomState extends State<BorderButtom> {
       alignment: Alignment.center,
       height: 50,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.orange, width: 2),
+        border: Border.all(color: primaryColor, width: 2),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
         widget.label,
         style: TextStyle(
-          color: Colors.orange,
+          color: primaryColor,
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
