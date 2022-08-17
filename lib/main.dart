@@ -18,7 +18,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   double xOffset = 0;
   double yOffset = 0;
+
   List<Widget> stackOrder = [HomeScreen(), LoginPage()];
+
   @override
   void initState() {
     super.initState();
