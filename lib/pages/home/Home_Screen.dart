@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:temaqui/data/config.dart';
+import 'package:temaqui/data/data.dart';
 import 'package:temaqui/pages/commons/Item_Categorias.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   bool isDrawerOpen = false;
-  List categorias = [1, 1, 1, 1, 1, 1, 1, 1];
+  List<Categorias> categorias = [];
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -255,7 +256,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                     ),
                                     TextButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        setState(() {
+                                          Categorias newCategoria = Categorias(
+                                              nome: 'Consultoria',
+                                              img: 'assets/01_Consultoria.png');
+                                          categorias.add(newCategoria);
+                                        });
+                                      },
                                       child: Text(
                                         'Ver Todos',
                                         style: TextStyle(
@@ -275,7 +283,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     scrollDirection: Axis.horizontal,
                                     itemCount: categorias.length,
                                     itemBuilder: (context, index) {
-                                      return ItemCategorias();
+                                      return ItemCategorias(
+                                        nome: categorias[index].nome,
+                                        img: categorias[index].img,
+                                      );
                                     }),
                               ),
 
@@ -319,9 +330,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     crossAxisSpacing: 10,
                                     childAspectRatio: 9 / 11.5,
                                   ),
-                                  itemCount: 10,
+                                  itemCount: categorias.length,
                                   itemBuilder: (_, index) {
-                                    return ItemCategorias();
+                                    return ItemCategorias(
+                                      nome: categorias[index].nome,
+                                      img: categorias[index].img,
+                                    );
                                   },
                                 ),
                               ),

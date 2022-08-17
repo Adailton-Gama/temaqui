@@ -4,7 +4,10 @@ import 'package:get/get.dart';
 import '../../data/config.dart';
 
 class ItemCategorias extends StatefulWidget {
-  const ItemCategorias({Key? key}) : super(key: key);
+  ItemCategorias({Key? key, required this.nome, required this.img})
+      : super(key: key);
+  final String nome;
+  final String img;
 
   @override
   State<ItemCategorias> createState() => _ItemCategoriasState();
@@ -29,7 +32,7 @@ class _ItemCategoriasState extends State<ItemCategorias> {
               child: Container(
                 padding: EdgeInsets.all(20),
                 child: Image.asset(
-                  'assets/logo.png',
+                  widget.img,
                   fit: BoxFit.fitWidth,
                 ),
               ),
@@ -47,7 +50,7 @@ class _ItemCategoriasState extends State<ItemCategorias> {
               child: Wrap(
                 children: [
                   Text(
-                    'Categoria',
+                    widget.nome,
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white),
                   ),

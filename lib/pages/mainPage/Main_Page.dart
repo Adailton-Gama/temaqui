@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:temaqui/pages/planos/planos.dart';
 
+import '../../data/config.dart';
 import '../commons/menu_item.dart';
 import '../commons/styles.dart';
 import '../home/Home_Screen.dart';
@@ -18,7 +19,6 @@ class InitScreen extends StatefulWidget {
 class _InitScreenState extends State<InitScreen> {
   double xOffset = 0;
   double yOffset = 0;
-  List<Widget> stackOrder = [HomeScreen()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,7 +110,7 @@ class _InitScreenState extends State<InitScreen> {
                               setState(() {
                                 stackOrder.clear();
                                 stackOrder.add(LoginPage(
-                                  xOffset: 360,
+                                  xOffset: 300,
                                   yOffset: 80,
                                   isDraw: true,
                                 ));
@@ -137,36 +137,8 @@ class _InitScreenState extends State<InitScreen> {
                             onTap: () {
                               setState(() {
                                 stackOrder.clear();
-                                stackOrder.add(LoginPage(
-                                  xOffset: 360,
-                                  yOffset: 80,
-                                  isDraw: true,
-                                ));
-                                Future.delayed(Duration(milliseconds: 100))
-                                    .then((value) {
-                                  setState(() {
-                                    stackOrder.clear();
-                                    stackOrder.add(LoginPage(
-                                      xOffset: 0,
-                                      yOffset: 0,
-                                      isDraw: false,
-                                    ));
-                                  });
-                                });
-                              });
-                            },
-                            child: MenuItemPage(
-                              icon: Icons.work,
-                              label: 'Área do Prestador',
-                            ),
-                          ),
-
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                stackOrder.clear();
                                 stackOrder.add(WorkPage(
-                                  xOffset: 360,
+                                  xOffset: 300,
                                   yOffset: 80,
                                   isDraw: true,
                                 ));

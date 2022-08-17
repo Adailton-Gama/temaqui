@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
+import 'package:temaqui/data/config.dart';
 import 'package:temaqui/pages/commons/Normal_Buttom.dart';
+import 'package:temaqui/pages/login/selecionar_conta.dart';
+import 'package:temaqui/pages/mainPage/Main_Page.dart';
 
 import '../commons/Border_Buttom.dart';
 import '../commons/TextForm.dart';
@@ -49,17 +53,17 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             //AppBar
             Container(
-              height: 200,
+              height: 100,
               decoration: BoxDecoration(
                 color: Color.fromRGBO(81, 39, 227, 1),
                 borderRadius: widget.isDraw
                     ? BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20),
-                        bottomRight: Radius.circular(100),
+                        bottomRight: Radius.circular(50),
                       )
                     : BorderRadius.only(
-                        bottomRight: Radius.circular(100),
+                        bottomRight: Radius.circular(50),
                       ),
               ),
               //AppBar
@@ -107,11 +111,11 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                           Text(
-                            'LOGIN',
+                            'ÁREA DO USUÁRIO',
                             style: TextStyle(
-                                fontSize: 25,
                                 color: Colors.white,
-                                fontWeight: FontWeight.w300),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
                           ),
                           Container(
                             margin: EdgeInsets.all(5),
@@ -127,35 +131,35 @@ class _LoginPageState extends State<LoginPage> {
                     ),
 
                     //Linha 02
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Row(
-                          children: <Widget>[
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  'SUBTITLE',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  'Description'.toUpperCase(),
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w200),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    // Expanded(
+                    //   child: Container(
+                    //     padding: EdgeInsets.only(left: 10),
+                    //     child: Row(
+                    //       children: <Widget>[
+                    //         Column(
+                    //           crossAxisAlignment: CrossAxisAlignment.start,
+                    //           mainAxisAlignment: MainAxisAlignment.center,
+                    //           children: <Widget>[
+                    //             Text(
+                    //               'ÁREA DO USUÁRIO',
+                    //               style: TextStyle(
+                    //                   color: Colors.white,
+                    //                   fontSize: 30,
+                    //                   fontWeight: FontWeight.bold),
+                    //             ),
+                    //             Text(
+                    //               'Description'.toUpperCase(),
+                    //               style: TextStyle(
+                    //                   color: Colors.white,
+                    //                   fontSize: 20,
+                    //                   fontWeight: FontWeight.w200),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -165,89 +169,109 @@ class _LoginPageState extends State<LoginPage> {
             Expanded(
               child: IgnorePointer(
                 ignoring: widget.isDraw ? true : false,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: widget.isDraw
-                        ? BorderRadius.only(
-                            bottomLeft: Radius.circular(20),
-                            bottomRight: Radius.circular(20))
-                        : BorderRadius.circular(0),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                              color: Color.fromRGBO(81, 39, 227, 1), width: 4),
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: widget.isDraw
+                          ? BorderRadius.only(
+                              bottomLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20))
+                          : BorderRadius.circular(0),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Container(
+                          height: Get.size.height / 4,
+                          padding: EdgeInsets.all(0),
+                          child: Lottie.asset(
+                            'lottie/login.json',
+                          ),
                         ),
-                        child: Icon(
-                          Icons.lock_outline,
-                          size: 80,
-                          color: Color.fromRGBO(81, 39, 227, 1),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      CustomTextForm(
-                        label: 'Usuário',
-                        userControler: userControler,
-                      ),
-                      CustomTextForm(
-                        label: 'Senha',
-                        userControler: passControler,
-                        isObscure: isSecret,
-                      ),
 
-                      //Entrar
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Material(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(20),
-                            onTap: () {
-                              if (userControler.text == '1') {
-                                print('Prestador');
-                              } else if (userControler.text == '2') {
-                                print('usuário');
-                              }
-                            },
-                            child: Ink(
-                              child: NormalButtom(
-                                label: 'Entrar',
+                        CustomTextForm(
+                          label: 'Usuário',
+                          userControler: userControler,
+                        ),
+                        CustomTextForm(
+                          label: 'Senha',
+                          userControler: passControler,
+                          isObscure: isSecret,
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                              onPressed: () {},
+                              child: Text(
+                                'Esqueceu a senha?',
+                                style: TextStyle(
+                                    color: primaryColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              )),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+
+                        //Entrar
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Material(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(20),
+                              onTap: () {
+                                if (userControler.text == '1') {
+                                  print('Prestador');
+                                } else if (userControler.text == '2') {
+                                  print('usuário');
+                                }
+                              },
+                              child: Ink(
+                                child: NormalButtom(
+                                  label: 'Entrar',
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
 
-                      //Cadastrar
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Material(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(20),
-                            onTap: () {
-                              print('Cadastrar');
-                            },
-                            child: Ink(
-                              child: BorderButtom(
-                                label: 'Cadastrar',
+                        //Cadastrar
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Material(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(20),
+                              onTap: () {
+                                print('Cadastrar');
+                                stackOrder.clear();
+                                setState(() {
+                                  stackOrder.add(SelectAcc(
+                                    xOffset: 0,
+                                    yOffset: 0,
+                                  ));
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => InitScreen()));
+                                });
+                                print(stackOrder[0]);
+                              },
+                              child: Ink(
+                                child: BorderButtom(
+                                  label: 'Cadastre-se',
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

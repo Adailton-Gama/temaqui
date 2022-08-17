@@ -19,7 +19,7 @@ class _CustomTextFormState extends State<CustomTextForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(bottom: 20),
+      padding: EdgeInsets.only(top: 20),
       child: TextFormField(
         controller: widget.userControler,
         obscureText: widget.isObscure,
