@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:temaqui/data/config.dart';
 import 'package:temaqui/pages/commons/Normal_Buttom.dart';
-import 'package:temaqui/pages/login/selecionar_conta.dart';
+import 'package:temaqui/pages/login/nova_conta/selecionar_conta.dart';
 import 'package:temaqui/pages/mainPage/Main_Page.dart';
 
 import '../commons/Border_Buttom.dart';
@@ -234,6 +234,8 @@ class _LoginPageState extends State<LoginPage> {
                               },
                               child: Ink(
                                 child: NormalButtom(
+                                  width: Get.size.width,
+                                  color: primaryColor,
                                   label: 'Entrar',
                                 ),
                               ),

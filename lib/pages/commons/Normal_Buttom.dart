@@ -2,8 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:temaqui/data/config.dart';
 
 class NormalButtom extends StatefulWidget {
-  NormalButtom({Key? key, required this.label}) : super(key: key);
+  NormalButtom(
+      {Key? key,
+      required this.label,
+      this.height = 50,
+      this.width = 50,
+      required this.color})
+      : super(key: key);
   String label;
+  double height;
+  double width;
+  Color color;
   @override
   State<NormalButtom> createState() => _NormalButtomState();
 }
@@ -15,9 +24,10 @@ class _NormalButtomState extends State<NormalButtom> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: primaryColor,
+        color: widget.color,
       ),
-      height: 50,
+      height: widget.height,
+      width: widget.width,
       child: Text(
         widget.label,
         style: TextStyle(

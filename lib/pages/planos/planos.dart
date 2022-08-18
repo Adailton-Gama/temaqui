@@ -4,6 +4,8 @@ import 'package:temaqui/data/data.dart';
 import 'package:temaqui/pages/commons/Normal_Buttom.dart';
 import 'package:temaqui/pages/commons/box_Plans.dart';
 
+import '../../data/config.dart';
+
 class NossosPlanos extends StatefulWidget {
   NossosPlanos(
       {Key? key, required this.isDraw, this.xOffset = 290, this.yOffset = 80})
@@ -248,7 +250,10 @@ class _NossosPlanosState extends State<NossosPlanos> {
                                           ));
                                 },
                                 child: Ink(
-                                  child: NormalButtom(label: 'Add'),
+                                  child: NormalButtom(
+                                    label: 'Add',
+                                    color: primaryColor,
+                                  ),
                                 ),
                               ),
                             ],

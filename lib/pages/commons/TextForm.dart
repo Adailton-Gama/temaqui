@@ -6,11 +6,13 @@ class CustomTextForm extends StatefulWidget {
       {Key? key,
       this.isObscure = false,
       required this.userControler,
-      required this.label})
+      required this.label,
+      this.padding = 20})
       : super(key: key);
   final TextEditingController userControler;
   bool isObscure;
   String label;
+  double padding;
   @override
   State<CustomTextForm> createState() => _CustomTextFormState();
 }
@@ -19,7 +21,7 @@ class _CustomTextFormState extends State<CustomTextForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 20),
+      padding: EdgeInsets.only(top: widget.padding),
       child: TextFormField(
         controller: widget.userControler,
         obscureText: widget.isObscure,

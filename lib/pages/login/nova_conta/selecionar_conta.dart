@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:temaqui/data/config.dart';
+import 'package:temaqui/pages/login/nova_conta/contaCliente.dart';
+import 'package:temaqui/pages/login/nova_conta/contaProfissional.dart';
+import 'package:temaqui/pages/mainPage/Main_Page.dart';
 
-import '../commons/cardAccount.dart';
+import '../../commons/cardAccount.dart';
 
 class SelectAcc extends StatefulWidget {
   SelectAcc({Key? key, this.isDraw = false, this.xOffset = 0, this.yOffset = 0})
@@ -18,7 +21,6 @@ class SelectAcc extends StatefulWidget {
 class _SelectAccState extends State<SelectAcc> {
   @override
   bool isDrawerOpen = false;
-  List categorias = [1, 1, 1, 1, 1, 1, 1, 1];
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -47,22 +49,22 @@ class _SelectAccState extends State<SelectAcc> {
                   ? NeverScrollableScrollPhysics()
                   : BouncingScrollPhysics(),
               child: Container(
-                height: Get.size.height + Get.size.height * 0.3,
+                height: Get.size.height,
                 child: Column(
                   children: [
                     //AppBar
                     Container(
-                      height: Get.size.height * .3,
+                      height: 120,
                       decoration: BoxDecoration(
                         color: Color.fromRGBO(81, 39, 227, 1),
                         borderRadius: widget.isDraw
                             ? BorderRadius.only(
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20),
-                                bottomRight: Radius.circular(100),
+                                bottomRight: Radius.circular(50),
                               )
                             : BorderRadius.only(
-                                bottomRight: Radius.circular(100),
+                                bottomRight: Radius.circular(50),
                               ),
                       ),
                       //AppBar
@@ -89,54 +91,49 @@ class _SelectAccState extends State<SelectAcc> {
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   widget.isDraw
-                                      ? Material(
-                                          color: Colors.transparent,
-                                          child: InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                widget.xOffset = 0;
-                                                widget.yOffset = 0;
-                                                widget.isDraw = false;
-                                              });
-                                            },
-                                            child: Ink(
-                                              height: 50,
-                                              width: 80,
-                                              child: Icon(
-                                                Icons.arrow_back_ios,
-                                                color: Colors.white,
-                                              ),
+                                      ? InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              widget.xOffset = 0;
+                                              widget.yOffset = 0;
+                                              widget.isDraw = false;
+                                            });
+                                          },
+                                          child: Ink(
+                                            height: 50,
+                                            width: 80,
+                                            child: Icon(
+                                              Icons.arrow_back_ios,
+                                              color: Colors.white,
                                             ),
                                           ),
                                         )
-                                      : Material(
-                                          color: Colors.transparent,
-                                          child: InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                widget.xOffset =
-                                                    Get.size.width -
-                                                        Get.size.width * 0.1;
-                                                widget.yOffset = 80;
-                                                widget.isDraw = true;
-                                              });
-                                            },
-                                            child: Ink(
-                                              height: 50,
-                                              width: 80,
-                                              child: Icon(
-                                                Icons.menu,
-                                                color: Colors.white,
-                                              ),
+                                      : InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              widget.xOffset = Get.size.width -
+                                                  Get.size.width * 0.1;
+                                              widget.yOffset = 80;
+                                              widget.isDraw = true;
+                                            });
+                                          },
+                                          child: Ink(
+                                            height: 50,
+                                            width: 80,
+                                            child: Icon(
+                                              Icons.menu,
+                                              color: Colors.white,
                                             ),
                                           ),
                                         ),
                                   Text(
-                                    '',
+                                    'JUNTE-SE A NÓS',
                                     style: TextStyle(
-                                        fontSize: 25,
+                                        fontFamily: 'Arial',
+                                        decoration: TextDecoration.none,
                                         color: Colors.white,
-                                        fontWeight: FontWeight.w300),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   Container(
                                     margin: EdgeInsets.all(5),
@@ -157,25 +154,18 @@ class _SelectAccState extends State<SelectAcc> {
                                 children: <Widget>[
                                   Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Text(
-                                        'JUNTE-SE A NÓS',
-                                        style: TextStyle(
-                                            fontFamily: 'Arial',
-                                            decoration: TextDecoration.none,
-                                            color: Colors.white,
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold),
-                                      ),
                                       Container(
+                                        alignment: Alignment.center,
                                         width: Get.size.width - 10,
                                         padding: EdgeInsets.only(right: 10),
                                         child: Wrap(
                                           children: [
                                             Text(
                                               'Os melhores profissionais em um só App!',
+                                              textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontFamily: 'Arial',
                                                 decoration: TextDecoration.none,
@@ -204,7 +194,6 @@ class _SelectAccState extends State<SelectAcc> {
                       child: IgnorePointer(
                         ignoring: widget.isDraw ? true : false,
                         child: Container(
-                          height: Get.size.height,
                           padding: EdgeInsets.all(5),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -226,19 +215,49 @@ class _SelectAccState extends State<SelectAcc> {
                               ),
 
                               //Card Profissional
-                              CardAccount(
-                                animation: 'lottie/workers.json',
-                                nivel: 'Profissional',
-                                descricao:
-                                    'Traga toda sua habilidade e sua experiência para o nosso App.',
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    stackOrder.clear();
+                                    stackOrder.add(CreateProfessional(
+                                      xOffset: 0,
+                                      yOffset: 0,
+                                    ));
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                InitScreen()));
+                                  });
+                                },
+                                child: CardAccount(
+                                  animation: 'lottie/workers.json',
+                                  nivel: 'Profissional',
+                                  descricao:
+                                      'Traga toda sua habilidade e sua experiência para o nosso App.',
+                                ),
                               ),
 
                               //Card Cliente
-                              CardAccount(
-                                animation: 'lottie/clients.json',
-                                nivel: 'Cliente',
-                                descricao:
-                                    'Faça parte da nossa família e contrate já os melhores profissionais!',
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    stackOrder.clear();
+                                    stackOrder.add(CreateCliente(
+                                      xOffset: 0,
+                                      yOffset: 0,
+                                    ));
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                            builder: (context) => InitScreen()),
+                                        (route) => false);
+                                  });
+                                },
+                                child: CardAccount(
+                                  animation: 'lottie/clients.json',
+                                  nivel: 'Cliente',
+                                  descricao:
+                                      'Faça parte da nossa família e contrate já os melhores profissionais!',
+                                ),
                               ),
                             ],
                           ),

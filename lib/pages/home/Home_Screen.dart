@@ -332,9 +332,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   itemCount: categorias.length,
                                   itemBuilder: (_, index) {
-                                    return ItemCategorias(
-                                      nome: categorias[index].nome,
-                                      img: categorias[index].img,
+                                    return GestureDetector(
+                                      onTap: () {
+                                        //Chamar Tela do Profissional
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                                  content: Text('Informações'),
+                                                ));
+                                      },
+                                      child: ItemCategorias(
+                                        nome: categorias[index].nome,
+                                        img: categorias[index].img,
+                                      ),
                                     );
                                   },
                                 ),
