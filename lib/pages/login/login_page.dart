@@ -48,6 +48,11 @@ class _LoginPageState extends State<LoginPage> {
           borderRadius: widget.isDraw
               ? BorderRadius.circular(20)
               : BorderRadius.circular(0),
+          boxShadow: [
+            widget.isDraw
+                ? BoxShadow(color: Colors.grey, blurRadius: 5, spreadRadius: 2)
+                : BoxShadow()
+          ],
         ),
         child: Column(
           children: <Widget>[
@@ -96,7 +101,8 @@ class _LoginPageState extends State<LoginPage> {
                               : InkWell(
                                   onTap: () {
                                     setState(() {
-                                      widget.xOffset = 360;
+                                      widget.xOffset =
+                                          Get.size.width - Get.size.width * .1;
                                       widget.yOffset = 80;
                                       widget.isDraw = true;
                                     });

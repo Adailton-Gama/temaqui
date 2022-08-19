@@ -54,6 +54,11 @@ class _CreateProfessionalState extends State<CreateProfessional> {
           borderRadius: widget.isDraw
               ? BorderRadius.circular(20)
               : BorderRadius.circular(0),
+          boxShadow: [
+            widget.isDraw
+                ? BoxShadow(color: Colors.grey, blurRadius: 5, spreadRadius: 2)
+                : BoxShadow()
+          ],
         ),
         child: Column(
           mainAxisSize: MainAxisSize.max,

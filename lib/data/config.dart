@@ -8,7 +8,6 @@ Color secundaryColor = Color.fromRGBO(255, 204, 41, 1);
 Color bkColor = Color.fromRGBO(116, 46, 145, 1);
 
 List<Widget> stackOrder = [HomeScreen()];
-List<Categorias> categoria = [];
 
 Planos bronze =
     Planos(nome: 'Bronze', descricao: 'Este é o Plano Bronze', preco: 10);

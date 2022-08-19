@@ -30,6 +30,11 @@ class _NossosPlanosState extends State<NossosPlanos> {
           borderRadius: widget.isDraw
               ? BorderRadius.circular(20)
               : BorderRadius.circular(0),
+          boxShadow: [
+            widget.isDraw
+                ? BoxShadow(color: Colors.grey, blurRadius: 5, spreadRadius: 2)
+                : BoxShadow()
+          ],
         ),
         transform: Matrix4.translationValues(widget.xOffset, widget.yOffset, 0)
           ..scale(widget.isDraw ? 0.85 : 1.00)
@@ -82,7 +87,8 @@ class _NossosPlanosState extends State<NossosPlanos> {
                               : InkWell(
                                   onTap: () {
                                     setState(() {
-                                      widget.xOffset = 360;
+                                      widget.xOffset =
+                                          Get.size.width - Get.size.width * .1;
                                       widget.yOffset = 80;
                                       widget.isDraw = true;
                                     });
@@ -264,7 +270,15 @@ class _NossosPlanosState extends State<NossosPlanos> {
 
                     //Rodapé
                     Container(
-                      color: Color.fromRGBO(81, 39, 227, 1),
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(81, 39, 227, 1),
+                        borderRadius: widget.isDraw
+                            ? BorderRadius.only(
+                                bottomLeft: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
+                              )
+                            : BorderRadius.circular(0),
+                      ),
                       height: 15,
                     ),
                   ],

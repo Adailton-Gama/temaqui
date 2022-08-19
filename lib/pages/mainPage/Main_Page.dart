@@ -129,7 +129,7 @@ class _InitScreenState extends State<InitScreen> {
                             },
                             child: MenuItemPage(
                               icon: Icons.person_sharp,
-                              label: 'Área do Cliente',
+                              label: 'Área do Usuário',
                             ),
                           ),
 
