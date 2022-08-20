@@ -11,7 +11,7 @@ import '../commons/TextForm.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage(
-      {Key? key, this.isDraw = false, this.xOffset = 290, this.yOffset = 80})
+      {Key? key, this.isDraw = false, this.xOffset = 300, this.yOffset = 80})
       : super(key: key);
   bool isDraw;
   double xOffset;
@@ -128,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                             height: 50,
                             width: 50,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: Colors.transparent,
                               borderRadius: BorderRadius.circular(100),
                             ),
                           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:temaqui/data/config.dart';
 import 'package:temaqui/pages/home/Home_Screen.dart';
 import 'package:temaqui/pages/login/login_page.dart';
 import 'package:temaqui/pages/splashScreen/Splash_Screen.dart';
@@ -33,7 +34,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.grey.shade400,
+        scaffoldBackgroundColor: primaryColor,
         primarySwatch: Colors.purple,
       ),
       home: const Splash_Screen(),

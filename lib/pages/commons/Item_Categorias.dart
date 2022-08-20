@@ -4,10 +4,12 @@ import 'package:get/get.dart';
 import '../../data/config.dart';
 
 class ItemCategorias extends StatefulWidget {
-  ItemCategorias({Key? key, required this.nome, required this.img})
+  ItemCategorias(
+      {Key? key, required this.nome, required this.img, this.widht = 150})
       : super(key: key);
   final String nome;
   final String img;
+  final double widht;
 
   @override
   State<ItemCategorias> createState() => _ItemCategoriasState();
@@ -17,8 +19,8 @@ class _ItemCategoriasState extends State<ItemCategorias> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
-      width: 150,
+      height: 180,
+      width: widget.widht,
       child: Card(
         elevation: 1,
         shape: RoundedRectangleBorder(
@@ -30,7 +32,7 @@ class _ItemCategoriasState extends State<ItemCategorias> {
           children: <Widget>[
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(20),
+                padding: EdgeInsets.all(5),
                 child: Image.asset(
                   widget.img,
                   fit: BoxFit.fitWidth,
@@ -39,7 +41,7 @@ class _ItemCategoriasState extends State<ItemCategorias> {
             ),
             Container(
               alignment: Alignment.center,
-              height: 50,
+              padding: EdgeInsets.all(5),
               width: Get.size.width,
               decoration: BoxDecoration(
                 color: primaryColor,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:temaqui/pages/planos/planos.dart';
+import 'package:temaqui/pages/quemSomos/quemSomos.dart';
 
 import '../../data/config.dart';
 import '../commons/menu_item.dart';
@@ -22,196 +23,225 @@ class _InitScreenState extends State<InitScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
+      backgroundColor: primaryColor,
       body: SingleChildScrollView(
         physics: NeverScrollableScrollPhysics(),
-        child: Container(
-          width: Get.size.width,
-          height: Get.size.height,
-          child: Stack(
-            children: [
-              Container(
-                color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    top: 50,
-                    left: 10,
-                    bottom: 70,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      //Logo ou Foto do Usuário
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            height: 75,
-                            width: 75,
-                            child: Image.asset(
-                              'assets/logo.png',
-                              fit: BoxFit.cover,
-                              filterQuality: FilterQuality.medium,
+        child: SingleChildScrollView(
+          reverse: true,
+          child: Container(
+            width: Get.size.width,
+            height: Get.size.height,
+            child: Stack(
+              children: [
+                Container(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: 50,
+                      left: 10,
+                      bottom: 70,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        //Logo ou Foto do Usuário
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              height: 75,
+                              width: 75,
+                              child: Image.asset(
+                                'assets/logo.png',
+                                fit: BoxFit.cover,
+                                filterQuality: FilterQuality.medium,
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                'Tem Aqui'.toUpperCase(),
-                                style: TextStyle(
-                                  color: textMenuColor,
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  'Tem Aqui'.toUpperCase(),
+                                  style: TextStyle(
+                                    color: textMenuColor,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                height: 30,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                                Container(
+                                  height: 30,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
 
-                      //Itens da Paginação:
-                      Column(
-                        children: <Widget>[
-                          //Item da Paginação
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                stackOrder.clear();
-                                stackOrder.add(HomeScreen(
-                                  xOffset: 300,
-                                  yOffset: 80,
-                                  isDraw: true,
-                                ));
-                                Future.delayed(Duration(milliseconds: 100))
-                                    .then((value) {
-                                  setState(() {
-                                    stackOrder.clear();
-                                    stackOrder.add(HomeScreen(
-                                      isDraw: false,
-                                    ));
+                        //Itens da Paginação:
+                        Column(
+                          children: <Widget>[
+                            //Item da Paginação
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  stackOrder.clear();
+                                  stackOrder.add(HomeScreen(
+                                    xOffset: 300,
+                                    yOffset: 80,
+                                    isDraw: true,
+                                  ));
+                                  Future.delayed(Duration(milliseconds: 100))
+                                      .then((value) {
+                                    setState(() {
+                                      stackOrder.clear();
+                                      stackOrder.add(HomeScreen(
+                                        isDraw: false,
+                                      ));
+                                    });
+                                  });
+                                  print('Inicio');
+                                });
+                              },
+                              child: MenuItemPage(
+                                icon: Icons.home,
+                                label: 'Início',
+                              ),
+                            ),
+
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  stackOrder.clear();
+                                  stackOrder.add(LoginPage(
+                                    xOffset: 300,
+                                    yOffset: 80,
+                                    isDraw: true,
+                                  ));
+                                  Future.delayed(Duration(milliseconds: 100))
+                                      .then((value) {
+                                    setState(() {
+                                      stackOrder.clear();
+                                      stackOrder.add(LoginPage(
+                                        xOffset: 0,
+                                        yOffset: 0,
+                                        isDraw: false,
+                                      ));
+                                    });
                                   });
                                 });
-                                print('Inicio');
-                              });
-                            },
-                            child: MenuItemPage(
-                              icon: Icons.home,
-                              label: 'Início',
+                              },
+                              child: MenuItemPage(
+                                icon: Icons.person_sharp,
+                                label: 'Área do Usuário',
+                              ),
                             ),
-                          ),
 
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                stackOrder.clear();
-                                stackOrder.add(LoginPage(
-                                  xOffset: 300,
-                                  yOffset: 80,
-                                  isDraw: true,
-                                ));
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  stackOrder.clear();
+                                  stackOrder.add(WorkPage(
+                                    xOffset: 300,
+                                    yOffset: 80,
+                                    isDraw: true,
+                                  ));
+                                });
                                 Future.delayed(Duration(milliseconds: 100))
                                     .then((value) {
                                   setState(() {
                                     stackOrder.clear();
-                                    stackOrder.add(LoginPage(
+                                    stackOrder.add(WorkPage(
                                       xOffset: 0,
                                       yOffset: 0,
                                       isDraw: false,
                                     ));
                                   });
                                 });
-                              });
-                            },
-                            child: MenuItemPage(
-                              icon: Icons.person_sharp,
-                              label: 'Área do Usuário',
+                              },
+                              child: MenuItemPage(
+                                icon: Icons.person_search,
+                                label: 'Prestadores',
+                              ),
                             ),
-                          ),
 
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
+                            GestureDetector(
+                              onTap: () {
                                 stackOrder.clear();
-                                stackOrder.add(WorkPage(
-                                  xOffset: 300,
-                                  yOffset: 80,
-                                  isDraw: true,
-                                ));
-                              });
-                              Future.delayed(Duration(milliseconds: 100))
-                                  .then((value) {
                                 setState(() {
-                                  stackOrder.clear();
-                                  stackOrder.add(WorkPage(
-                                    xOffset: 0,
-                                    yOffset: 0,
-                                    isDraw: false,
-                                  ));
+                                  stackOrder.add(NossosPlanos(isDraw: true));
                                 });
-                              });
-                            },
-                            child: MenuItemPage(
-                              icon: Icons.person_search,
-                              label: 'Prestadores',
+                                Future.delayed(Duration(milliseconds: 100))
+                                    .then((value) {
+                                  setState(() {
+                                    stackOrder.clear();
+                                    stackOrder.add(NossosPlanos(
+                                      isDraw: false,
+                                      xOffset: 0,
+                                      yOffset: 0,
+                                    ));
+                                  });
+                                });
+                              },
+                              child: MenuItemPage(
+                                icon: Icons.currency_exchange,
+                                label: 'Planos',
+                              ),
                             ),
-                          ),
 
-                          GestureDetector(
-                            onTap: () {
-                              stackOrder.clear();
-                              setState(() {
-                                stackOrder.add(NossosPlanos(isDraw: true));
-                              });
-                              Future.delayed(Duration(milliseconds: 100))
-                                  .then((value) {
+                            MenuItemPage(
+                              icon: Icons.chat,
+                              label: 'Fale Conosco',
+                            ),
+
+                            GestureDetector(
+                              onTap: () {
+                                stackOrder.clear();
                                 setState(() {
-                                  stackOrder.clear();
-                                  stackOrder.add(NossosPlanos(
-                                    isDraw: false,
-                                    xOffset: 0,
-                                    yOffset: 0,
+                                  stackOrder.add(QuemSomos(
+                                    isDraw: true,
                                   ));
+                                  Future.delayed(Duration(milliseconds: 100))
+                                      .then((value) {
+                                    setState(() {
+                                      stackOrder.clear();
+                                      stackOrder.add(QuemSomos(
+                                        isDraw: false,
+                                        xOffset: 0,
+                                        yOffset: 0,
+                                      ));
+                                    });
+                                  });
                                 });
-                              });
-                            },
-                            child: MenuItemPage(
-                              icon: Icons.currency_exchange,
-                              label: 'Planos',
+                              },
+                              child: MenuItemPage(
+                                icon: Icons.info,
+                                label: 'Quem Somos',
+                              ),
                             ),
-                          ),
+                          ],
+                        ),
 
-                          MenuItemPage(
-                            icon: Icons.chat,
-                            label: 'Fale Conosco',
-                          ),
-
-                          MenuItemPage(
-                            icon: Icons.info,
-                            label: 'Quem Somos',
-                          ),
-                        ],
-                      ),
-
-                      //Logout
-                      Row(
-                        children: <Widget>[
-                          MenuItemPage(
-                            icon: Icons.cancel,
-                            label: 'Logout',
-                          ),
-                        ],
-                      )
-                    ],
+                        //Logout
+                        Row(
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () {},
+                              child: MenuItemPage(
+                                icon: Icons.cancel,
+                                label: 'Logout',
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              stackOrder[0],
-            ],
+                stackOrder[0],
+              ],
+            ),
           ),
         ),
       ),

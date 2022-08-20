@@ -152,7 +152,7 @@ class _CreateClienteState extends State<CreateCliente> {
                                   height: 50,
                                   width: 50,
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: Colors.transparent,
                                     borderRadius: BorderRadius.circular(100),
                                   ),
                                 ),
@@ -259,6 +259,7 @@ class _CreateClienteState extends State<CreateCliente> {
                                   userControler: _usuario,
                                   label: 'Usuário'),
                               CustomTextForm(
+                                  isObscure: false,
                                   padding: 10,
                                   userControler: _senha,
                                   label: 'Senha'),
@@ -282,8 +283,7 @@ class _CreateClienteState extends State<CreateCliente> {
                                 height: 10,
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Material(
                                     child: InkWell(
@@ -298,32 +298,7 @@ class _CreateClienteState extends State<CreateCliente> {
                                       child: Ink(
                                         child: NormalButtom(
                                             color: primaryColor,
-                                            label: 'Criar',
-                                            width: Get.size.width / 2.5),
-                                      ),
-                                    ),
-                                  ),
-                                  Material(
-                                    child: InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          stackOrder.clear();
-                                          stackOrder.add(SelectAcc(
-                                            xOffset: 0,
-                                            yOffset: 0,
-                                          ));
-                                          Navigator.of(context)
-                                              .pushAndRemoveUntil(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          InitScreen()),
-                                                  (route) => false);
-                                        });
-                                      },
-                                      child: Ink(
-                                        child: NormalButtom(
-                                            color: bkColor,
-                                            label: 'Voltar',
+                                            label: 'Criar Conta',
                                             width: Get.size.width / 2.5),
                                       ),
                                     ),

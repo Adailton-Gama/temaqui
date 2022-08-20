@@ -145,7 +145,7 @@ class _SelectAccState extends State<SelectAcc> {
                                     height: 50,
                                     width: 50,
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: Colors.transparent,
                                       borderRadius: BorderRadius.circular(100),
                                     ),
                                   ),
@@ -251,10 +251,10 @@ class _SelectAccState extends State<SelectAcc> {
                                       xOffset: 0,
                                       yOffset: 0,
                                     ));
-                                    Navigator.of(context).pushAndRemoveUntil(
+                                    Navigator.of(context).push(
                                         MaterialPageRoute(
-                                            builder: (context) => InitScreen()),
-                                        (route) => false);
+                                            builder: (context) =>
+                                                InitScreen()));
                                   });
                                 },
                                 child: CardAccount(

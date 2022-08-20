@@ -47,162 +47,184 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Expanded(
-                child: SingleChildScrollView(
-              physics: widget.isDraw
-                  ? NeverScrollableScrollPhysics()
-                  : BouncingScrollPhysics(),
-              child: Container(
-                height: Get.size.height + Get.size.height * 0.3,
-                child: Column(
-                  children: [
+                child: Container(
+              height: Get.size.height + Get.size.height * 0.3,
+              child: Column(
+                children: [
+                  //AppBar
+                  Container(
+                    height: Get.size.height * .25,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('assets/worker.jpg'),
+                          fit: BoxFit.cover),
+                      color: Color.fromRGBO(81, 39, 227, 1),
+                      borderRadius: widget.isDraw
+                          ? BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                              bottomLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                            )
+                          : BorderRadius.only(
+                              bottomLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                            ),
+                    ),
                     //AppBar
-                    Container(
-                      height: Get.size.height * .3,
+                    child: Container(
                       decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/worker.jpg'),
-                            fit: BoxFit.cover),
-                        color: Color.fromRGBO(81, 39, 227, 1),
+                        color: Color.fromRGBO(81, 39, 227, 0.5),
                         borderRadius: widget.isDraw
                             ? BorderRadius.only(
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20),
-                                bottomRight: Radius.circular(100),
+                                bottomLeft: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
                               )
                             : BorderRadius.only(
-                                bottomRight: Radius.circular(100),
+                                bottomLeft: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
                               ),
                       ),
-                      //AppBar
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Color.fromRGBO(81, 39, 227, 0.5),
-                          borderRadius: widget.isDraw
-                              ? BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                  bottomRight: Radius.circular(100),
-                                )
-                              : BorderRadius.only(
-                                  bottomRight: Radius.circular(100),
-                                ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            //Linha 01
-                            Container(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  widget.isDraw
-                                      ? InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              widget.xOffset = 0;
-                                              widget.yOffset = 0;
-                                              widget.isDraw = false;
-                                            });
-                                          },
-                                          child: Ink(
-                                            height: 50,
-                                            width: 80,
-                                            child: Icon(
-                                              Icons.arrow_back_ios,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        )
-                                      : InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              widget.xOffset = Get.size.width -
-                                                  Get.size.width * 0.1;
-                                              widget.yOffset = 80;
-                                              widget.isDraw = true;
-                                            });
-                                          },
-                                          child: Ink(
-                                            height: 50,
-                                            width: 80,
-                                            child: Icon(
-                                              Icons.menu,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                  Text(
-                                    '',
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w300),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.all(5),
-                                    height: 50,
-                                    width: 50,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(100),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          //Linha 01
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: widget.isDraw
+                                  ? BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                      bottomRight: Radius.circular(100),
+                                    )
+                                  : BorderRadius.only(
+                                      bottomRight: Radius.circular(100),
                                     ),
-                                  ),
-                                ],
-                              ),
                             ),
-                            //Linha 02
-                            Container(
-                              padding: EdgeInsets.only(left: 10, bottom: 20),
-                              child: Row(
-                                children: <Widget>[
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        'BEM-VINDO',
-                                        style: TextStyle(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                widget.isDraw
+                                    ? InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            widget.xOffset = 0;
+                                            widget.yOffset = 0;
+                                            widget.isDraw = false;
+                                          });
+                                        },
+                                        child: Ink(
+                                          height: 50,
+                                          width: 80,
+                                          child: Icon(
+                                            Icons.arrow_back_ios,
                                             color: Colors.white,
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Container(
-                                        width: Get.size.width - 10,
-                                        padding: EdgeInsets.only(right: 10),
-                                        child: Wrap(
-                                          children: [
-                                            Text(
-                                              'Encontre o melhor profissional em toda a sua região!',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w300,
-                                              ),
-                                            ),
-                                          ],
+                                          ),
+                                        ),
+                                      )
+                                    : InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            widget.xOffset = Get.size.width -
+                                                Get.size.width * 0.1;
+                                            widget.yOffset = 80;
+                                            widget.isDraw = true;
+                                          });
+                                        },
+                                        child: Ink(
+                                          height: 50,
+                                          width: 80,
+                                          child: Icon(
+                                            Icons.menu,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
-                                    ],
+                                Text(
+                                  '',
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.all(5),
+                                  height: 50,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    borderRadius: BorderRadius.circular(100),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                          //Linha 02
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: widget.isDraw
+                                  ? BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                      bottomRight: Radius.circular(100),
+                                    )
+                                  : BorderRadius.only(
+                                      bottomRight: Radius.circular(100),
+                                    ),
+                            ),
+                            padding: EdgeInsets.only(left: 10, bottom: 20),
+                            child: Row(
+                              children: <Widget>[
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      'BEM-VINDO',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Container(
+                                      width: Get.size.width - 10,
+                                      padding: EdgeInsets.only(right: 10),
+                                      child: Wrap(
+                                        children: [
+                                          Text(
+                                            'Encontre o melhor profissional em toda a sua região!',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w300,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                  ),
 
-                    //Corpo da Página
+                  //Corpo da Página
 
-                    Expanded(
-                      //Add um IgnoredPoint para bloquear o uso da Lista ao acessar o menu
-                      child: IgnorePointer(
-                        ignoring: widget.isDraw ? true : false,
-                        child: Container(
-                          height: Get.size.height,
-                          padding: EdgeInsets.all(5),
+                  Expanded(
+                    //Add um IgnoredPoint para bloquear o uso da Lista ao acessar o menu
+                    child: IgnorePointer(
+                      ignoring: widget.isDraw ? true : false,
+                      child: Container(
+                        height: Get.size.height,
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: SingleChildScrollView(
+                          physics: BouncingScrollPhysics(),
                           child: Column(
                             children: [
                               //Campo de Pesquisa
@@ -282,13 +304,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               //Card Categorias
                               Container(
-                                height: 200,
+                                padding: EdgeInsets.only(right: 3),
+                                height: 130,
                                 child: ListView.builder(
                                     physics: BouncingScrollPhysics(),
                                     scrollDirection: Axis.horizontal,
                                     itemCount: categorias.length,
                                     itemBuilder: (context, index) {
                                       return ItemCategorias(
+                                        widht: 120,
                                         nome: categorias[index].nome,
                                         img: categorias[index].img,
                                       );
@@ -303,7 +327,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                      'Profissionais Destaques',
+                                      'Profissionais em Destaque',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 18,
@@ -324,7 +348,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
 
                               //Grid de Destaques
-                              Expanded(
+                              Container(
+                                height: 220,
                                 child: GridView.builder(
                                   padding: EdgeInsets.all(10),
                                   physics: BouncingScrollPhysics(),
@@ -354,13 +379,103 @@ class _HomeScreenState extends State<HomeScreen> {
                                   },
                                 ),
                               ),
+                              //Post's
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      'Dicas & Artigos',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              //Card Artigos
+                              Container(
+                                height: 80,
+                                child: ListView.builder(
+                                    physics: BouncingScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: categorias.length,
+                                    itemBuilder: (context, index) {
+                                      return Container(
+                                        margin: EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: primaryColor,
+                                                style: BorderStyle.solid,
+                                                width: 1),
+                                            // color: primaryColor,
+                                            borderRadius:
+                                                BorderRadius.circular(100)),
+                                        height: 60,
+                                        width: 70,
+                                        child: Icon(
+                                          Icons.tips_and_updates,
+                                          color: primaryColor,
+                                        ),
+                                      );
+                                    }),
+                              ),
+                              //Empresas Parceiras
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      'Empresas Parceiras',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                        'Ver Todas',
+                                        style: TextStyle(
+                                            color: primaryColor,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              //Card Parceiros
+                              Container(
+                                height: 80,
+                                child: ListView.builder(
+                                    physics: BouncingScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: categorias.length,
+                                    itemBuilder: (context, index) {
+                                      return Container(
+                                        margin: EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                            color: primaryColor,
+                                            borderRadius:
+                                                BorderRadius.circular(100)),
+                                        height: 60,
+                                        width: 70,
+                                      );
+                                    }),
+                              ),
                             ],
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             )),
           ],

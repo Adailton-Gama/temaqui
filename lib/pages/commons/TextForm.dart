@@ -23,10 +23,12 @@ class _CustomTextFormState extends State<CustomTextForm> {
     return Container(
       padding: EdgeInsets.only(top: widget.padding),
       child: TextFormField(
+        scrollPadding: EdgeInsets.all(40),
         controller: widget.userControler,
         obscureText: widget.isObscure,
         style: TextStyle(color: primaryColor),
         decoration: InputDecoration(
+          isDense: true,
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide(
