@@ -17,6 +17,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.5
   lottie: ^1.4.1
+  google_maps_flutter: ^2.1.12
+  url_launcher: ^6.1.5
 
 dev_dependencies:
   flutter_test:
@@ -28,15 +30,15 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/logo.png"  
+  image_path: "assets/logo_new_wb.png"  
   web:
     generate: true
-    image_path: "assets/logo.png"
+    image_path: "assets/logo_new_wb.png"
     background_color: "#742E91"
     theme_color: "#742E91"
   windows:
     generate: true
-    image_path: "assets/logo.png"
+    image_path: "assets/logo_new_wb.png"
     icon_size: 48 # min:48, max:256, default: 48
   # adaptive_icon_background: "#742E91"
   # adaptive_icon_foreground: "assets/logo.png"

@@ -43,7 +43,7 @@ class _QuemSomosState extends State<QuemSomos> {
             Container(
               // height: 100,
               decoration: BoxDecoration(
-                color: Color.fromRGBO(132, 38, 174, 1),
+                color: primaryColor,
                 borderRadius: widget.isDraw
                     ? BorderRadius.only(
                         topLeft: Radius.circular(20),
@@ -111,7 +111,7 @@ class _QuemSomosState extends State<QuemSomos> {
                             height: 50,
                             width: 50,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: Colors.transparent,
                               borderRadius: BorderRadius.circular(100),
                             ),
                           ),
@@ -177,10 +177,16 @@ class _QuemSomosState extends State<QuemSomos> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Container(
+                          margin: EdgeInsets.all(10),
                           height: Get.size.height / 4,
+                          width: Get.size.height / 4,
                           padding: EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                              // color: primaryColor,
+                              borderRadius: BorderRadius.circular(10)),
                           child: Image.asset(
-                            'assets/logo.png',
+                            'assets/logo_new_wb.png',
+                            fit: BoxFit.fitHeight,
                           ),
                         ),
                         Text.rich(

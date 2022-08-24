@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:temaqui/pages/planos/planos.dart';
 import 'package:temaqui/pages/quemSomos/quemSomos.dart';
 
 import '../../data/config.dart';
+import '../FaleConosco/faleConosco.dart';
 import '../commons/menu_item.dart';
 import '../commons/styles.dart';
 import '../home/Home_Screen.dart';
@@ -47,12 +51,13 @@ class _InitScreenState extends State<InitScreen> {
                       children: <Widget>[
                         //Logo ou Foto do Usuário
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Container(
-                              height: 75,
-                              width: 75,
+                              height: 100,
+                              width: 100,
                               child: Image.asset(
-                                'assets/logo.png',
+                                'assets/logo_new_wb.png',
                                 fit: BoxFit.cover,
                                 filterQuality: FilterQuality.medium,
                               ),
@@ -60,22 +65,34 @@ class _InitScreenState extends State<InitScreen> {
                             SizedBox(
                               width: 10,
                             ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  'Tem Aqui'.toUpperCase(),
-                                  style: TextStyle(
-                                    color: textMenuColor,
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Container(
-                                  height: 30,
-                                ),
-                              ],
-                            ),
+                            // Column(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: <Widget>[
+                            //     Text.rich(
+                            //       TextSpan(
+                            //         children: [
+                            //           TextSpan(
+                            //             text: 'Tem\n'.toUpperCase(),
+                            //             style: TextStyle(
+                            //               color: textMenuColor,
+                            //               fontSize: 30,
+                            //               fontWeight: FontWeight.bold,
+                            //             ),
+                            //           ),
+                            //           TextSpan(
+                            //             text: 'Aqui'.toUpperCase(),
+                            //             style: TextStyle(
+                            //               color:
+                            //                   Color.fromRGBO(242, 199, 22, 1),
+                            //               fontSize: 30,
+                            //               fontWeight: FontWeight.bold,
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
                           ],
                         ),
 
@@ -190,9 +207,28 @@ class _InitScreenState extends State<InitScreen> {
                               ),
                             ),
 
-                            MenuItemPage(
-                              icon: Icons.chat,
-                              label: 'Fale Conosco',
+                            GestureDetector(
+                              onTap: () {
+                                stackOrder.clear();
+                                setState(() {
+                                  stackOrder.add(FaleConosco(isDraw: true));
+                                });
+                                Future.delayed(Duration(milliseconds: 100))
+                                    .then((value) {
+                                  stackOrder.clear();
+                                  setState(() {
+                                    stackOrder.add(FaleConosco(
+                                      isDraw: false,
+                                      xOffset: 0,
+                                      yOffset: 0,
+                                    ));
+                                  });
+                                });
+                              },
+                              child: MenuItemPage(
+                                icon: Icons.chat,
+                                label: 'Fale Conosco',
+                              ),
                             ),
 
                             GestureDetector(
@@ -227,7 +263,13 @@ class _InitScreenState extends State<InitScreen> {
                         Row(
                           children: <Widget>[
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                if (Platform.isAndroid) {
+                                  SystemNavigator.pop();
+                                } else {
+                                  exit(0);
+                                }
+                              },
                               child: MenuItemPage(
                                 icon: Icons.cancel,
                                 label: 'Logout',

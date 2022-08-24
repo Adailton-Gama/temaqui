@@ -44,17 +44,17 @@ class _NossosPlanosState extends State<NossosPlanos> {
           children: <Widget>[
             //AppBar
             Container(
-              height: 200,
+              height: 120,
               decoration: BoxDecoration(
                 color: Color.fromRGBO(81, 39, 227, 1),
                 borderRadius: widget.isDraw
                     ? BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20),
-                        bottomRight: Radius.circular(100),
+                        bottomRight: Radius.circular(50),
                       )
                     : BorderRadius.only(
-                        bottomRight: Radius.circular(100),
+                        bottomRight: Radius.circular(50),
                       ),
               ),
               //AppBar
@@ -114,7 +114,7 @@ class _NossosPlanosState extends State<NossosPlanos> {
                             height: 50,
                             width: 50,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: Colors.transparent,
                               borderRadius: BorderRadius.circular(100),
                             ),
                           ),
@@ -123,35 +123,35 @@ class _NossosPlanosState extends State<NossosPlanos> {
                     ),
 
                     //Linha 02
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Row(
-                          children: <Widget>[
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  'SUBTITLE',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  'Description'.toUpperCase(),
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w200),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    // Expanded(
+                    //   child: Container(
+                    //     padding: EdgeInsets.only(left: 10),
+                    //     child: Row(
+                    //       children: <Widget>[
+                    //         Column(
+                    //           crossAxisAlignment: CrossAxisAlignment.start,
+                    //           mainAxisAlignment: MainAxisAlignment.center,
+                    //           children: <Widget>[
+                    //             Text(
+                    //               'SUBTITLE',
+                    //               style: TextStyle(
+                    //                   color: Colors.white,
+                    //                   fontSize: 30,
+                    //                   fontWeight: FontWeight.bold),
+                    //             ),
+                    //             Text(
+                    //               'Description'.toUpperCase(),
+                    //               style: TextStyle(
+                    //                   color: Colors.white,
+                    //                   fontSize: 20,
+                    //                   fontWeight: FontWeight.w200),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -268,19 +268,19 @@ class _NossosPlanosState extends State<NossosPlanos> {
                       ],
                     ),
 
-                    //Rodapé
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(81, 39, 227, 1),
-                        borderRadius: widget.isDraw
-                            ? BorderRadius.only(
-                                bottomLeft: Radius.circular(20),
-                                bottomRight: Radius.circular(20),
-                              )
-                            : BorderRadius.circular(0),
-                      ),
-                      height: 15,
-                    ),
+                    // //Rodapé
+                    // Container(
+                    //   decoration: BoxDecoration(
+                    //     color: Color.fromRGBO(81, 39, 227, 1),
+                    //     borderRadius: widget.isDraw
+                    //         ? BorderRadius.only(
+                    //             bottomLeft: Radius.circular(20),
+                    //             bottomRight: Radius.circular(20),
+                    //           )
+                    //         : BorderRadius.circular(0),
+                    //   ),
+                    //   height: 15,
+                    // ),
                   ],
                 ),
               ),
