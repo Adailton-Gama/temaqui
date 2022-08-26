@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:temaqui/pages/commons/CategoriaTile.dart';
 import 'package:temaqui/pages/commons/Normal_Buttom.dart';
+import 'package:temaqui/pages/prestadores/Tela/subCategorias.dart';
 
 import '../../data/config.dart';
 import '../../data/data.dart';
@@ -219,20 +220,26 @@ class _WorkPageState extends State<WorkPage> {
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
-                                setState(() {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      content: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(categoria[index].nome),
-                                          Image.network(categoria[index].img),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                });
+                                setState(
+                                  () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) => SubCategorias(
+                                                categoria: categoria[index])));
+                                    // showDialog(
+                                    //   context: context,
+                                    //   builder: (context) => AlertDialog(
+                                    //     content: Column(
+                                    //       mainAxisSize: MainAxisSize.min,
+                                    //       children: [
+                                    //         Text(categoria[index].nome),
+                                    //         Image.network(categoria[index].img),
+                                    //       ],
+                                    //     ),
+                                    //   ),
+                                    // );
+                                  },
+                                );
                               },
                               child: CategoriaTile(
                                 imgUrl: (categoria[index].img),

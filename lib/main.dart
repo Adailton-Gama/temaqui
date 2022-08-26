@@ -4,8 +4,13 @@ import 'package:temaqui/data/config.dart';
 import 'package:temaqui/pages/home/Home_Screen.dart';
 import 'package:temaqui/pages/login/login_page.dart';
 import 'package:temaqui/pages/splashScreen/Splash_Screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
 }
 
@@ -25,6 +30,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    Firebase.initializeApp();
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   }

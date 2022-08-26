@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:temaqui/data/data.dart';
 
 import '../pages/home/Home_Screen.dart';
@@ -14,3 +15,8 @@ Planos bronze =
 Planos prata =
     Planos(nome: 'Prata', descricao: 'Este é o Plano Prata', preco: 20);
 Planos ouro = Planos(nome: 'Ouro', descricao: 'Este é o Plano Ouro', preco: 30);
+
+class GetSizeKeyboard extends GetxController {
+  var keyboardSize = 0.obs;
+  void ChangeValue() => keyboardSize.value;
+}

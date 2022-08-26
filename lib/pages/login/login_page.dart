@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:temaqui/data/config.dart';
 import 'package:temaqui/pages/commons/Normal_Buttom.dart';
 import 'package:temaqui/pages/login/nova_conta/selecionar_conta.dart';
@@ -24,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   double xOffset = 290;
   double yOffset = 80;
   bool isDrawerOpen = false;
+  final MaskTextInputFormatter normal = MaskTextInputFormatter(mask: '');
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -201,11 +203,13 @@ class _LoginPageState extends State<LoginPage> {
                         CustomTextForm(
                           label: 'Usuário',
                           userControler: userControler,
+                          mask: normal,
                         ),
                         CustomTextForm(
                           label: 'Senha',
                           userControler: passControler,
                           isObscure: isSecret,
+                          mask: normal,
                         ),
                         Align(
                           alignment: Alignment.centerRight,

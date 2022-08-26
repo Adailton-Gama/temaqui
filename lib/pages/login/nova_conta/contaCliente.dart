@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:temaqui/pages/login/nova_conta/selecionar_conta.dart';
 
 import '../../../data/config.dart';
 import '../../commons/Normal_Buttom.dart';
 import '../../commons/TextForm.dart';
 import '../../mainPage/Main_Page.dart';
+import 'package:temaqui/data/config.dart' as config;
 
 class CreateCliente extends StatefulWidget {
   CreateCliente({
@@ -24,6 +26,16 @@ class CreateCliente extends StatefulWidget {
 }
 
 class _CreateClienteState extends State<CreateCliente> {
+  //
+  final MaskTextInputFormatter normal = MaskTextInputFormatter(mask: '');
+  final MaskTextInputFormatter datemask =
+      MaskTextInputFormatter(mask: "##/##/####");
+  final MaskTextInputFormatter telmask =
+      MaskTextInputFormatter(mask: '(##) #####-####');
+  final MaskTextInputFormatter cpfmask =
+      MaskTextInputFormatter(mask: '###.###.###-##');
+  //
+  //
   TextEditingController _nome = TextEditingController();
   TextEditingController _usuario = TextEditingController();
   TextEditingController _senha = TextEditingController();
@@ -139,7 +151,7 @@ class _CreateClienteState extends State<CreateCliente> {
                                         ),
                                       ),
                                 Text(
-                                  'BEM-VINDO!',
+                                  'BEM-VINDO! ${config.GetSizeKeyboard().keyboardSize}',
                                   style: TextStyle(
                                       fontFamily: 'Arial',
                                       decoration: TextDecoration.none,
@@ -251,60 +263,81 @@ class _CreateClienteState extends State<CreateCliente> {
                                 ),
                               ),
                               CustomTextForm(
-                                  padding: 10,
-                                  userControler: _nome,
-                                  label: 'Nome Completo'),
+                                padding: 10,
+                                userControler: _nome,
+                                label: 'Nome Completo',
+                                mask: normal,
+                              ),
                               CustomTextForm(
-                                  padding: 10,
-                                  userControler: _usuario,
-                                  label: 'Usuário'),
+                                padding: 10,
+                                userControler: _usuario,
+                                label: 'E-mail',
+                                mask: normal,
+                              ),
                               CustomTextForm(
-                                  isObscure: false,
-                                  padding: 10,
-                                  userControler: _senha,
-                                  label: 'Senha'),
+                                isObscure: false,
+                                padding: 10,
+                                userControler: _senha,
+                                label: 'Senha',
+                                mask: normal,
+                              ),
                               CustomTextForm(
-                                  padding: 10,
-                                  userControler: _telefone,
-                                  label: 'Telefone'),
+                                padding: 10,
+                                userControler: _telefone,
+                                label: 'Telefone',
+                                mask: telmask,
+                                type: TextInputType.numberWithOptions(),
+                              ),
                               CustomTextForm(
-                                  padding: 10,
-                                  userControler: _cpf,
-                                  label: 'CPF'),
+                                padding: 10,
+                                userControler: _cpf,
+                                label: 'CPF',
+                                mask: cpfmask,
+                                type: TextInputType.numberWithOptions(),
+                              ),
                               CustomTextForm(
-                                  padding: 10,
-                                  userControler: _endereco,
-                                  label: 'Endereço'),
+                                padding: 10,
+                                userControler: _endereco,
+                                label: 'Endereço',
+                                mask: normal,
+                              ),
                               CustomTextForm(
-                                  padding: 10,
-                                  userControler: _dtnascimento,
-                                  label: 'Data de Nascimento'),
+                                padding: 10,
+                                userControler: _dtnascimento,
+                                label: 'Data de Nascimento',
+                                mask: datemask,
+                                type: TextInputType.numberWithOptions(),
+                                acao: TextInputAction.done,
+                              ),
                               SizedBox(
                                 height: 10,
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Material(
-                                    child: InkWell(
-                                      onTap: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) => AlertDialog(
-                                                  content: Text(
-                                                      'Create Client Account'),
-                                                ));
-                                      },
-                                      child: Ink(
-                                        child: NormalButtom(
-                                            color: primaryColor,
-                                            label: 'Criar Conta',
-                                            width: Get.size.width / 2.5),
-                                      ),
-                                    ),
+                              Material(
+                                child: InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                              content:
+                                                  Text('Create Client Account'),
+                                            ));
+                                  },
+                                  child: Ink(
+                                    child: NormalButtom(
+                                        color: primaryColor,
+                                        label: 'Criar Conta',
+                                        width: Get.size.width),
                                   ),
-                                ],
+                                ),
                               ),
+                              Obx(
+                                () => Container(
+                                  height: double.parse(config.GetSizeKeyboard()
+                                      .keyboardSize
+                                      .toString()),
+                                  width: Get.size.width,
+                                ),
+                              )
                             ],
                           ),
                         ),

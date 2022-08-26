@@ -6,11 +6,13 @@ class CategoriaTile extends StatelessWidget {
     Key? key,
     required this.categoria,
     this.imgUrl = 'https://i.imgur.com/u1tclRg.png',
-    this.descricao = 'descrição',
+    this.descricao = '',
+    this.readme = '',
   }) : super(key: key);
   final String categoria;
   final String descricao;
   final String imgUrl;
+  final String readme;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,32 +53,6 @@ class CategoriaTile extends StatelessWidget {
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
-                  ),
-                  Wrap(
-                    children: [
-                      Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              text: '${descricao}, ' * 6,
-                              style: TextStyle(
-                                color: primaryColor,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'Ver Mais!',
-                              style: TextStyle(
-                                color: Colors.pink,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
                   ),
                 ],
               ),

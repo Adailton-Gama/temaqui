@@ -272,7 +272,7 @@ class _InitScreenState extends State<InitScreen> {
                               },
                               child: MenuItemPage(
                                 icon: Icons.cancel,
-                                label: 'Logout',
+                                label: 'Sair',
                               ),
                             ),
                           ],

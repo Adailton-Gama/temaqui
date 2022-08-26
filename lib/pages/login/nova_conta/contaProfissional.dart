@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:temaqui/data/data.dart';
+import 'package:temaqui/pages/commons/Border_Buttom.dart';
+import 'package:temaqui/pages/login/nova_conta/commons/escolherCategoria.dart';
 import 'package:temaqui/pages/login/nova_conta/selecionar_conta.dart';
 import 'package:temaqui/pages/mainPage/Main_Page.dart';
 
 import '../../../data/config.dart';
+import '../../../data/config.dart' as config;
 import '../../commons/Normal_Buttom.dart';
 import '../../commons/TextForm.dart';
 import '../../commons/cardAccount.dart';
@@ -24,6 +29,16 @@ class CreateProfessional extends StatefulWidget {
 }
 
 class _CreateProfessionalState extends State<CreateProfessional> {
+  //
+  //
+  final MaskTextInputFormatter normal = MaskTextInputFormatter(mask: '');
+  final MaskTextInputFormatter cpfmask =
+      MaskTextInputFormatter(mask: '###.###.###-##');
+  final MaskTextInputFormatter telmask =
+      MaskTextInputFormatter(mask: '(##) # ####-####');
+
+  //
+  //
   TextEditingController _nome = TextEditingController();
   TextEditingController _usuario = TextEditingController();
   TextEditingController _senha = TextEditingController();
@@ -31,8 +46,19 @@ class _CreateProfessionalState extends State<CreateProfessional> {
   TextEditingController _cpf = TextEditingController();
   TextEditingController _endereco = TextEditingController();
   TextEditingController _profissao = TextEditingController();
-  String selectedPlano = 'Bronze';
-  List planos = ['Bronze', 'Prata', 'Ouro'];
+  //
+  //
+  String selectedPlano =
+      '${config.bronze.nome}    -    R\$ ${config.bronze.preco.toStringAsFixed(2)}';
+  List<Planos> planos = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    planos.add(config.bronze);
+    planos.add(config.prata);
+    planos.add(config.ouro);
+  }
 
   @override
   bool isDrawerOpen = false;
@@ -267,13 +293,17 @@ class _CreateProfessionalState extends State<CreateProfessional> {
                                 ),
                               ),
                               CustomTextForm(
-                                  padding: 10,
-                                  userControler: _usuario,
-                                  label: 'Usuário'),
+                                padding: 10,
+                                userControler: _usuario,
+                                label: 'E-mail',
+                                mask: normal,
+                              ),
                               CustomTextForm(
-                                  padding: 10,
-                                  userControler: _senha,
-                                  label: 'Senha'),
+                                padding: 10,
+                                userControler: _senha,
+                                label: 'Senha',
+                                mask: normal,
+                              ),
                               Container(
                                 margin: EdgeInsets.only(top: 10),
                                 alignment: Alignment.topLeft,
@@ -288,25 +318,153 @@ class _CreateProfessionalState extends State<CreateProfessional> {
                                 ),
                               ),
                               CustomTextForm(
-                                  padding: 10,
-                                  userControler: _nome,
-                                  label: 'Nome Completo'),
+                                padding: 10,
+                                userControler: _nome,
+                                label: 'Nome Completo',
+                                mask: normal,
+                              ),
                               CustomTextForm(
-                                  padding: 10,
-                                  userControler: _telefone,
-                                  label: 'Telefone'),
+                                padding: 10,
+                                userControler: _telefone,
+                                label: 'Telefone',
+                                mask: telmask,
+                                type: TextInputType.numberWithOptions(),
+                              ),
                               CustomTextForm(
-                                  padding: 10,
-                                  userControler: _cpf,
-                                  label: 'CPF'),
+                                padding: 10,
+                                userControler: _cpf,
+                                label: 'CPF',
+                                mask: cpfmask,
+                                type: TextInputType.numberWithOptions(),
+                              ),
                               CustomTextForm(
-                                  padding: 10,
-                                  userControler: _endereco,
-                                  label: 'Endereço'),
-                              CustomTextForm(
-                                  padding: 10,
-                                  userControler: _profissao,
-                                  label: 'Profissão'),
+                                padding: 10,
+                                userControler: _endereco,
+                                label: 'Endereço',
+                                mask: normal,
+                              ),
+                              //
+                              //Profissão
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 10),
+                                    alignment: Alignment.topLeft,
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      'Dados da Profissão:',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          color: primaryColor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  InkWell(
+                                      onTap: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20)),
+                                                  content: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      //
+                                                      Text(
+                                                        'Escolha o plano desejado:',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      //
+                                                      Container(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 10),
+                                                        height:
+                                                            Get.size.height /
+                                                                2.3,
+                                                        child: ListView.builder(
+                                                            itemCount:
+                                                                planos.length,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
+                                                              return GestureDetector(
+                                                                onTap: () {
+                                                                  setState(() {
+                                                                    selectedPlano =
+                                                                        '${planos[index].nome}    -    R\$ ${planos[index].preco.toStringAsFixed(2)}';
+                                                                    Navigator.of(
+                                                                            context)
+                                                                        .pop();
+                                                                  });
+                                                                },
+                                                                child:
+                                                                    EscolherCategoria(
+                                                                  nome: planos[
+                                                                          index]
+                                                                      .nome,
+                                                                  descricao: planos[
+                                                                          index]
+                                                                      .descricao,
+                                                                  preco: planos[
+                                                                          index]
+                                                                      .preco,
+                                                                ),
+                                                              );
+                                                            }),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ));
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.centerLeft,
+                                        padding: EdgeInsets.all(10),
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: primaryColor, width: 2),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              selectedPlano,
+                                              style: TextStyle(
+                                                color: primaryColor,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.menu,
+                                              color: primaryColor,
+                                            ),
+                                          ],
+                                        ),
+                                      )),
+                                ],
+                              ),
+                              //
+                              //Planos
+
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -323,71 +481,128 @@ class _CreateProfessionalState extends State<CreateProfessional> {
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
-                                  Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        border: Border.all(
-                                            color: primaryColor,
-                                            width: 2,
-                                            style: BorderStyle.solid)),
-                                    child: DropdownButton(
-                                      borderRadius: BorderRadius.circular(20),
-                                      dropdownColor: secundaryColor,
-                                      icon: Icon(
-                                        Icons.list,
-                                        color: primaryColor,
-                                      ),
-                                      style: TextStyle(
-                                          color: primaryColor, fontSize: 16),
-                                      isExpanded: true,
-                                      underline: Container(
-                                        color: Colors.transparent,
-                                      ),
-                                      elevation: 0,
-                                      value: selectedPlano,
-                                      items: planos
-                                          .map((item) =>
-                                              DropdownMenuItem<String>(
-                                                  value: item,
-                                                  child: Text(item)))
-                                          .toList(),
-                                      onChanged: (String? item) {
-                                        setState(() {
-                                          selectedPlano = item!;
-                                        });
+                                  GestureDetector(
+                                      onTap: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20)),
+                                                  content: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      //
+                                                      Text(
+                                                        'Escolha o plano desejado:',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      //
+                                                      Container(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 10),
+                                                        height:
+                                                            Get.size.height /
+                                                                2.3,
+                                                        child: ListView.builder(
+                                                            itemCount:
+                                                                planos.length,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
+                                                              return GestureDetector(
+                                                                onTap: () {
+                                                                  setState(() {
+                                                                    selectedPlano =
+                                                                        '${planos[index].nome}    -    R\$ ${planos[index].preco.toStringAsFixed(2)}';
+                                                                    Navigator.of(
+                                                                            context)
+                                                                        .pop();
+                                                                  });
+                                                                },
+                                                                child:
+                                                                    EscolherCategoria(
+                                                                  nome: planos[
+                                                                          index]
+                                                                      .nome,
+                                                                  descricao: planos[
+                                                                          index]
+                                                                      .descricao,
+                                                                  preco: planos[
+                                                                          index]
+                                                                      .preco,
+                                                                ),
+                                                              );
+                                                            }),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ));
                                       },
-                                    ),
-                                  ),
+                                      child: Container(
+                                        alignment: Alignment.centerLeft,
+                                        padding: EdgeInsets.all(10),
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: primaryColor, width: 2),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              selectedPlano,
+                                              style: TextStyle(
+                                                color: primaryColor,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.menu,
+                                              color: primaryColor,
+                                            ),
+                                          ],
+                                        ),
+                                      )),
                                 ],
                               ),
 
                               SizedBox(
                                 height: 10,
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Material(
-                                    child: InkWell(
-                                      onTap: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) => AlertDialog(
-                                                  content: Text(
-                                                      'Create Profissional Account'),
-                                                ));
-                                      },
-                                      child: Ink(
-                                        child: NormalButtom(
-                                            color: primaryColor,
-                                            label: 'Criar Conta',
-                                            width: Get.size.width / 2.5),
-                                      ),
-                                    ),
+                              Material(
+                                child: InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                              content: Text(
+                                                  'Create Profissional Account'),
+                                            ));
+                                  },
+                                  child: Ink(
+                                    child: NormalButtom(
+                                        color: primaryColor,
+                                        label: 'Criar Conta',
+                                        width: Get.size.width),
                                   ),
-                                ],
+                                ),
                               ),
                             ],
                           ),
