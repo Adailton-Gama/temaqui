@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
@@ -138,5 +139,15 @@ class _ListaProfissionaisState extends State<ListaProfissionais> {
       ..set('subCategoria', subCat.text)
       ..set('subCategoriaImg', parseSubCatImg);
     await categoria.save();
+
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text('Cadastrado com sucesso!')));
+    setState(() {
+      cat.text = '';
+      subCat.text = '';
+      catImg = null;
+      subCatImg = null;
+    });
   }
 }
