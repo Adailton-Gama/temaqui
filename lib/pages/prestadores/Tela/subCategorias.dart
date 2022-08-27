@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:temaqui/data/back4app.dart';
 import 'package:temaqui/data/config.dart';
 import 'package:temaqui/data/data.dart';
 import 'package:temaqui/pages/prestadores/Tela/profissionais.dart';
@@ -16,6 +18,13 @@ class SubCategorias extends StatefulWidget {
 
 class _SubCategoriasState extends State<SubCategorias> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Back4app.initParse();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -31,8 +40,9 @@ class _SubCategoriasState extends State<SubCategorias> {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+              maxHeight: Get.size.height, maxWidth: Get.size.width),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -54,65 +64,82 @@ class _SubCategoriasState extends State<SubCategorias> {
                       fit: BoxFit.cover),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ListaProfissionais()));
-                },
-                child: CategoriaTile(
-                  imgUrl: (widget.categoria.img),
-                  categoria: widget.categoria.nome,
-                  descricao:
-                      'Nesta Seção você verá as seguintes profissões: Profissão 01, Profissão 02, Profissão 03',
-                  readme: ', Ver Mais.',
+              Expanded(
+                child: Container(
+                  height: 200,
+                  child: FutureBuilder<List<ParseObject>>(
+                    future: getData(),
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                          return Center(
+                            child: Container(
+                                width: 100,
+                                height: 100,
+                                child: CircularProgressIndicator()),
+                          );
+                        default:
+                          if (snapshot.hasError) {
+                            return Center(
+                              child: Container(
+                                  child: Text(
+                                      'Erro: ${snapshot.error.toString()}')),
+                            );
+                          }
+                          if (!snapshot.hasData) {
+                            return Center(
+                              child: Container(
+                                  child: Text(
+                                      'Nenhum Profissional Cadastrado nesta categoria')),
+                            );
+                          } else {
+                            return ListView.builder(
+                                physics: BouncingScrollPhysics(),
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (context, index) {
+                                  var subCategoria = snapshot.data![index];
+                                  var imgUrl = subCategoria
+                                      .get<ParseFileBase>('subCategoriaImg');
+                                  var nome =
+                                      subCategoria.get<String>('subCategoria');
+
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ListaProfissionais()));
+                                    },
+                                    child: CategoriaTile(
+                                      imgUrl: imgUrl!.url!,
+                                      categoria: nome!,
+                                      readme: ', Ver Mais.',
+                                    ),
+                                  );
+                                });
+                          }
+                      }
+                    },
+                  ),
                 ),
-              ),
-              CategoriaTile(
-                imgUrl: (widget.categoria.img),
-                categoria: widget.categoria.nome,
-                descricao:
-                    'Nesta Seção você verá as seguintes profissões: Profissão 01, Profissão 02, Profissão 03',
-                readme: ', Ver Mais.',
-              ),
-              CategoriaTile(
-                imgUrl: (widget.categoria.img),
-                categoria: widget.categoria.nome,
-                descricao:
-                    'Nesta Seção você verá as seguintes profissões: Profissão 01, Profissão 02, Profissão 03',
-                readme: ', Ver Mais.',
-              ),
-              CategoriaTile(
-                imgUrl: (widget.categoria.img),
-                categoria: widget.categoria.nome,
-                descricao:
-                    'Nesta Seção você verá as seguintes profissões: Profissão 01, Profissão 02, Profissão 03',
-                readme: ', Ver Mais.',
-              ),
-              CategoriaTile(
-                imgUrl: (widget.categoria.img),
-                categoria: widget.categoria.nome,
-                descricao:
-                    'Nesta Seção você verá as seguintes profissões: Profissão 01, Profissão 02, Profissão 03',
-                readme: ', Ver Mais.',
-              ),
-              CategoriaTile(
-                imgUrl: (widget.categoria.img),
-                categoria: widget.categoria.nome,
-                descricao:
-                    'Nesta Seção você verá as seguintes profissões: Profissão 01, Profissão 02, Profissão 03',
-                readme: ', Ver Mais.',
-              ),
-              CategoriaTile(
-                imgUrl: (widget.categoria.img),
-                categoria: widget.categoria.nome,
-                descricao:
-                    'Nesta Seção você verá as seguintes profissões: Profissão 01, Profissão 02, Profissão 03',
-                readme: ', Ver Mais.',
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<List<ParseObject>> getData() async {
+    QueryBuilder<ParseObject> queryRead =
+        QueryBuilder<ParseObject>(ParseObject('Categorias'));
+
+    final ParseResponse apiResponse = await queryRead.query();
+
+    if (apiResponse.success && apiResponse.results != null) {
+      return apiResponse.results as List<ParseObject>;
+    } else {
+      return [];
+    }
   }
 }
