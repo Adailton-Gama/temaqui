@@ -135,10 +135,14 @@ class _ListaProfissionaisState extends State<ListaProfissionais> {
 
     var categoria = ParseObject('Categorias')
       ..set('Categoria', cat.text)
-      ..set('catImg', parseCatImg)
       ..set('subCategoria', subCat.text)
       ..set('subCategoriaImg', parseSubCatImg);
     await categoria.save();
+
+    var nomeCategoria = ParseObject('NomesCategorias')
+      ..set('Categoria', cat.text)
+      ..set('catImg', parseCatImg);
+    await nomeCategoria.save();
 
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context)

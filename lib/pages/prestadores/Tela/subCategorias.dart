@@ -9,8 +9,10 @@ import 'package:temaqui/pages/prestadores/Tela/profissionais.dart';
 import '../../commons/CategoriaTile.dart';
 
 class SubCategorias extends StatefulWidget {
-  SubCategorias({Key? key, required this.categoria}) : super(key: key);
-  Categorias categoria;
+  SubCategorias({Key? key, required this.categoria, required this.img})
+      : super(key: key);
+  String categoria;
+  ParseFileBase img;
 
   @override
   State<SubCategorias> createState() => _SubCategoriasState();
@@ -29,7 +31,7 @@ class _SubCategoriasState extends State<SubCategorias> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(widget.categoria.nome.toUpperCase()),
+        title: Text(widget.categoria.toUpperCase()),
         centerTitle: true,
         backgroundColor: primaryColor,
         bottom: PreferredSize(
@@ -60,8 +62,7 @@ class _SubCategoriasState extends State<SubCategorias> {
                   ],
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                      image: NetworkImage(widget.categoria.img),
-                      fit: BoxFit.cover),
+                      image: NetworkImage(widget.img.url!), fit: BoxFit.cover),
                 ),
               ),
               Expanded(
@@ -133,6 +134,7 @@ class _SubCategoriasState extends State<SubCategorias> {
   Future<List<ParseObject>> getData() async {
     QueryBuilder<ParseObject> queryRead =
         QueryBuilder<ParseObject>(ParseObject('Categorias'));
+    queryRead..whereContains('Categoria', widget.categoria);
 
     final ParseResponse apiResponse = await queryRead.query();
 

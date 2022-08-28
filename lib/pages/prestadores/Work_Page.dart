@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:temaqui/pages/commons/CategoriaTile.dart';
 import 'package:temaqui/pages/commons/Normal_Buttom.dart';
 import 'package:temaqui/pages/prestadores/Tela/subCategorias.dart';
@@ -210,46 +211,71 @@ class _WorkPageState extends State<WorkPage> {
                   children: <Widget>[
                     //
                     //Lista de Categorias
-                    Expanded(
-                      child: Container(
-                        height: 200,
-                        child: ListView.builder(
-                          physics: BouncingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: categoria.length,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                setState(
-                                  () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) => SubCategorias(
-                                                categoria: categoria[index])));
-                                    // showDialog(
-                                    //   context: context,
-                                    //   builder: (context) => AlertDialog(
-                                    //     content: Column(
-                                    //       mainAxisSize: MainAxisSize.min,
-                                    //       children: [
-                                    //         Text(categoria[index].nome),
-                                    //         Image.network(categoria[index].img),
-                                    //       ],
-                                    //     ),
-                                    //   ),
-                                    // );
-                                  },
+                    FutureBuilder<List<ParseObject>>(
+                        future: getData(),
+                        builder: (context, snapshot) {
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.waiting:
+                              return Center(
+                                child: Container(
+                                    width: 100,
+                                    height: 100,
+                                    child: CircularProgressIndicator()),
+                              );
+                            default:
+                              if (snapshot.hasError) {
+                                return Center(
+                                  child: Container(
+                                      child: Text(
+                                          'Erro: ${snapshot.error.toString()}')),
                                 );
-                              },
-                              child: CategoriaTile(
-                                imgUrl: (categoria[index].img),
-                                categoria: categoria[index].nome,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
+                              }
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: Container(
+                                      child: Text(
+                                          'Nenhum Profissional Cadastrado nesta categoria')),
+                                );
+                              } else {
+                                return Expanded(
+                                  child: Container(
+                                    height: 200,
+                                    child: ListView.builder(
+                                      physics: BouncingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: snapshot.data!.length,
+                                      itemBuilder: (context, index) {
+                                        var Categoria = snapshot.data![index];
+                                        var nome =
+                                            Categoria.get<String>('Categoria');
+                                        var imgUrl =
+                                            Categoria.get<ParseFileBase>('img');
+                                        return GestureDetector(
+                                          onTap: () {
+                                            setState(
+                                              () {
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            SubCategorias(
+                                                              categoria: nome!,
+                                                              img: imgUrl!,
+                                                            )));
+                                              },
+                                            );
+                                          },
+                                          child: CategoriaTile(
+                                            imgUrl: imgUrl!.url!,
+                                            categoria: nome!,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                );
+                              }
+                          }
+                        }),
                   ],
                 ),
               ),
@@ -258,5 +284,16 @@ class _WorkPageState extends State<WorkPage> {
         ),
       ),
     );
+  }
+
+  Future<List<ParseObject>> getData() async {
+    QueryBuilder<ParseObject> queryData =
+        QueryBuilder<ParseObject>(ParseObject('NomesCategorias'));
+    final ParseResponse apiResponse = await queryData.query();
+    if (apiResponse.success && apiResponse.results != null) {
+      return apiResponse.results as List<ParseObject>;
+    } else {
+      return [];
+    }
   }
 }
