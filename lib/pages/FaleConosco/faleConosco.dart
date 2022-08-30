@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:temaqui/pages/commons/tile_contact.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -19,6 +20,14 @@ class FaleConosco extends StatefulWidget {
 }
 
 class _FaleConoscoState extends State<FaleConosco> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: primaryColor));
+  }
+
   @override
   bool isDrawerOpen = false;
 
@@ -65,7 +74,7 @@ class _FaleConoscoState extends State<FaleConosco> {
                   ? NeverScrollableScrollPhysics()
                   : BouncingScrollPhysics(),
               child: Container(
-                height: Get.size.height,
+                height: Get.size.height - Get.size.height * .1,
                 child: Column(
                   children: [
                     //AppBar
@@ -200,141 +209,124 @@ class _FaleConoscoState extends State<FaleConosco> {
                         child: Container(
                           padding: EdgeInsets.all(5),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Align(
-                                alignment: Alignment.center,
-                                child: Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Container(
-                                              height: 2,
-                                              color: primaryColor,
-                                            ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            height: 2,
+                                            color: primaryColor,
                                           ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            'Redes Sociais',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontFamily: 'Arial',
-                                                decoration: TextDecoration.none,
-                                                color: primaryColor,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Expanded(
-                                            child: Container(
-                                              height: 2,
-                                              color: primaryColor,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          try {
-                                            _launcheInApp(
-                                                'https://instagram.com/temaquiprofissionais?igshid=YmMyMTA2M2Y=');
-                                            print('object');
-                                          } catch (e) {
-                                            print(e);
-                                          }
-                                        },
-                                        child: ChatTile(
-                                          selecionado: true,
-                                          label: 'Instagram',
-                                          icon: 'assets/instagram.png',
                                         ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          try {
-                                            _launcheInApp(
-                                                'https://www.facebook.com/abraao.lucas1407');
-                                            print('object');
-                                          } catch (e) {
-                                            print(e);
-                                          }
-                                        },
-                                        child: ChatTile(
-                                          selecionado: true,
-                                          label: 'Facebook',
-                                          icon: 'assets/facebook.png',
+                                        SizedBox(
+                                          width: 5,
                                         ),
-                                      ),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Container(
-                                              height: 2,
+                                        Text(
+                                          'Redes Sociais',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontFamily: 'Arial',
+                                              decoration: TextDecoration.none,
                                               color: primaryColor,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            'Ou',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontFamily: 'Arial',
-                                                decoration: TextDecoration.none,
-                                                color: primaryColor,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Expanded(
-                                            child: Container(
-                                              height: 2,
-                                              color: primaryColor,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          try {
-                                            showDialog(
-                                                context: context,
-                                                builder: (context) =>
-                                                    AlertDialog(
-                                                      content: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        children: [
-                                                          Text('Chat')
-                                                        ],
-                                                      ),
-                                                    ));
-                                            print('Chat Aberto');
-                                          } catch (e) {
-                                            print(e);
-                                          }
-                                        },
-                                        child: ChatTile(
-                                          selecionado: true,
-                                          label: 'Chat',
-                                          icon: 'assets/chat.png',
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
                                         ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            height: 2,
+                                            color: primaryColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        try {
+                                          _launcheInApp(
+                                              'https://instagram.com/temaquiprofissionais?igshid=YmMyMTA2M2Y=');
+                                          print('object');
+                                        } catch (e) {
+                                          print(e);
+                                        }
+                                      },
+                                      child: ChatTile(
+                                        selecionado: true,
+                                        label: 'Instagram',
+                                        icon: 'assets/instagram.png',
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        try {
+                                          _launcheInApp(
+                                              'https://www.facebook.com/abraao.lucas1407');
+                                          print('object');
+                                        } catch (e) {
+                                          print(e);
+                                        }
+                                      },
+                                      child: ChatTile(
+                                        selecionado: true,
+                                        label: 'Facebook',
+                                        icon: 'assets/facebook.png',
+                                      ),
+                                    ),
+                                  ],
                                 ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(right: 10),
+                      alignment: Alignment.bottomRight,
+                      child: InkWell(
+                        onTap: () {
+                          try {
+                            showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [Text('Chat')],
+                                      ),
+                                    ));
+                            print('Chat Aberto');
+                          } catch (e) {
+                            print(e);
+                          }
+                        },
+                        child: Container(
+                          height: 80,
+                          width: 80,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              color: primaryColor),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 40,
+                                child: Image.asset(
+                                  'assets/chat.png',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Text(
+                                'Chat',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),

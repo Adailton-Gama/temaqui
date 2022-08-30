@@ -20,8 +20,8 @@ class _ChatTileState extends State<ChatTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100,
-      padding: EdgeInsets.all(10),
+      width: Get.size.width,
+      padding: EdgeInsets.fromLTRB(20, 10, 10, 10),
       margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -31,17 +31,19 @@ class _ChatTileState extends State<ChatTile> {
         children: [
           Image.asset(
             '${widget.icon}',
-            height: Get.size.height / 8,
+            height: Get.size.height / 18,
           ),
+          SizedBox(width: 10),
           Text(
             widget.label,
+            textAlign: TextAlign.center,
             style: TextStyle(
                 color: widget.selecionado ? Colors.white : Colors.black,
                 fontFamily: 'Arial',
                 decoration: TextDecoration.none,
                 fontSize: 20,
                 fontWeight: FontWeight.bold),
-          )
+          ),
         ],
       ),
     );

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:temaqui/data/config.dart';
+import 'package:temaqui/pages/AreaUsuario/cliente/AreaCliente.dart';
 import 'package:temaqui/pages/commons/Normal_Buttom.dart';
+import 'package:temaqui/pages/login/nova_conta/recuperarConta/recuperarSenha.dart';
 import 'package:temaqui/pages/login/nova_conta/selecionar_conta.dart';
 import 'package:temaqui/pages/mainPage/Main_Page.dart';
 
@@ -26,6 +29,14 @@ class _LoginPageState extends State<LoginPage> {
   double yOffset = 80;
   bool isDrawerOpen = false;
   final MaskTextInputFormatter normal = MaskTextInputFormatter(mask: '');
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: primaryColor));
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -214,7 +225,10 @@ class _LoginPageState extends State<LoginPage> {
                         Align(
                           alignment: Alignment.centerRight,
                           child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => RecuperarSenha()));
+                              },
                               child: Text(
                                 'Esqueceu a senha?',
                                 style: TextStyle(
@@ -237,8 +251,16 @@ class _LoginPageState extends State<LoginPage> {
                               borderRadius: BorderRadius.circular(20),
                               onTap: () {
                                 if (userControler.text == '1') {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => AreaCliente(
+                                            username: 'Prestador',
+                                          )));
                                   print('Prestador');
                                 } else if (userControler.text == '2') {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => AreaCliente(
+                                            username: 'Cliente',
+                                          )));
                                   print('usuário');
                                 }
                               },
