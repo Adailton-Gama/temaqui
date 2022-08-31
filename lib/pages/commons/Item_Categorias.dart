@@ -33,7 +33,7 @@ class _ItemCategoriasState extends State<ItemCategorias> {
             Expanded(
               child: Container(
                 padding: EdgeInsets.all(5),
-                child: Image.asset(
+                child: Image.network(
                   widget.img,
                   fit: BoxFit.fitWidth,
                 ),

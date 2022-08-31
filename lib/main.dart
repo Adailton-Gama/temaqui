@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
   double xOffset = 0;
   double yOffset = 0;
 
-  List<Widget> stackOrder = [HomeScreen(), LoginPage()];
+  List<Widget> stackOrder = [HomeScreen()];
 
   @override
   void initState() {

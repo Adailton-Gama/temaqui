@@ -1,8 +1,15 @@
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:temaqui/data/config.dart';
 import 'package:temaqui/data/data.dart';
 import 'package:temaqui/pages/commons/Item_Categorias.dart';
+
+import '../commons/CategoriaTile.dart';
+import '../mainPage/Main_Page.dart';
+import '../prestadores/Tela/profissionais.dart';
+import '../prestadores/Work_Page.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen(
@@ -16,8 +23,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  TextEditingController encontrarProfissional = TextEditingController();
   @override
   bool isDrawerOpen = false;
+  bool isResearched = false;
   List<Categorias> categorias = [];
   @override
   Widget build(BuildContext context) {
@@ -214,267 +223,590 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
 
-                  //Corpo da Página
+                  //Se foi feito pesquisa
+                  isResearched
+                      ? Expanded(
+                          //Add um IgnoredPoint para bloquear o uso da Lista ao acessar o menu
+                          child: IgnorePointer(
+                            ignoring: widget.isDraw ? true : false,
+                            child: Container(
+                              height: Get.size.height,
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              child: SingleChildScrollView(
+                                physics: BouncingScrollPhysics(),
+                                child: Column(
+                                  children: [
+                                    //Campo de Pesquisa
+                                    Container(
+                                      height: 50,
+                                      margin:
+                                          EdgeInsets.symmetric(vertical: 10),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5),
+                                      width: Get.size.width,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: TextFormField(
+                                              controller: encontrarProfissional,
+                                              textAlignVertical:
+                                                  TextAlignVertical.center,
+                                              style: TextStyle(
+                                                  color: primaryColor),
+                                              decoration: InputDecoration(
+                                                suffix: ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                            primary:
+                                                                primaryColor),
+                                                    onPressed: () async {
+                                                      getData();
+                                                      setState(() {
+                                                        isResearched = true;
+                                                      });
+                                                    },
+                                                    child: Text('Buscar')),
+                                                prefixIcon: Icon(
+                                                  Icons.search,
+                                                  size: 30,
+                                                  color: primaryColor,
+                                                ),
+                                                hintText:
+                                                    'Encontre Profissionais',
+                                                hintStyle: TextStyle(
+                                                    color: primaryColor),
+                                                isDense: true,
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  borderSide: BorderSide(
+                                                      color: primaryColor,
+                                                      width: 1,
+                                                      style: BorderStyle.solid),
+                                                ),
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
+                                                        borderSide: BorderSide(
+                                                            color: primaryColor,
+                                                            width: 1,
+                                                            style: BorderStyle
+                                                                .solid)),
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  borderSide: BorderSide(
+                                                    color: primaryColor,
+                                                    width: 2,
+                                                    style: BorderStyle.solid,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 10),
+                                          GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                isResearched = false;
+                                                encontrarProfissional.clear();
+                                              });
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(15),
+                                              decoration: BoxDecoration(
+                                                  color: primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20)),
+                                              child: Text(
+                                                'Voltar',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
 
-                  Expanded(
-                    //Add um IgnoredPoint para bloquear o uso da Lista ao acessar o menu
-                    child: IgnorePointer(
-                      ignoring: widget.isDraw ? true : false,
-                      child: Container(
-                        height: Get.size.height,
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: SingleChildScrollView(
-                          physics: BouncingScrollPhysics(),
-                          child: Column(
-                            children: [
-                              //Campo de Pesquisa
-                              Container(
-                                height: 50,
-                                margin: EdgeInsets.symmetric(vertical: 10),
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                width: Get.size.width,
-                                child: TextFormField(
-                                  style: TextStyle(color: primaryColor),
-                                  decoration: InputDecoration(
-                                    prefixIcon: Icon(
-                                      Icons.search,
-                                      size: 30,
-                                      color: primaryColor,
-                                    ),
-                                    hintText: 'Encontre Profissionais',
-                                    hintStyle: TextStyle(color: primaryColor),
-                                    isDense: true,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                          color: primaryColor,
-                                          width: 1,
-                                          style: BorderStyle.solid),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                        borderSide: BorderSide(
-                                            color: primaryColor,
-                                            width: 1,
-                                            style: BorderStyle.solid)),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                        color: primaryColor,
-                                        width: 2,
-                                        style: BorderStyle.solid,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              //Serviços Populares
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text(
-                                      'Serviços Populares',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          Categorias newCategoria = Categorias(
-                                              nome: 'Consultoria',
-                                              img: 'assets/01_Consultoria.png');
-                                          categorias.add(newCategoria);
-                                        });
-                                      },
-                                      child: Text(
-                                        'Ver Todos',
-                                        style: TextStyle(
-                                            color: primaryColor,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
+                                    Container(
+                                      height: Get.size.height -
+                                          Get.size.height * .4,
+                                      child: FutureBuilder<List<ParseObject>>(
+                                        future: getData(),
+                                        builder: (context, snapshot) {
+                                          switch (snapshot.connectionState) {
+                                            case ConnectionState.waiting:
+                                              return Center(
+                                                child: Container(
+                                                    width: 100,
+                                                    height: 100,
+                                                    child:
+                                                        CircularProgressIndicator()),
+                                              );
+                                            default:
+                                              if (snapshot.hasError) {
+                                                return Center(
+                                                  child: Container(
+                                                      child: Text(
+                                                          'Erro: ${snapshot.error.toString()}')),
+                                                );
+                                              }
+                                              if (!snapshot.hasData) {
+                                                return Center(
+                                                  child: Container(
+                                                      child: Text(
+                                                          'Nenhum Profissional Cadastrado nesta categoria')),
+                                                );
+                                              } else {
+                                                return ListView.builder(
+                                                    physics:
+                                                        BouncingScrollPhysics(),
+                                                    itemCount:
+                                                        snapshot.data!.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      var subCategoria =
+                                                          snapshot.data![index];
+                                                      var imgUrl = subCategoria
+                                                          .get<ParseFileBase>(
+                                                              'subCategoriaImg');
+                                                      var nome = subCategoria
+                                                          .get<String>(
+                                                              'subCategoria');
+
+                                                      return GestureDetector(
+                                                        onTap: () {
+                                                          Navigator.of(context).push(
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          ListaProfissionais()));
+                                                        },
+                                                        child: CategoriaTile(
+                                                          imgUrl: imgUrl!.url!,
+                                                          categoria: nome!,
+                                                          readme: ', Ver Mais.',
+                                                        ),
+                                                      );
+                                                    });
+                                              }
+                                          }
+                                        },
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                              //Card Categorias
-                              Container(
-                                padding: EdgeInsets.only(right: 3),
-                                height: 130,
-                                child: ListView.builder(
-                                    physics: BouncingScrollPhysics(),
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: categorias.length,
-                                    itemBuilder: (context, index) {
-                                      return ItemCategorias(
-                                        widht: 120,
-                                        nome: categorias[index].nome,
-                                        img: categorias[index].img,
-                                      );
-                                    }),
-                              ),
-
-                              //Profissionais Destaques
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text(
-                                      'Profissionais em Destaque',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {},
-                                      child: Text(
-                                        'Ver Todos',
-                                        style: TextStyle(
+                            ),
+                          ),
+                        )
+                      :
+                      //Corpo da Página
+                      Expanded(
+                          //Add um IgnoredPoint para bloquear o uso da Lista ao acessar o menu
+                          child: IgnorePointer(
+                            ignoring: widget.isDraw ? true : false,
+                            child: Container(
+                              height: Get.size.height,
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              child: SingleChildScrollView(
+                                physics: BouncingScrollPhysics(),
+                                child: Column(
+                                  children: [
+                                    //Campo de Pesquisa
+                                    Container(
+                                      height: 50,
+                                      margin:
+                                          EdgeInsets.symmetric(vertical: 10),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5),
+                                      width: Get.size.width,
+                                      child: TextFormField(
+                                        controller: encontrarProfissional,
+                                        style: TextStyle(color: primaryColor),
+                                        decoration: InputDecoration(
+                                          suffix: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  primary: primaryColor),
+                                              onPressed: () async {
+                                                getData();
+                                                setState(() {
+                                                  isResearched = true;
+                                                });
+                                              },
+                                              child: Text('Buscar')),
+                                          prefixIcon: Icon(
+                                            Icons.search,
+                                            size: 30,
                                             color: primaryColor,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              //Grid de Destaques
-                              Container(
-                                height: 220,
-                                child: GridView.builder(
-                                  padding: EdgeInsets.all(10),
-                                  physics: BouncingScrollPhysics(),
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    mainAxisSpacing: 10,
-                                    crossAxisSpacing: 10,
-                                    childAspectRatio: 9 / 11.5,
-                                  ),
-                                  itemCount: categorias.length,
-                                  itemBuilder: (_, index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        //Chamar Tela do Profissional
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) => AlertDialog(
-                                                  content: Text('Informações'),
-                                                ));
-                                      },
-                                      child: ItemCategorias(
-                                        nome: categorias[index].nome,
-                                        img: categorias[index].img,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              //Post's
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text(
-                                      'Dicas & Artigos',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              //Card Artigos
-                              Container(
-                                height: 80,
-                                child: ListView.builder(
-                                    physics: BouncingScrollPhysics(),
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: categorias.length,
-                                    itemBuilder: (context, index) {
-                                      return Container(
-                                        margin: EdgeInsets.all(5),
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
+                                          ),
+                                          hintText: 'Encontre Profissionais',
+                                          hintStyle:
+                                              TextStyle(color: primaryColor),
+                                          isDense: true,
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            borderSide: BorderSide(
                                                 color: primaryColor,
-                                                style: BorderStyle.solid,
-                                                width: 1),
-                                            // color: primaryColor,
+                                                width: 1,
+                                                style: BorderStyle.solid),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              borderSide: BorderSide(
+                                                  color: primaryColor,
+                                                  width: 1,
+                                                  style: BorderStyle.solid)),
+                                          border: OutlineInputBorder(
                                             borderRadius:
-                                                BorderRadius.circular(100)),
-                                        height: 60,
-                                        width: 70,
-                                        child: Icon(
-                                          Icons.tips_and_updates,
-                                          color: primaryColor,
+                                                BorderRadius.circular(20),
+                                            borderSide: BorderSide(
+                                              color: primaryColor,
+                                              width: 2,
+                                              style: BorderStyle.solid,
+                                            ),
+                                          ),
                                         ),
-                                      );
-                                    }),
-                              ),
-                              //Empresas Parceiras
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text(
-                                      'Empresas Parceiras',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18,
                                       ),
                                     ),
-                                    TextButton(
-                                      onPressed: () {},
-                                      child: Text(
-                                        'Ver Todas',
-                                        style: TextStyle(
-                                            color: primaryColor,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
+                                    //Serviços Populares
+                                    Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text(
+                                            'Categorias Populares',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Future.delayed(Duration(
+                                                      milliseconds: 100))
+                                                  .then((value) {
+                                                setState(() {
+                                                  stackOrder.clear();
+                                                  stackOrder.add(WorkPage(
+                                                    xOffset: 0,
+                                                    yOffset: 0,
+                                                    isDraw: false,
+                                                  ));
+                                                  Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              InitScreen()));
+                                                });
+                                              });
+                                            },
+                                            child: Text(
+                                              'Ver Todos',
+                                              style: TextStyle(
+                                                  color: primaryColor,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15),
+                                            ),
+                                          ),
+                                        ],
                                       ),
+                                    ),
+                                    //Card Categorias
+                                    Container(
+                                      padding: EdgeInsets.only(right: 3),
+                                      height: 130,
+                                      child: FutureBuilder<List<ParseObject>>(
+                                        future: getCategorias(),
+                                        builder: (context, snapshot) {
+                                          switch (snapshot.connectionState) {
+                                            case ConnectionState.waiting:
+                                              return Center(
+                                                child: Container(
+                                                    width: 100,
+                                                    height: 100,
+                                                    child:
+                                                        CircularProgressIndicator()),
+                                              );
+                                            default:
+                                              if (snapshot.hasError) {
+                                                return Center(
+                                                  child: Container(
+                                                      child: Text(
+                                                          'Erro: ${snapshot.error.toString()}')),
+                                                );
+                                              }
+                                              if (!snapshot.hasData) {
+                                                return Center(
+                                                  child: Container(
+                                                      child: Text(
+                                                          'Nenhum Profissional Cadastrado nesta categoria')),
+                                                );
+                                              } else {
+                                                return ListView.builder(
+                                                    physics:
+                                                        BouncingScrollPhysics(),
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    itemCount:
+                                                        snapshot.data!.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      var subCategoria =
+                                                          snapshot.data![index];
+                                                      var imgUrl = subCategoria
+                                                          .get<ParseFileBase>(
+                                                              'img');
+                                                      var nome = subCategoria
+                                                          .get<String>(
+                                                              'Categoria');
+
+                                                      return GestureDetector(
+                                                        onTap: () {
+                                                          Navigator.of(context).push(
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          ListaProfissionais()));
+                                                        },
+                                                        child: ItemCategorias(
+                                                          img: imgUrl!.url!,
+                                                          nome: nome!,
+                                                        ),
+                                                      );
+                                                    });
+                                              }
+                                          }
+                                        },
+                                      ),
+                                    ),
+
+                                    //Profissionais Destaques
+                                    Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text(
+                                            'Profissionais em Destaque',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                Categorias newCategoria =
+                                                    Categorias(
+                                                        nome: 'Consultoria',
+                                                        img:
+                                                            'assets/01_Consultoria.png');
+                                                categorias.add(newCategoria);
+                                              });
+                                            },
+                                            child: Text(
+                                              'Ver Todos',
+                                              style: TextStyle(
+                                                  color: primaryColor,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                    //Grid de Destaques
+                                    Container(
+                                      height: 220,
+                                      child: FutureBuilder<List<ParseObject>>(
+                                          future: getCategorias(),
+                                          builder: (context, snapshot) {
+                                            switch (snapshot.connectionState) {
+                                              case ConnectionState.waiting:
+                                                return Center(
+                                                  child: Container(
+                                                      width: 100,
+                                                      height: 100,
+                                                      child:
+                                                          CircularProgressIndicator()),
+                                                );
+                                              default:
+                                                if (snapshot.hasError) {
+                                                  return Center(
+                                                    child: Container(
+                                                        child: Text(
+                                                            'Erro: ${snapshot.error.toString()}')),
+                                                  );
+                                                }
+                                                if (!snapshot.hasData) {
+                                                  return Center(
+                                                    child: Container(
+                                                        child: Text(
+                                                            'Nenhum Profissional Cadastrado nesta categoria')),
+                                                  );
+                                                } else {
+                                                  return GridView.builder(
+                                                    padding: EdgeInsets.all(10),
+                                                    physics:
+                                                        BouncingScrollPhysics(),
+                                                    gridDelegate:
+                                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                                      crossAxisCount: 2,
+                                                      mainAxisSpacing: 10,
+                                                      crossAxisSpacing: 10,
+                                                      childAspectRatio:
+                                                          9 / 11.5,
+                                                    ),
+                                                    itemCount:
+                                                        snapshot.data!.length,
+                                                    itemBuilder: (_, index) {
+                                                      var subCategoria =
+                                                          snapshot.data![index];
+                                                      var imgUrl = subCategoria
+                                                          .get<ParseFileBase>(
+                                                              'img');
+                                                      var nome = subCategoria
+                                                          .get<String>(
+                                                              'Categoria');
+                                                      return GestureDetector(
+                                                        onTap: () {
+                                                          //Chamar Tela do Profissional
+                                                          showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (context) =>
+                                                                      AlertDialog(
+                                                                        content:
+                                                                            Text('Informações'),
+                                                                      ));
+                                                        },
+                                                        child: ItemCategorias(
+                                                          nome: nome!,
+                                                          img: imgUrl!.url!,
+                                                        ),
+                                                      );
+                                                    },
+                                                  );
+                                                }
+                                            }
+                                          }),
+                                    ),
+
+                                    //Post's
+                                    Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text(
+                                            'Dicas & Artigos',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    //Card Artigos
+                                    Container(
+                                      height: 80,
+                                      child: ListView.builder(
+                                          physics: BouncingScrollPhysics(),
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: categorias.length,
+                                          itemBuilder: (context, index) {
+                                            return Container(
+                                              margin: EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: primaryColor,
+                                                      style: BorderStyle.solid,
+                                                      width: 1),
+                                                  // color: primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100)),
+                                              height: 60,
+                                              width: 70,
+                                              child: Icon(
+                                                Icons.tips_and_updates,
+                                                color: primaryColor,
+                                              ),
+                                            );
+                                          }),
+                                    ),
+                                    //Empresas Parceiras
+                                    Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text(
+                                            'Empresas Parceiras',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {},
+                                            child: Text(
+                                              'Ver Todas',
+                                              style: TextStyle(
+                                                  color: primaryColor,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    //Card Parceiros
+                                    Container(
+                                      height: 80,
+                                      child: ListView.builder(
+                                          physics: BouncingScrollPhysics(),
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: categorias.length,
+                                          itemBuilder: (context, index) {
+                                            return Container(
+                                              margin: EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                  color: primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100)),
+                                              height: 60,
+                                              width: 70,
+                                            );
+                                          }),
                                     ),
                                   ],
                                 ),
                               ),
-                              //Card Parceiros
-                              Container(
-                                height: 80,
-                                child: ListView.builder(
-                                    physics: BouncingScrollPhysics(),
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: categorias.length,
-                                    itemBuilder: (context, index) {
-                                      return Container(
-                                        margin: EdgeInsets.all(5),
-                                        decoration: BoxDecoration(
-                                            color: primaryColor,
-                                            borderRadius:
-                                                BorderRadius.circular(100)),
-                                        height: 60,
-                                        width: 70,
-                                      );
-                                    }),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             )),
@@ -482,5 +814,31 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  Future<List<ParseObject>> getData() async {
+    QueryBuilder<ParseObject> queryRead =
+        QueryBuilder<ParseObject>(ParseObject('Categorias'));
+    queryRead..whereContains('subCategoria', encontrarProfissional.text);
+
+    final ParseResponse apiResponse = await queryRead.query();
+
+    if (apiResponse.success && apiResponse.results != null) {
+      return apiResponse.results as List<ParseObject>;
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<ParseObject>> getCategorias() async {
+    QueryBuilder<ParseObject> queryRead =
+        QueryBuilder<ParseObject>(ParseObject('NomesCategorias'));
+
+    final ParseResponse apiResponse = await queryRead.query();
+    if (apiResponse.success && apiResponse.results != null) {
+      return apiResponse.results as List<ParseObject>;
+    } else {
+      return [];
+    }
   }
 }
