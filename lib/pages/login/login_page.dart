@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:temaqui/data/config.dart';
 import 'package:temaqui/pages/AreaUsuario/cliente/AreaCliente.dart';
+import 'package:temaqui/pages/AreaUsuario/profissional/AreaProfissionais.dart';
 import 'package:temaqui/pages/commons/Normal_Buttom.dart';
 import 'package:temaqui/pages/login/nova_conta/recuperarConta/recuperarSenha.dart';
 import 'package:temaqui/pages/login/nova_conta/selecionar_conta.dart';
@@ -252,15 +253,12 @@ class _LoginPageState extends State<LoginPage> {
                               onTap: () {
                                 if (userControler.text == '1') {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => AreaCliente(
-                                            username: 'Prestador',
-                                          )));
+                                      builder: (context) => AreaCliente()));
                                   print('Prestador');
                                 } else if (userControler.text == '2') {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => AreaCliente(
-                                            username: 'Cliente',
-                                          )));
+                                      builder: (context) =>
+                                          AreaProfissionais()));
                                   print('usuário');
                                 }
                               },
