@@ -7,7 +7,6 @@ import 'package:temaqui/pages/commons/Border_Buttom.dart';
 import 'package:temaqui/pages/login/nova_conta/commons/escolherCategoria.dart';
 import 'package:temaqui/pages/login/nova_conta/selecionar_conta.dart';
 import 'package:temaqui/pages/mainPage/Main_Page.dart';
-
 import '../../../data/config.dart';
 import '../../../data/config.dart' as config;
 import '../../commons/Normal_Buttom.dart';

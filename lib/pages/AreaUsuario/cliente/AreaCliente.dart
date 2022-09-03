@@ -191,7 +191,7 @@ class _AreaClienteState extends State<AreaCliente> {
               Align(
                 alignment: Alignment.center,
                 child: Container(
-                  width: 120,
+                  width: 150,
                   height: 150,
                   margin: EdgeInsets.only(bottom: 10),
                   decoration: BoxDecoration(
@@ -199,7 +199,7 @@ class _AreaClienteState extends State<AreaCliente> {
                         fit: BoxFit.cover,
                         image: NetworkImage(
                             'https://cdn.discordapp.com/avatars/442050854581829656/b128666aa0305da5fbf31a4ed7d664dd.webp?size=128')),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(100),
                   ),
                 ),
               ),
@@ -238,8 +238,8 @@ class _AreaClienteState extends State<AreaCliente> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               UserDrawerTile(
-                icon: Icons.work,
-                label: 'Tornar-se Profissional',
+                icon: Icons.edit,
+                label: 'Editar Perfil',
                 align: MainAxisAlignment.center,
               )
             ],

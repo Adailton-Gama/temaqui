@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:temaqui/data/config.dart';
 import 'package:temaqui/pages/AreaUsuario/widgets/editPerfil.dart';
@@ -20,6 +21,14 @@ class AreaProfissionais extends StatefulWidget {
 
 class _AreaProfissionaisState extends State<AreaProfissionais> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: primaryColor));
+  }
+
+  @override
   Widget build(BuildContext context) {
     //
     var nomeCompleto = 'nomeCompleto';
@@ -36,7 +45,7 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Bem-Vindo!'),
+        title: Text('Meus Dados'),
         backgroundColor: primaryColor,
       ),
       drawer: Drawer(
@@ -191,66 +200,71 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  width: 120,
-                  height: 150,
-                  margin: EdgeInsets.only(bottom: 10),
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(
-                            'https://cdn.discordapp.com/avatars/442050854581829656/b128666aa0305da5fbf31a4ed7d664dd.webp?size=128')),
-                    borderRadius: BorderRadius.circular(20),
+              Container(
+                margin: EdgeInsets.only(top: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: Color.fromRGBO(0, 0, 0, 180),
                   ),
                 ),
+                height: 200,
+                child: Stack(
+                  children: [
+                    Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Color.fromRGBO(0, 0, 0, 180),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20)),
+                          ),
+                          height: 50,
+                          width: Get.size.width,
+                        ),
+                        SizedBox(height: 40),
+                        Text(
+                          'Abraão Lucas do Carmo',
+                          style: TextStyle(
+                              color: primaryColor,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w400),
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          height: 2,
+                          width: Get.size.width - Get.size.width * .1,
+                          color: Color.fromRGBO(0, 0, 0, 180),
+                        ),
+                        //
+                        //
+                        Container(
+                          height: 50,
+                          child: Image.asset(
+                            'assets/icon_name.png',
+                          ),
+                        ),
+                      ],
+                    ),
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        margin: EdgeInsets.only(top: 10),
+                        height: 80,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                  'https://cdn.discordapp.com/avatars/442050854581829656/b128666aa0305da5fbf31a4ed7d664dd.webp?size=128')),
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              Text(
-                'Nome Completo:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text('${nomeCompleto}'),
-              Text(
-                '\nData de Nascimento:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text('${datadeNascimento}'),
-              Text(
-                '\nTelefone:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text('${telefone}'),
-              Text(
-                '\nCPF:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text('${cpf}'),
-              Text(
-                '\nEndereço:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text('${endereco}'),
-              Text(
-                '\nCategoria:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text('${categoria}'),
-              Text(
-                '\nProfissão:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text('${profissao}'),
-              Text(
-                '\nPlano Escolhido:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text('${plano}'),
-              Text(
-                '\nAutorizado a apresentar seus serviços no app:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text('${autorizado}'),
             ],
           ),
         ),
@@ -258,3 +272,64 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
     );
   }
 }
+
+// Align(
+//                 alignment: Alignment.center,
+//                 child: Container(
+//                   width: 120,
+//                   height: 150,
+//                   margin: EdgeInsets.only(bottom: 10),
+//                   decoration: BoxDecoration(
+//                     image: const DecorationImage(
+//                         fit: BoxFit.cover,
+//                         image: NetworkImage(
+//                             'https://cdn.discordapp.com/avatars/442050854581829656/b128666aa0305da5fbf31a4ed7d664dd.webp?size=128')),
+//                     borderRadius: BorderRadius.circular(20),
+//                   ),
+//                 ),
+//               ),
+//               Text(
+//                 'Nome Completo:',
+//                 style: TextStyle(fontWeight: FontWeight.bold),
+//               ),
+//               Text('${nomeCompleto}'),
+//               Text(
+//                 '\nData de Nascimento:',
+//                 style: TextStyle(fontWeight: FontWeight.bold),
+//               ),
+//               Text('${datadeNascimento}'),
+//               Text(
+//                 '\nTelefone:',
+//                 style: TextStyle(fontWeight: FontWeight.bold),
+//               ),
+//               Text('${telefone}'),
+//               Text(
+//                 '\nCPF:',
+//                 style: TextStyle(fontWeight: FontWeight.bold),
+//               ),
+//               Text('${cpf}'),
+//               Text(
+//                 '\nEndereço:',
+//                 style: TextStyle(fontWeight: FontWeight.bold),
+//               ),
+//               Text('${endereco}'),
+//               Text(
+//                 '\nCategoria:',
+//                 style: TextStyle(fontWeight: FontWeight.bold),
+//               ),
+//               Text('${categoria}'),
+//               Text(
+//                 '\nProfissão:',
+//                 style: TextStyle(fontWeight: FontWeight.bold),
+//               ),
+//               Text('${profissao}'),
+//               Text(
+//                 '\nPlano Escolhido:',
+//                 style: TextStyle(fontWeight: FontWeight.bold),
+//               ),
+//               Text('${plano}'),
+//               Text(
+//                 '\nAutorizado a apresentar seus serviços no app:',
+//                 style: TextStyle(fontWeight: FontWeight.bold),
+//               ),
+//               Text('${autorizado}'),
