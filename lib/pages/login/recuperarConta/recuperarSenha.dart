@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:temaqui/data/config.dart';
+import 'package:temaqui/pages/login/recuperarConta/verifyCode.dart';
 
 class RecuperarSenha extends StatefulWidget {
   const RecuperarSenha({Key? key}) : super(key: key);
@@ -77,6 +78,8 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
                       child: InkWell(
                         onTap: () {
                           print('Recuperar Senha');
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => VerifyCode()));
                         },
                         child: Container(
                             height: 50,

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:temaqui/data/config.dart';
+import 'package:temaqui/pages/AreaUsuario/chat/chat.dart';
 import 'package:temaqui/pages/AreaUsuario/widgets/editPerfil.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../../home/Home_Screen.dart';
 import '../../mainPage/Main_Page.dart';
 import '../widgets/UserDrawerTile.dart';
@@ -175,19 +176,40 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                 ),
 
                 //Chat
-                UserDrawerTile(
-                  icon: Icons.chat,
-                  label: 'Mensagens',
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => ChatScreen()));
+                  },
+                  child: UserDrawerTile(
+                    icon: Icons.chat,
+                    label: 'Mensagens',
+                  ),
                 ),
               ],
             ),
 
             //Sair da Conta
-            Container(
-              margin: EdgeInsets.only(bottom: 40),
-              child: UserDrawerTile(
-                icon: Icons.logout,
-                label: 'Sair da Conta',
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).clearSnackBars();
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: Colors.redAccent,
+                    content: Text(
+                      'Saindo da Conta...',
+                      textAlign: TextAlign.center,
+                    )));
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => InitScreen()),
+                    (route) => false);
+              },
+              child: Container(
+                margin: EdgeInsets.only(bottom: 40),
+                child: UserDrawerTile(
+                  icon: Icons.logout,
+                  label: 'Sair da Conta',
+                ),
               ),
             ),
           ],
@@ -202,21 +224,21 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
             children: [
               Container(
                 margin: EdgeInsets.only(top: 10),
+                padding: EdgeInsets.only(bottom: 20),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: Color.fromRGBO(0, 0, 0, 180),
+                    color: primaryColor,
                   ),
                 ),
-                height: 200,
                 child: Stack(
                   children: [
                     Column(
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: Color.fromRGBO(0, 0, 0, 180),
+                            color: primaryColor,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20)),
@@ -225,25 +247,232 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                           width: Get.size.width,
                         ),
                         SizedBox(height: 40),
-                        Text(
-                          'Abraão Lucas do Carmo',
-                          style: TextStyle(
-                              color: primaryColor,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w400),
-                        ),
                         Container(
                           margin: EdgeInsets.all(10),
-                          height: 2,
+                          height: 3,
                           width: Get.size.width - Get.size.width * .1,
-                          color: Color.fromRGBO(0, 0, 0, 180),
+                          // color: primaryColor,
                         ),
                         //
-                        //
+                        //NOME COMPLETO
                         Container(
-                          height: 50,
-                          child: Image.asset(
-                            'assets/icon_name.png',
+                          width: Get.size.width,
+                          margin: EdgeInsets.all(10),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 30,
+                                margin: EdgeInsets.only(right: 10),
+                                child: Image.asset(
+                                  'assets/NOME USUARIO.png',
+                                  filterQuality: FilterQuality.medium,
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Nome completo:',
+                                    style: TextStyle(
+                                      color: primaryColor,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 4),
+                                  ),
+                                  Text(
+                                    'Abraão Lucas do Carmo',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 2),
+                                    color: primaryColor,
+                                    height: 1.5,
+                                    width: Get.size.width - 100,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        //
+                        //DOCUMENTO DE IDENTIFICAÇÃO
+                        Container(
+                          width: Get.size.width,
+                          margin: EdgeInsets.all(10),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 30,
+                                margin: EdgeInsets.only(right: 10),
+                                child: Image.asset(
+                                  'assets/IDENTIDADE.png',
+                                  filterQuality: FilterQuality.medium,
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Documento:',
+                                    style: TextStyle(
+                                      color: primaryColor,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 4),
+                                  ),
+                                  Text(
+                                    '000.000.000-00',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 2),
+                                    color: primaryColor,
+                                    height: 1.5,
+                                    width: Get.size.width - 100,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        //
+                        //TELEFONE
+                        Container(
+                          width: Get.size.width,
+                          margin: EdgeInsets.all(10),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 30,
+                                margin: EdgeInsets.only(right: 10),
+                                child: Image.asset(
+                                  'assets/TELEFONE.png',
+                                  filterQuality: FilterQuality.medium,
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Telefone:',
+                                    style: TextStyle(
+                                      color: primaryColor,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 4),
+                                  ),
+                                  Text(
+                                    '(74)9 9999-9999',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 2),
+                                    color: primaryColor,
+                                    height: 1.5,
+                                    width: Get.size.width - 100,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        //
+                        //E-MAIL
+                        Container(
+                          width: Get.size.width,
+                          margin: EdgeInsets.all(10),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 30,
+                                margin: EdgeInsets.only(right: 10),
+                                child: Image.asset(
+                                  'assets/EMAIL.png',
+                                  filterQuality: FilterQuality.medium,
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'E-mail:',
+                                    style: TextStyle(
+                                      color: primaryColor,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 4),
+                                  ),
+                                  Text(
+                                    'abraao@gmail.com',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 2),
+                                    color: primaryColor,
+                                    height: 1.5,
+                                    width: Get.size.width - 100,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => EditPerfil()));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
+                            width: Get.width,
+                            height: 40,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: primaryColor,
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.edit,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(width: 10),
+                                Text(
+                                  'Editar Perfil',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -272,64 +501,3 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
     );
   }
 }
-
-// Align(
-//                 alignment: Alignment.center,
-//                 child: Container(
-//                   width: 120,
-//                   height: 150,
-//                   margin: EdgeInsets.only(bottom: 10),
-//                   decoration: BoxDecoration(
-//                     image: const DecorationImage(
-//                         fit: BoxFit.cover,
-//                         image: NetworkImage(
-//                             'https://cdn.discordapp.com/avatars/442050854581829656/b128666aa0305da5fbf31a4ed7d664dd.webp?size=128')),
-//                     borderRadius: BorderRadius.circular(20),
-//                   ),
-//                 ),
-//               ),
-//               Text(
-//                 'Nome Completo:',
-//                 style: TextStyle(fontWeight: FontWeight.bold),
-//               ),
-//               Text('${nomeCompleto}'),
-//               Text(
-//                 '\nData de Nascimento:',
-//                 style: TextStyle(fontWeight: FontWeight.bold),
-//               ),
-//               Text('${datadeNascimento}'),
-//               Text(
-//                 '\nTelefone:',
-//                 style: TextStyle(fontWeight: FontWeight.bold),
-//               ),
-//               Text('${telefone}'),
-//               Text(
-//                 '\nCPF:',
-//                 style: TextStyle(fontWeight: FontWeight.bold),
-//               ),
-//               Text('${cpf}'),
-//               Text(
-//                 '\nEndereço:',
-//                 style: TextStyle(fontWeight: FontWeight.bold),
-//               ),
-//               Text('${endereco}'),
-//               Text(
-//                 '\nCategoria:',
-//                 style: TextStyle(fontWeight: FontWeight.bold),
-//               ),
-//               Text('${categoria}'),
-//               Text(
-//                 '\nProfissão:',
-//                 style: TextStyle(fontWeight: FontWeight.bold),
-//               ),
-//               Text('${profissao}'),
-//               Text(
-//                 '\nPlano Escolhido:',
-//                 style: TextStyle(fontWeight: FontWeight.bold),
-//               ),
-//               Text('${plano}'),
-//               Text(
-//                 '\nAutorizado a apresentar seus serviços no app:',
-//                 style: TextStyle(fontWeight: FontWeight.bold),
-//               ),
-//               Text('${autorizado}'),

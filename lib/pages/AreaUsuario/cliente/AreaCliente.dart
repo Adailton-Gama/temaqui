@@ -4,6 +4,8 @@ import 'package:temaqui/data/config.dart';
 import 'package:temaqui/pages/home/Home_Screen.dart';
 import 'package:temaqui/pages/mainPage/Main_Page.dart';
 
+import '../../prestadores/Work_Page.dart';
+import '../chat/chat.dart';
 import '../widgets/UserDrawerTile.dart';
 import '../widgets/editPerfil.dart';
 
@@ -158,24 +160,61 @@ class _AreaClienteState extends State<AreaCliente> {
                   ),
                 ),
                 //Encontrar Profissionais
-                UserDrawerTile(
-                  icon: Icons.work,
-                  label: 'Encontrar Profissionais',
+                GestureDetector(
+                  onTap: () {
+                    Future.delayed(Duration(milliseconds: 100)).then((value) {
+                      setState(() {
+                        stackOrder.clear();
+                        stackOrder.add(WorkPage(
+                          xOffset: 0,
+                          yOffset: 0,
+                          isDraw: false,
+                        ));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => InitScreen()));
+                      });
+                    });
+                  },
+                  child: UserDrawerTile(
+                    icon: Icons.work,
+                    label: 'Encontrar Profissionais',
+                  ),
                 ),
                 //Chat
-                UserDrawerTile(
-                  icon: Icons.chat,
-                  label: 'Mensagens',
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => ChatScreen()));
+                  },
+                  child: UserDrawerTile(
+                    icon: Icons.chat,
+                    label: 'Mensagens',
+                  ),
                 ),
               ],
             ),
 
             //Sair da Conta
-            Container(
-              margin: EdgeInsets.only(bottom: 40),
-              child: UserDrawerTile(
-                icon: Icons.logout,
-                label: 'Sair da Conta',
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).clearSnackBars();
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: Colors.redAccent,
+                    content: Text(
+                      'Saindo da Conta...',
+                      textAlign: TextAlign.center,
+                    )));
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => InitScreen()),
+                    (route) => false);
+              },
+              child: Container(
+                margin: EdgeInsets.only(bottom: 40),
+                child: UserDrawerTile(
+                  icon: Icons.logout,
+                  label: 'Sair da Conta',
+                ),
               ),
             ),
           ],
@@ -237,10 +276,16 @@ class _AreaClienteState extends State<AreaCliente> {
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              UserDrawerTile(
-                icon: Icons.edit,
-                label: 'Editar Perfil',
-                align: MainAxisAlignment.center,
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => EditPerfil()));
+                },
+                child: UserDrawerTile(
+                  icon: Icons.edit,
+                  label: 'Editar Perfil',
+                  align: MainAxisAlignment.center,
+                ),
               )
             ],
           ),
