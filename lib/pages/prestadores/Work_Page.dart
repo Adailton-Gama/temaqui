@@ -79,9 +79,10 @@ class _WorkPageState extends State<WorkPage> {
             Container(
               height: 200,
               decoration: BoxDecoration(
-                color: Color.fromRGBO(81, 39, 227, 1),
+                color: primaryColor,
                 image: DecorationImage(
-                  image: AssetImage('assets/banner.jpg'),
+                  opacity: 1,
+                  image: AssetImage('assets/new_banner.png'),
                   fit: BoxFit.cover,
                 ),
                 borderRadius: widget.isDraw
@@ -151,7 +152,7 @@ class _WorkPageState extends State<WorkPage> {
                             height: 50,
                             width: 50,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: Colors.transparent,
                               borderRadius: BorderRadius.circular(100),
                             ),
                           ),

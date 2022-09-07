@@ -61,7 +61,7 @@ class _SelectAccState extends State<SelectAcc> {
                     Container(
                       height: 120,
                       decoration: BoxDecoration(
-                        color: Color.fromRGBO(81, 39, 227, 1),
+                        color: primaryColor,
                         borderRadius: widget.isDraw
                             ? BorderRadius.only(
                                 topLeft: Radius.circular(20),
@@ -75,7 +75,7 @@ class _SelectAccState extends State<SelectAcc> {
                       //AppBar
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Color.fromRGBO(81, 39, 227, 0.5),
+                          color: primaryColor,
                           borderRadius: widget.isDraw
                               ? BorderRadius.only(
                                   topLeft: Radius.circular(20),

@@ -178,15 +178,19 @@ class _QuemSomosState extends State<QuemSomos> {
                       children: [
                         Container(
                           margin: EdgeInsets.all(10),
-                          height: Get.size.height / 4,
-                          width: Get.size.height / 4,
-                          padding: EdgeInsets.all(20),
+                          height: Get.size.height / 5,
+                          width: Get.size.height / 5,
+                          // padding: EdgeInsets.all(20),
                           decoration: BoxDecoration(
-                              // color: primaryColor,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Image.asset(
-                            'assets/logo_new_wb.png',
-                            fit: BoxFit.fitHeight,
+                              color: primaryColor,
+                              borderRadius: BorderRadius.circular(30)),
+                          child: Container(
+                            margin: EdgeInsets.all(10),
+                            child: Image.asset(
+                              'assets/logo_white.png',
+                              filterQuality: FilterQuality.medium,
+                              fit: BoxFit.fitHeight,
+                            ),
                           ),
                         ),
                         Text.rich(

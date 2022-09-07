@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: primaryColor,
+        scaffoldBackgroundColor: Color.fromRGBO(116, 46, 145, 1),
         primarySwatch: Colors.purple,
       ),
       home: const Splash_Screen(),

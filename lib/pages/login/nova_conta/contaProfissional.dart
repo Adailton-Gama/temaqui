@@ -586,7 +586,10 @@ class _CreateProfessionalState extends State<CreateProfessional> {
                                 height: 10,
                               ),
                               Material(
+                                elevation: 3,
+                                borderRadius: BorderRadius.circular(20),
                                 child: InkWell(
+                                  borderRadius: BorderRadius.circular(20),
                                   onTap: () {
                                     showDialog(
                                         context: context,
@@ -597,7 +600,8 @@ class _CreateProfessionalState extends State<CreateProfessional> {
                                   },
                                   child: Ink(
                                     child: NormalButtom(
-                                        color: primaryColor,
+                                        color: secundaryColor,
+                                        labelColor: primaryColor,
                                         label: 'Criar Conta',
                                         width: Get.size.width),
                                   ),

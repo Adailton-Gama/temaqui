@@ -7,12 +7,14 @@ class NormalButtom extends StatefulWidget {
       required this.label,
       this.height = 50,
       this.width = 50,
-      required this.color})
+      required this.color,
+      this.labelColor = Colors.white})
       : super(key: key);
   String label;
   double height;
   double width;
   Color color;
+  Color labelColor;
   @override
   State<NormalButtom> createState() => _NormalButtomState();
 }
@@ -31,7 +33,7 @@ class _NormalButtomState extends State<NormalButtom> {
       child: Text(
         widget.label,
         style: TextStyle(
-          color: Colors.white,
+          color: widget.labelColor,
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),

@@ -281,12 +281,40 @@ class _AreaClienteState extends State<AreaCliente> {
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => EditPerfil()));
                 },
-                child: UserDrawerTile(
-                  icon: Icons.edit,
-                  label: 'Editar Perfil',
-                  align: MainAxisAlignment.center,
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  child: Material(
+                    elevation: 2,
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      width: Get.width,
+                      height: 40,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: secundaryColor,
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.edit,
+                            color: primaryColor,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Editar Perfil',
+                            style: TextStyle(
+                              color: primaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-              )
+              ),
             ],
           ),
         ),

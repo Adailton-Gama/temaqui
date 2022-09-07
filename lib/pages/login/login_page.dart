@@ -74,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               height: 100,
               decoration: BoxDecoration(
-                color: Color.fromRGBO(81, 39, 227, 1),
+                color: primaryColor,
                 borderRadius: widget.isDraw
                     ? BorderRadius.only(
                         topLeft: Radius.circular(20),

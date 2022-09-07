@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:temaqui/data/config.dart';
 
 import 'styles.dart';
 
@@ -25,7 +26,7 @@ class _MenuItemPageState extends State<MenuItemPage> {
           children: <Widget>[
             Icon(
               widget.icon,
-              color: textMenuColor,
+              color: primaryColor,
             ),
             SizedBox(
               width: 20,
@@ -33,7 +34,7 @@ class _MenuItemPageState extends State<MenuItemPage> {
             Text(
               widget.label,
               style: TextStyle(
-                color: textMenuColor,
+                color: primaryColor,
                 fontSize: 20,
               ),
             )

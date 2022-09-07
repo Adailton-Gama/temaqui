@@ -151,7 +151,7 @@ class _CreateClienteState extends State<CreateCliente> {
                                         ),
                                       ),
                                 Text(
-                                  'BEM-VINDO! ${config.GetSizeKeyboard().keyboardSize}',
+                                  'BEM-VINDO!',
                                   style: TextStyle(
                                       fontFamily: 'Arial',
                                       decoration: TextDecoration.none,
@@ -313,7 +313,10 @@ class _CreateClienteState extends State<CreateCliente> {
                                 height: 10,
                               ),
                               Material(
+                                elevation: 3,
+                                borderRadius: BorderRadius.circular(20),
                                 child: InkWell(
+                                  borderRadius: BorderRadius.circular(20),
                                   onTap: () {
                                     showDialog(
                                         context: context,
@@ -324,20 +327,13 @@ class _CreateClienteState extends State<CreateCliente> {
                                   },
                                   child: Ink(
                                     child: NormalButtom(
-                                        color: primaryColor,
+                                        color: secundaryColor,
+                                        labelColor: primaryColor,
                                         label: 'Criar Conta',
                                         width: Get.size.width),
                                   ),
                                 ),
                               ),
-                              Obx(
-                                () => Container(
-                                  height: double.parse(config.GetSizeKeyboard()
-                                      .keyboardSize
-                                      .toString()),
-                                  width: Get.size.width,
-                                ),
-                              )
                             ],
                           ),
                         ),

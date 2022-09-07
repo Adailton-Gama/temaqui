@@ -56,10 +56,17 @@ class _InitScreenState extends State<InitScreen> {
                             Container(
                               height: 100,
                               width: 100,
-                              child: Image.asset(
-                                'assets/logo_new_wb.png',
-                                fit: BoxFit.cover,
-                                filterQuality: FilterQuality.medium,
+                              decoration: BoxDecoration(
+                                color: primaryColor,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Container(
+                                margin: EdgeInsets.all(10),
+                                child: Image.asset(
+                                  'assets/logo_white.png',
+                                  filterQuality: FilterQuality.medium,
+                                  fit: BoxFit.fitHeight,
+                                ),
                               ),
                             ),
                             SizedBox(
@@ -260,23 +267,9 @@ class _InitScreenState extends State<InitScreen> {
                         ),
 
                         //Logout
-                        Row(
-                          children: <Widget>[
-                            GestureDetector(
-                              onTap: () {
-                                if (Platform.isAndroid) {
-                                  SystemNavigator.pop();
-                                } else {
-                                  exit(0);
-                                }
-                              },
-                              child: MenuItemPage(
-                                icon: Icons.cancel,
-                                label: 'Sair',
-                              ),
-                            ),
-                          ],
-                        )
+                        Text(''),
+                        Text(''),
+                        Text(''),
                       ],
                     ),
                   ),

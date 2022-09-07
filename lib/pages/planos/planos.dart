@@ -46,7 +46,7 @@ class _NossosPlanosState extends State<NossosPlanos> {
             Container(
               height: 120,
               decoration: BoxDecoration(
-                color: Color.fromRGBO(81, 39, 227, 1),
+                color: primaryColor,
                 borderRadius: widget.isDraw
                     ? BorderRadius.only(
                         topLeft: Radius.circular(20),
@@ -181,10 +181,10 @@ class _NossosPlanosState extends State<NossosPlanos> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Container(
-                                child: const Text(
+                                child: Text(
                                   'Nossos Planos:',
                                   style: TextStyle(
-                                    color: Color.fromRGBO(81, 39, 227, 1),
+                                    color: primaryColor,
                                     fontSize: 30,
                                     fontWeight: FontWeight.bold,
                                   ),

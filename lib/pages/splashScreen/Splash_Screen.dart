@@ -43,10 +43,15 @@ class _Splash_ScreenState extends State<Splash_Screen> {
                 //Retângulo Topo
                 Row(
                   children: <Widget>[
-                    Expanded(child: Container()),
+                    Expanded(
+                        child: Container(
+                      height: 20,
+                      width: 10,
+                    )),
                     Expanded(
                       child: Container(
                         height: 20,
+                        width: 10,
                         color: Color.fromRGBO(251, 199, 54, 1),
                       ),
                     )
@@ -93,7 +98,7 @@ class _Splash_ScreenState extends State<Splash_Screen> {
               margin: EdgeInsets.only(bottom: Get.size.height / 4.5),
               width: 100,
               height: 50,
-              child: Lottie.asset('lottie/Loading.json'),
+              child: Lottie.asset('lottie/Loading_2.json'),
             ),
           ),
         ],

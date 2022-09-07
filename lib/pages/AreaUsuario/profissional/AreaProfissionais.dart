@@ -224,7 +224,7 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
             children: [
               Container(
                 margin: EdgeInsets.only(top: 10),
-                padding: EdgeInsets.only(bottom: 20),
+                padding: EdgeInsets.only(bottom: 10),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -265,6 +265,7 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                                 margin: EdgeInsets.only(right: 10),
                                 child: Image.asset(
                                   'assets/NOME USUARIO.png',
+                                  color: primaryColor,
                                   filterQuality: FilterQuality.medium,
                                 ),
                               ),
@@ -312,6 +313,7 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                                 margin: EdgeInsets.only(right: 10),
                                 child: Image.asset(
                                   'assets/IDENTIDADE.png',
+                                  color: primaryColor,
                                   filterQuality: FilterQuality.medium,
                                 ),
                               ),
@@ -359,6 +361,7 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                                 margin: EdgeInsets.only(right: 10),
                                 child: Image.asset(
                                   'assets/TELEFONE.png',
+                                  color: primaryColor,
                                   filterQuality: FilterQuality.medium,
                                 ),
                               ),
@@ -406,6 +409,7 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                                 margin: EdgeInsets.only(right: 10),
                                 child: Image.asset(
                                   'assets/EMAIL.png',
+                                  color: primaryColor,
                                   filterQuality: FilterQuality.medium,
                                 ),
                               ),
@@ -447,31 +451,36 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                                 builder: (context) => EditPerfil()));
                           },
                           child: Container(
-                            margin: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 10),
-                            width: Get.width,
-                            height: 40,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: primaryColor,
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.edit,
-                                  color: Colors.white,
+                            margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                            child: Material(
+                              elevation: 2,
+                              borderRadius: BorderRadius.circular(20),
+                              child: Container(
+                                width: Get.width,
+                                height: 40,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    color: secundaryColor,
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.edit,
+                                      color: primaryColor,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Editar Perfil',
+                                      style: TextStyle(
+                                        color: primaryColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(width: 10),
-                                Text(
-                                  'Editar Perfil',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ),
                         ),

@@ -55,7 +55,7 @@ class _EditPerfilState extends State<EditPerfil> {
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Container(
-          padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+          padding: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
           child: Column(
             children: [
               Container(
@@ -326,6 +326,8 @@ class _EditPerfilState extends State<EditPerfil> {
                 height: 10,
               ),
               Material(
+                elevation: 3,
+                borderRadius: BorderRadius.circular(20),
                 child: InkWell(
                   onTap: () {
                     showDialog(
@@ -336,7 +338,8 @@ class _EditPerfilState extends State<EditPerfil> {
                   },
                   child: Ink(
                     child: NormalButtom(
-                        color: primaryColor,
+                        color: secundaryColor,
+                        labelColor: primaryColor,
                         label: 'Atualizar',
                         width: Get.size.width),
                   ),
