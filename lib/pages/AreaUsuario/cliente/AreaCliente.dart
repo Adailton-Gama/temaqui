@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:temaqui/data/config.dart';
@@ -10,23 +12,28 @@ import '../widgets/UserDrawerTile.dart';
 import '../widgets/editPerfil.dart';
 
 class AreaCliente extends StatefulWidget {
-  AreaCliente({
-    Key? key,
-  }) : super(key: key);
+  AreaCliente({Key? key, required this.uid}) : super(key: key);
+  var uid;
   @override
   State<AreaCliente> createState() => _AreaClienteState();
 }
 
 class _AreaClienteState extends State<AreaCliente> {
   @override
+  void initState() {
+    // TODO: implement initState
+    getdDados();
+    super.initState();
+  }
+
+  //
+  var nomeCompleto;
+  var telefone;
+  var datadeNascimento;
+  var cpf;
+  var endereco;
+  //
   Widget build(BuildContext context) {
-    //
-    var nomeCompleto = 'nomeCompleto';
-    var telefone = 'telefone';
-    var datadeNascimento = 'datadeNascimento';
-    var cpf = 'cpf';
-    var endereco = 'endereco';
-    //
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -67,26 +74,16 @@ class _AreaClienteState extends State<AreaCliente> {
                           ),
                           Container(
                             padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Abraão Lucas',
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                Text(
-                                  'Administrador | T.I. \n| Automação',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ],
+                            width: Get.size.width * .55,
+                            child: Text(
+                              nomeCompleto.toString(),
+                              softWrap: true,
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
                             ),
                           )
                         ],
@@ -197,17 +194,28 @@ class _AreaClienteState extends State<AreaCliente> {
             //Sair da Conta
             GestureDetector(
               onTap: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).clearSnackBars();
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    backgroundColor: Colors.redAccent,
-                    content: Text(
-                      'Saindo da Conta...',
-                      textAlign: TextAlign.center,
-                    )));
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => InitScreen()),
-                    (route) => false);
+                try {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      backgroundColor: Colors.redAccent,
+                      content: Text(
+                        'Saindo da Conta...',
+                        textAlign: TextAlign.center,
+                      )));
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => InitScreen()),
+                      (route) => false);
+                } on FirebaseException catch (e) {
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      backgroundColor: Colors.redAccent,
+                      content: Text(
+                        'Erro ao tentar sair da conta.',
+                        textAlign: TextAlign.center,
+                      )));
+                }
               },
               child: Container(
                 margin: EdgeInsets.only(bottom: 40),
@@ -246,27 +254,27 @@ class _AreaClienteState extends State<AreaCliente> {
                 'Nome Completo:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text('${nomeCompleto}'),
+              Text('${nomeCompleto.toString()}'),
               Text(
                 '\nData de Nascimento:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text('${datadeNascimento}'),
+              Text('${datadeNascimento.toString()}'),
               Text(
                 '\nTelefone:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text('${telefone}'),
+              Text('${telefone.toString()}'),
               Text(
                 '\nCPF:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text('${cpf}'),
+              Text('${cpf.toString()}'),
               Text(
                 '\nEndereço:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text('${endereco}'),
+              Text('${endereco.toString()}'),
               //
               //
               //
@@ -320,5 +328,22 @@ class _AreaClienteState extends State<AreaCliente> {
         ),
       ),
     );
+  }
+
+  void getdDados() {
+    var ref = FirebaseFirestore.instance
+        .collection('Usuarios')
+        .doc(widget.uid.toString())
+        .get();
+    ref.then((value) {
+      setState(() {
+        nomeCompleto = value['nome'];
+        cpf = value['cpf'];
+        telefone = value['telefone'];
+        // email = value['email'];
+        endereco = value['endereco'];
+        datadeNascimento = value['nascimento'];
+      });
+    });
   }
 }

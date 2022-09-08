@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -33,6 +35,8 @@ class _CreateProfessionalState extends State<CreateProfessional> {
   final MaskTextInputFormatter normal = MaskTextInputFormatter(mask: '');
   final MaskTextInputFormatter cpfmask =
       MaskTextInputFormatter(mask: '###.###.###-##');
+  final MaskTextInputFormatter datemask =
+      MaskTextInputFormatter(mask: "##/##/####");
   final MaskTextInputFormatter telmask =
       MaskTextInputFormatter(mask: '(##) # ####-####');
 
@@ -45,6 +49,8 @@ class _CreateProfessionalState extends State<CreateProfessional> {
   TextEditingController _cpf = TextEditingController();
   TextEditingController _endereco = TextEditingController();
   TextEditingController _profissao = TextEditingController();
+  TextEditingController _dtnascimento = TextEditingController();
+
   //
   //
   String selectedPlano =
@@ -581,7 +587,14 @@ class _CreateProfessionalState extends State<CreateProfessional> {
                                       )),
                                 ],
                               ),
-
+                              CustomTextForm(
+                                padding: 10,
+                                userControler: _dtnascimento,
+                                label: 'Data de Nascimento',
+                                mask: datemask,
+                                type: TextInputType.numberWithOptions(),
+                                acao: TextInputAction.done,
+                              ),
                               SizedBox(
                                 height: 10,
                               ),
@@ -590,13 +603,65 @@ class _CreateProfessionalState extends State<CreateProfessional> {
                                 borderRadius: BorderRadius.circular(20),
                                 child: InkWell(
                                   borderRadius: BorderRadius.circular(20),
-                                  onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
+                                  onTap: () async {
+                                    try {
+                                      if (_nome.text != null &&
+                                          _usuario.text != null &&
+                                          _senha.text != null &&
+                                          _telefone.text != null &&
+                                          _cpf.text != null &&
+                                          _endereco.text != null &&
+                                          _dtnascimento.text != null) {
+                                        await FirebaseAuth.instance
+                                            .createUserWithEmailAndPassword(
+                                          email: _usuario.text,
+                                          password: _senha.text,
+                                        );
+                                        var uid = FirebaseAuth
+                                            .instance.currentUser?.uid;
+                                        FirebaseFirestore.instance
+                                            .collection('Usuarios')
+                                            .doc(uid.toString())
+                                            .set({
+                                          'nome': _nome.text,
+                                          'email': _usuario.text,
+                                          'senha': _senha.text,
+                                          'telefone': _telefone.text,
+                                          'cpf': _cpf.text,
+                                          'endereco': _endereco.text,
+                                          'nascimento': _dtnascimento.text,
+                                          'nivel': 'profissional',
+                                        });
+                                        ScaffoldMessenger.of(context)
+                                            .clearSnackBars();
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                backgroundColor: Colors.green,
+                                                content: Text(
+                                                    'Usuário: ${_nome.text} cadastrado com sucesso!')));
+                                        setState(() {
+                                          _nome.clear();
+                                          _usuario.clear();
+                                          _senha.clear();
+                                          _telefone.clear();
+                                          _cpf.clear();
+                                          _endereco.clear();
+                                          _dtnascimento.clear();
+                                        });
+                                      }
+                                    } on FirebaseException catch (e) {
+                                      ScaffoldMessenger.of(context)
+                                          .clearSnackBars();
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              backgroundColor: Colors.red,
                                               content: Text(
-                                                  'Create Profissional Account'),
-                                            ));
+                                                'Error ao se cadastrar\nVerifique se todos os campos estão preenchidos!',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                                textAlign: TextAlign.center,
+                                              )));
+                                    }
                                   },
                                   child: Ink(
                                     child: NormalButtom(

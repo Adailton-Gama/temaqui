@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -10,11 +12,8 @@ import '../../mainPage/Main_Page.dart';
 import '../widgets/UserDrawerTile.dart';
 
 class AreaProfissionais extends StatefulWidget {
-  AreaProfissionais({
-    Key? key,
-    // required this.username,
-  }) : super(key: key);
-  //String username;
+  AreaProfissionais({Key? key, required this.uid}) : super(key: key);
+  String uid;
 
   @override
   State<AreaProfissionais> createState() => _AreaProfissionaisState();
@@ -25,23 +24,20 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getdDados();
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: primaryColor));
   }
 
   @override
+  //
+  var nomeCompleto;
+  var cpf;
+  var telefone;
+  var email;
+
+  //
   Widget build(BuildContext context) {
-    //
-    var nomeCompleto = 'nomeCompleto';
-    var telefone = 'telefone';
-    var datadeNascimento = 'datadeNascimento';
-    var cpf = 'cpf';
-    var endereco = 'endereco';
-    var categoria = 'categoria';
-    var profissao = 'profissao';
-    var plano = 'plano';
-    var autorizado = 'autorizado';
-    //
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -192,17 +188,28 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
             //Sair da Conta
             GestureDetector(
               onTap: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).clearSnackBars();
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    backgroundColor: Colors.redAccent,
-                    content: Text(
-                      'Saindo da Conta...',
-                      textAlign: TextAlign.center,
-                    )));
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => InitScreen()),
-                    (route) => false);
+                try {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      backgroundColor: Colors.redAccent,
+                      content: Text(
+                        'Saindo da Conta...',
+                        textAlign: TextAlign.center,
+                      )));
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => InitScreen()),
+                      (route) => false);
+                } on FirebaseException catch (e) {
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      backgroundColor: Colors.redAccent,
+                      content: Text(
+                        'Erro ao tentar sair da conta.',
+                        textAlign: TextAlign.center,
+                      )));
+                }
               },
               child: Container(
                 margin: EdgeInsets.only(bottom: 40),
@@ -284,7 +291,7 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                                     margin: EdgeInsets.only(top: 4),
                                   ),
                                   Text(
-                                    'Abraão Lucas do Carmo',
+                                    nomeCompleto.toString(),
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w400,
@@ -332,7 +339,7 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                                     margin: EdgeInsets.only(top: 4),
                                   ),
                                   Text(
-                                    '000.000.000-00',
+                                    cpf.toString(),
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w400,
@@ -380,7 +387,7 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                                     margin: EdgeInsets.only(top: 4),
                                   ),
                                   Text(
-                                    '(74)9 9999-9999',
+                                    telefone.toString(),
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w400,
@@ -428,7 +435,7 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                                     margin: EdgeInsets.only(top: 4),
                                   ),
                                   Text(
-                                    'abraao@gmail.com',
+                                    email.toString(),
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w400,
@@ -508,5 +515,25 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
         ),
       ),
     );
+  }
+
+  void getdDados() {
+    var ref = FirebaseFirestore.instance
+        .collection('Usuarios')
+        .doc(widget.uid.toString())
+        .get();
+    ref.then((value) {
+      setState(() {
+        nomeCompleto = value['nome'];
+        cpf = value['cpf'];
+        telefone = value['telefone'];
+        email = value['email'];
+        // endereco = value['endereco'];
+        // categoria = value[''];
+        // profissao = value[''];
+        // plano = value[''];
+        // autorizado = value[''];
+      });
+    });
   }
 }

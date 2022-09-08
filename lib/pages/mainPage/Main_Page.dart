@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -7,6 +10,8 @@ import 'package:temaqui/pages/planos/planos.dart';
 import 'package:temaqui/pages/quemSomos/quemSomos.dart';
 
 import '../../data/config.dart';
+import '../AreaUsuario/cliente/AreaCliente.dart';
+import '../AreaUsuario/profissional/AreaProfissionais.dart';
 import '../FaleConosco/faleConosco.dart';
 import '../commons/menu_item.dart';
 import '../commons/styles.dart';
@@ -136,25 +141,56 @@ class _InitScreenState extends State<InitScreen> {
 
                             GestureDetector(
                               onTap: () {
-                                setState(() {
-                                  stackOrder.clear();
-                                  stackOrder.add(LoginPage(
-                                    xOffset: 300,
-                                    yOffset: 80,
-                                    isDraw: true,
-                                  ));
-                                  Future.delayed(Duration(milliseconds: 100))
-                                      .then((value) {
+                                try {
+                                  if (FirebaseAuth.instance.currentUser?.uid !=
+                                      null) {
+                                    var uid =
+                                        FirebaseAuth.instance.currentUser!.uid;
+                                    FirebaseFirestore.instance
+                                        .collection('Usuarios')
+                                        .doc(uid)
+                                        .get()
+                                        .then((value) {
+                                      String nivel = value['nivel'].toString();
+                                      if (nivel == 'cliente') {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AreaCliente(
+                                                        uid: uid.toString())));
+                                      } else if (nivel == 'profissional') {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AreaProfissionais(
+                                                        uid: uid.toString())));
+                                      }
+                                    });
+                                  } else {
                                     setState(() {
                                       stackOrder.clear();
                                       stackOrder.add(LoginPage(
-                                        xOffset: 0,
-                                        yOffset: 0,
-                                        isDraw: false,
+                                        xOffset: 300,
+                                        yOffset: 80,
+                                        isDraw: true,
                                       ));
+                                      Future.delayed(
+                                              Duration(milliseconds: 100))
+                                          .then((value) {
+                                        setState(() {
+                                          stackOrder.clear();
+                                          stackOrder.add(LoginPage(
+                                            xOffset: 0,
+                                            yOffset: 0,
+                                            isDraw: false,
+                                          ));
+                                        });
+                                      });
                                     });
-                                  });
-                                });
+                                  }
+                                } on FirebaseException catch (e) {
+                                  print(e.message);
+                                }
                               },
                               child: MenuItemPage(
                                 icon: Icons.person_sharp,

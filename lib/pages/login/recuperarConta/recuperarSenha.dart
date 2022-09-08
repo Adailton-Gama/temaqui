@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:temaqui/data/config.dart';
+import 'package:temaqui/pages/login/login_page.dart';
 import 'package:temaqui/pages/login/recuperarConta/verifyCode.dart';
 
 class RecuperarSenha extends StatefulWidget {
@@ -13,6 +15,13 @@ class RecuperarSenha extends StatefulWidget {
 
 class _RecuperarSenhaState extends State<RecuperarSenha> {
   @override
+  void dispose() {
+    // TODO: implement dispose
+
+    super.dispose();
+  }
+
+  TextEditingController email = TextEditingController();
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -53,6 +62,7 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: TextFormField(
+                        controller: email,
                         style: TextStyle(color: primaryColor),
                         decoration: InputDecoration(
                           prefixIcon: Icon(
@@ -76,10 +86,45 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 20),
                       child: InkWell(
-                        onTap: () {
-                          print('Recuperar Senha');
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => VerifyCode()));
+                        onTap: () async {
+                          if (email.text != null) {
+                            try {
+                              await FirebaseAuth.instance
+                                  .sendPasswordResetEmail(email: email.text);
+                              //
+                              // print('Recuperar Senha');
+                              //
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Colors.green,
+                                  content: Text(
+                                    'Redefinição de Senha enviada por e-mail!',
+                                    textAlign:TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              );
+                              setState(() {
+                                email.clear();
+                              });
+                              //
+                              //
+                              Navigator.pop(context);
+                            } on FirebaseException catch (e) {
+                              print(e.code);
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                      backgroundColor: Colors.redAccent,
+                                      content: Text(
+                                        'Erro ao enviar e-mail, verifique se foi digitado corretamente!',
+                                        textAlign: TextAlign.center,
+                                      )));
+                            }
+                          }
                         },
                         child: Container(
                             height: 50,

@@ -591,6 +591,54 @@ class _HomeScreenState extends State<HomeScreen> {
                                         },
                                       ),
                                     ),
+                                    //Empresas Parceiras
+                                    Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text(
+                                            'Empresas Parceiras',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {},
+                                            child: Text(
+                                              'Ver Todas',
+                                              style: TextStyle(
+                                                  color: primaryColor,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    //Card Parceiros
+                                    Container(
+                                      height: 80,
+                                      child: ListView.builder(
+                                          physics: BouncingScrollPhysics(),
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: categorias.length,
+                                          itemBuilder: (context, index) {
+                                            return Container(
+                                              margin: EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                  color: primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100)),
+                                              height: 60,
+                                              width: 70,
+                                            );
+                                          }),
+                                    ),
 
                                     //Profissionais Destaques
                                     Container(
@@ -750,54 +798,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 Icons.tips_and_updates,
                                                 color: primaryColor,
                                               ),
-                                            );
-                                          }),
-                                    ),
-                                    //Empresas Parceiras
-                                    Container(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 5),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(
-                                            'Empresas Parceiras',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {},
-                                            child: Text(
-                                              'Ver Todas',
-                                              style: TextStyle(
-                                                  color: primaryColor,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 15),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    //Card Parceiros
-                                    Container(
-                                      height: 80,
-                                      child: ListView.builder(
-                                          physics: BouncingScrollPhysics(),
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: categorias.length,
-                                          itemBuilder: (context, index) {
-                                            return Container(
-                                              margin: EdgeInsets.all(5),
-                                              decoration: BoxDecoration(
-                                                  color: primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          100)),
-                                              height: 60,
-                                              width: 70,
                                             );
                                           }),
                                     ),

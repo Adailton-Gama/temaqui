@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -33,6 +35,23 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     // TODO: implement initState
+    if (FirebaseAuth.instance.currentUser?.uid != null) {
+      var uid = FirebaseAuth.instance.currentUser!.uid;
+      FirebaseFirestore.instance
+          .collection('Usuarios')
+          .doc(uid)
+          .get()
+          .then((value) {
+        String nivel = value['nivel'].toString();
+        if (nivel == 'cliente') {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => AreaCliente(uid: uid.toString())));
+        } else if (nivel == 'profissional') {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => AreaProfissionais(uid: uid.toString())));
+        }
+      });
+    }
     super.initState();
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: primaryColor));
@@ -250,16 +269,43 @@ class _LoginPageState extends State<LoginPage> {
                                 borderRadius: BorderRadius.circular(20)),
                             child: InkWell(
                               borderRadius: BorderRadius.circular(20),
-                              onTap: () {
-                                if (userControler.text == '1') {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => AreaCliente()));
-                                  print('Prestador');
-                                } else if (userControler.text == '2') {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          AreaProfissionais()));
-                                  print('usuário');
+                              onTap: () async {
+                                try {
+                                  await FirebaseAuth.instance
+                                      .signInWithEmailAndPassword(
+                                          email: userControler.text,
+                                          password: passControler.text);
+                                  var uid =
+                                      FirebaseAuth.instance.currentUser?.uid;
+                                  FirebaseFirestore.instance
+                                      .collection('Usuarios')
+                                      .doc(uid.toString())
+                                      .get()
+                                      .then((value) {
+                                    String nivel = value['nivel'].toString();
+                                    if (nivel == 'cliente') {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) => AreaCliente(
+                                                  uid: uid.toString())));
+                                    } else if (nivel == 'profissional') {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AreaProfissionais(
+                                                      uid: uid.toString())));
+                                    }
+                                  });
+                                } on FirebaseException catch (error) {
+                                  ScaffoldMessenger.of(context)
+                                      .clearSnackBars();
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                          backgroundColor: Colors.redAccent,
+                                          content: Text(
+                                            'Erro ao tentar fazer Login.',
+                                            textAlign: TextAlign.center,
+                                          )));
                                 }
                               },
                               child: Ink(
