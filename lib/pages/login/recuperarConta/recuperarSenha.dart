@@ -100,7 +100,7 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
                                   backgroundColor: Colors.green,
                                   content: Text(
                                     'Redefinição de Senha enviada por e-mail!',
-                                    textAlign:TextAlign.center,
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.white,
                                     ),
@@ -113,6 +113,7 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
                               //
                               //
                               Navigator.pop(context);
+                              FirebaseAuth.instance.signOut();
                             } on FirebaseException catch (e) {
                               print(e.code);
                               ScaffoldMessenger.of(context).clearSnackBars();

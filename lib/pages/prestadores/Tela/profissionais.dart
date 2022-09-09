@@ -1,10 +1,11 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:temaqui/data/back4app.dart';
-
+import 'package:firebase_storage/firebase_storage.dart';
 import '../../../data/config.dart';
 
 class ListaProfissionais extends StatefulWidget {
@@ -19,6 +20,7 @@ class _ListaProfissionaisState extends State<ListaProfissionais> {
   PickedFile? catImg;
   TextEditingController subCat = TextEditingController();
   PickedFile? subCatImg;
+  final storage = FirebaseStorage.instance;
   @override
   void initState() {
     // TODO: implement initState
@@ -124,25 +126,37 @@ class _ListaProfissionaisState extends State<ListaProfissionais> {
   }
 
   addCategoria() async {
+    final ref = storage.ref();
+    var colection = FirebaseFirestore.instance.collection('Categorias');
+
     cat.text;
     catImg;
     subCat.text;
     subCatImg;
-    ParseFileBase? parseCatImg;
-    parseCatImg = ParseFile(File(catImg!.path));
-    ParseFileBase? parseSubCatImg;
-    parseSubCatImg = ParseFile(File(subCatImg!.path));
+    // ParseFileBase? parseCatImg;
+    // parseCatImg = ParseFile(File(catImg!.path));
+    // ParseFileBase? parseSubCatImg;
+    // parseSubCatImg = ParseFile(File(subCatImg!.path));
+    var file = File(catImg!.path);
+    var imgCat = await storage.ref().child('images/${cat.text}/').putFile(file);
+    var imgUrl = await imgCat.ref.getDownloadURL();
 
-    var categoria = ParseObject('Categorias')
-      ..set('Categoria', cat.text)
-      ..set('subCategoria', subCat.text)
-      ..set('subCategoriaImg', parseSubCatImg);
-    await categoria.save();
+    colection.doc(cat.text).set({
+      'Categoria': cat.text,
+      'catImg': imgUrl,
+    });
+    print(imgUrl.toString());
 
-    var nomeCategoria = ParseObject('NomesCategorias')
-      ..set('Categoria', cat.text)
-      ..set('catImg', parseCatImg);
-    await nomeCategoria.save();
+    // var categoria = ParseObject('Categorias')
+    //   ..set('Categoria', cat.text)
+    //   ..set('subCategoria', subCat.text)
+    //   ..set('subCategoriaImg', parseSubCatImg);
+    // await categoria.save();
+
+    // var nomeCategoria = ParseObject('NomesCategorias')
+    //   ..set('Categoria', cat.text)
+    //   ..set('catImg', parseCatImg);
+    // await nomeCategoria.save();
 
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context)

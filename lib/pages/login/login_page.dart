@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:temaqui/data/config.dart';
+import 'package:temaqui/pages/AreaUsuario/admin/adminPage.dart';
 import 'package:temaqui/pages/AreaUsuario/cliente/AreaCliente.dart';
 import 'package:temaqui/pages/AreaUsuario/profissional/AreaProfissionais.dart';
 import 'package:temaqui/pages/commons/Normal_Buttom.dart';
@@ -294,6 +295,11 @@ class _LoginPageState extends State<LoginPage> {
                                               builder: (context) =>
                                                   AreaProfissionais(
                                                       uid: uid.toString())));
+                                    } else if (nivel == 'admin') {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) => AdminPage(
+                                                  uid: uid.toString())));
                                     }
                                   });
                                 } on FirebaseException catch (error) {

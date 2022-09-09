@@ -10,6 +10,7 @@ import 'package:temaqui/pages/planos/planos.dart';
 import 'package:temaqui/pages/quemSomos/quemSomos.dart';
 
 import '../../data/config.dart';
+import '../AreaUsuario/admin/adminPage.dart';
 import '../AreaUsuario/cliente/AreaCliente.dart';
 import '../AreaUsuario/profissional/AreaProfissionais.dart';
 import '../FaleConosco/faleConosco.dart';
@@ -164,6 +165,11 @@ class _InitScreenState extends State<InitScreen> {
                                                 builder: (context) =>
                                                     AreaProfissionais(
                                                         uid: uid.toString())));
+                                      } else if (nivel == 'admin') {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) => AdminPage(
+                                                    uid: uid.toString())));
                                       }
                                     });
                                   } else {
