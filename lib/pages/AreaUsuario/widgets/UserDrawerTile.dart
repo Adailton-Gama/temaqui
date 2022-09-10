@@ -4,15 +4,17 @@ import 'package:get/get.dart';
 import '../../../data/config.dart';
 
 class UserDrawerTile extends StatefulWidget {
-  UserDrawerTile(
-      {Key? key,
-      required this.icon,
-      required this.label,
-      this.align = MainAxisAlignment.start})
-      : super(key: key);
+  UserDrawerTile({
+    Key? key,
+    required this.icon,
+    required this.label,
+    this.align = MainAxisAlignment.start,
+    this.gradiente = true,
+  }) : super(key: key);
   IconData icon;
   String label;
   MainAxisAlignment align;
+  bool gradiente;
   @override
   State<UserDrawerTile> createState() => _UserDrawerTileState();
 }
@@ -26,20 +28,27 @@ class _UserDrawerTileState extends State<UserDrawerTile> {
       width: Get.width,
       height: 40,
       alignment: Alignment.center,
-      decoration: BoxDecoration(
-          color: primaryColor, borderRadius: BorderRadius.circular(20)),
+      decoration: widget.gradiente
+          ? BoxDecoration(
+              gradient: appBarGradient,
+              borderRadius: BorderRadius.circular(20),
+            )
+          : BoxDecoration(
+              color: secundaryColor,
+              borderRadius: BorderRadius.circular(20),
+            ),
       child: Row(
         mainAxisAlignment: widget.align,
         children: [
           Icon(
             widget.icon,
-            color: Colors.white,
+            color: widget.gradiente ? Colors.white : primaryColor,
           ),
           SizedBox(width: 10),
           Text(
             widget.label,
             style: TextStyle(
-              color: Colors.white,
+              color: widget.gradiente ? Colors.white : primaryColor,
               fontWeight: FontWeight.bold,
               fontSize: 15,
             ),

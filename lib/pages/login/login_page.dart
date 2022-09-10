@@ -9,6 +9,7 @@ import 'package:temaqui/data/config.dart';
 import 'package:temaqui/pages/AreaUsuario/admin/adminPage.dart';
 import 'package:temaqui/pages/AreaUsuario/cliente/AreaCliente.dart';
 import 'package:temaqui/pages/AreaUsuario/profissional/AreaProfissionais.dart';
+import 'package:temaqui/pages/commons/InputPassword.dart';
 import 'package:temaqui/pages/commons/Normal_Buttom.dart';
 import 'package:temaqui/pages/login/recuperarConta/recuperarSenha.dart';
 import 'package:temaqui/pages/login/nova_conta/selecionar_conta.dart';
@@ -59,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  bool isSecret = true;
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var heigthbar = AppBar().preferredSize.height;
@@ -67,7 +69,6 @@ class _LoginPageState extends State<LoginPage> {
     final TextEditingController passControler = TextEditingController();
 
     bool isObscure = false;
-    bool isSecret = false;
 
     return SafeArea(
       child: AnimatedContainer(
@@ -94,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               height: 100,
               decoration: BoxDecoration(
-                color: primaryColor,
+                gradient: appBarGradient,
                 borderRadius: widget.isDraw
                     ? BorderRadius.only(
                         topLeft: Radius.circular(20),
@@ -237,11 +238,50 @@ class _LoginPageState extends State<LoginPage> {
                           userControler: userControler,
                           mask: normal,
                         ),
-                        CustomTextForm(
-                          label: 'Senha',
-                          userControler: passControler,
-                          isObscure: isSecret,
-                          mask: normal,
+
+                        InputPassword(
+                          email: userControler.text,
+                          passControler: passControler,
+                          isSecret: isSecret,
+                          normal: normal,
+                          submited: () async {
+                            try {
+                              await FirebaseAuth.instance
+                                  .signInWithEmailAndPassword(
+                                      email: userControler.text,
+                                      password: passControler.text);
+                              var uid = FirebaseAuth.instance.currentUser?.uid;
+                              FirebaseFirestore.instance
+                                  .collection('Usuarios')
+                                  .doc(uid.toString())
+                                  .get()
+                                  .then((value) {
+                                String nivel = value['nivel'].toString();
+                                if (nivel == 'cliente') {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          AreaCliente(uid: uid.toString())));
+                                } else if (nivel == 'profissional') {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => AreaProfissionais(
+                                          uid: uid.toString())));
+                                } else if (nivel == 'admin') {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          AdminPage(uid: uid.toString())));
+                                }
+                              });
+                            } on FirebaseException catch (error) {
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                      backgroundColor: Colors.redAccent,
+                                      content: Text(
+                                        'Erro ao tentar fazer Login.',
+                                        textAlign: TextAlign.center,
+                                      )));
+                            }
+                          },
                         ),
                         Align(
                           alignment: Alignment.centerRight,

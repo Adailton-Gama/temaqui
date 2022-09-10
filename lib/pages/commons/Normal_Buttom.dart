@@ -26,7 +26,7 @@ class _NormalButtomState extends State<NormalButtom> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: widget.color,
+        gradient: buttonGradient,
       ),
       height: widget.height,
       width: widget.width,

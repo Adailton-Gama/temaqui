@@ -46,7 +46,7 @@ class _NossosPlanosState extends State<NossosPlanos> {
             Container(
               height: 120,
               decoration: BoxDecoration(
-                color: primaryColor,
+                gradient: appBarGradient,
                 borderRadius: widget.isDraw
                     ? BorderRadius.only(
                         topLeft: Radius.circular(20),

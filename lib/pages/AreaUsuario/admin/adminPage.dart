@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:temaqui/pages/AreaUsuario/admin/funcionalidades/planos.dart';
 
 import '../../../data/config.dart';
 import '../../home/Home_Screen.dart';
@@ -53,7 +54,7 @@ class _AdminPageState extends State<AdminPage> {
                 Container(
                   height: 180,
                   decoration: BoxDecoration(
-                      color: primaryColor,
+                      gradient: appBarGradient,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(30),
                         bottomRight: Radius.circular(30),
@@ -124,13 +125,20 @@ class _AdminPageState extends State<AdminPage> {
                 ),
                 //Opções
                 Container(
-                  margin: EdgeInsets.only(top: 10),
+                  margin: EdgeInsets.only(top: 20),
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   width: Get.width,
                   alignment: Alignment.center,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Expanded(
+                          child: Container(
+                        margin: EdgeInsets.only(right: 5),
+                        color: primaryColor,
+                        width: 2,
+                        height: 2,
+                      )),
                       Text(
                         'MENU',
                         style: TextStyle(
@@ -139,6 +147,13 @@ class _AdminPageState extends State<AdminPage> {
                           fontSize: 18,
                         ),
                       ),
+                      Expanded(
+                          child: Container(
+                        margin: EdgeInsets.only(left: 5),
+                        color: primaryColor,
+                        width: 2,
+                        height: 2,
+                      )),
                     ],
                   ),
                 ),
@@ -233,7 +248,7 @@ class _AdminPageState extends State<AdminPage> {
                           isDraw: false,
                         ));
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => InitScreen()));
+                            builder: (context) => CadPlanos()));
                       });
                     });
                   },
@@ -286,6 +301,7 @@ class _AdminPageState extends State<AdminPage> {
                 margin: EdgeInsets.only(bottom: 40),
                 child: UserDrawerTile(
                   icon: Icons.logout,
+                  gradiente: false,
                   label: 'Sair da Conta',
                 ),
               ),
@@ -543,11 +559,12 @@ class _AdminPageState extends State<AdminPage> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
+                                    Expanded(child: Text('')),
                                     Icon(
                                       Icons.edit,
                                       color: primaryColor,
                                     ),
-                                    SizedBox(width: 10),
+                                    SizedBox(width: 2),
                                     Text(
                                       'Editar Perfil',
                                       style: TextStyle(
@@ -556,6 +573,8 @@ class _AdminPageState extends State<AdminPage> {
                                         fontSize: 15,
                                       ),
                                     ),
+                                    SizedBox(width: 30),
+                                    Expanded(child: Text('')),
                                   ],
                                 ),
                               ),

@@ -32,10 +32,15 @@ class _ItemCategoriasState extends State<ItemCategorias> {
           children: <Widget>[
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(5),
-                child: Image.network(
-                  widget.img,
-                  fit: BoxFit.fitWidth,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(widget.img),
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
                 ),
               ),
             ),
@@ -44,7 +49,7 @@ class _ItemCategoriasState extends State<ItemCategorias> {
               padding: EdgeInsets.all(5),
               width: Get.size.width,
               decoration: BoxDecoration(
-                color: primaryColor,
+                gradient: buttonGradient,
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20),
                     bottomRight: Radius.circular(20)),

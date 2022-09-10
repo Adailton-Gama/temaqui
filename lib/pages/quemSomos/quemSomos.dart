@@ -43,7 +43,7 @@ class _QuemSomosState extends State<QuemSomos> {
             Container(
               // height: 100,
               decoration: BoxDecoration(
-                color: primaryColor,
+                gradient: appBarGradient,
                 borderRadius: widget.isDraw
                     ? BorderRadius.only(
                         topLeft: Radius.circular(20),
@@ -182,7 +182,7 @@ class _QuemSomosState extends State<QuemSomos> {
                           width: Get.size.height / 5,
                           // padding: EdgeInsets.all(20),
                           decoration: BoxDecoration(
-                              color: primaryColor,
+                              gradient: appBarGradient,
                               borderRadius: BorderRadius.circular(30)),
                           child: Container(
                             margin: EdgeInsets.all(10),

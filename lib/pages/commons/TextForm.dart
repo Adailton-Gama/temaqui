@@ -44,6 +44,10 @@ class _CustomTextFormState extends State<CustomTextForm> {
         },
         style: TextStyle(color: primaryColor),
         decoration: InputDecoration(
+          suffix: Icon(
+            Icons.abc,
+            color: Colors.transparent,
+          ),
           isDense: true,
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),

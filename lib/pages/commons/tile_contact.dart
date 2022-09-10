@@ -25,7 +25,7 @@ class _ChatTileState extends State<ChatTile> {
       margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: widget.selecionado ? primaryColor : Colors.transparent,
+        gradient: buttonGradient,
       ),
       child: Row(
         children: [

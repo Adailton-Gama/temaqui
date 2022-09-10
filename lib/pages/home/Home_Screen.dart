@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       image: DecorationImage(
                           image: AssetImage('assets/worker.jpg'),
                           fit: BoxFit.cover),
-                      color: primaryColor,
+                      gradient: appBarGradient,
                       borderRadius: widget.isDraw
                           ? BorderRadius.only(
                               topLeft: Radius.circular(20),
@@ -630,7 +630,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             return Container(
                                               margin: EdgeInsets.all(5),
                                               decoration: BoxDecoration(
-                                                  color: primaryColor,
+                                                  gradient: appBarGradient,
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           100)),

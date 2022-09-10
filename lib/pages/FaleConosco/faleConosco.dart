@@ -81,7 +81,7 @@ class _FaleConoscoState extends State<FaleConosco> {
                     Container(
                       height: 120,
                       decoration: BoxDecoration(
-                        color: primaryColor,
+                        gradient: appBarGradient,
                         borderRadius: widget.isDraw
                             ? BorderRadius.only(
                                 topLeft: Radius.circular(20),
@@ -310,8 +310,9 @@ class _FaleConoscoState extends State<FaleConosco> {
                           width: 80,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: primaryColor),
+                            borderRadius: BorderRadius.circular(100),
+                            gradient: buttonGradient,
+                          ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
