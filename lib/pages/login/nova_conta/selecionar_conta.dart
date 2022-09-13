@@ -61,7 +61,7 @@ class _SelectAccState extends State<SelectAcc> {
                     Container(
                       height: 120,
                       decoration: BoxDecoration(
-                        color: primaryColor,
+                        gradient: appBarGradient,
                         borderRadius: widget.isDraw
                             ? BorderRadius.only(
                                 topLeft: Radius.circular(20),
@@ -75,7 +75,7 @@ class _SelectAccState extends State<SelectAcc> {
                       //AppBar
                       child: Container(
                         decoration: BoxDecoration(
-                          color: primaryColor,
+                          gradient: appBarGradient,
                           borderRadius: widget.isDraw
                               ? BorderRadius.only(
                                   topLeft: Radius.circular(20),
@@ -223,15 +223,10 @@ class _SelectAccState extends State<SelectAcc> {
                               GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    stackOrder.clear();
-                                    stackOrder.add(CreateProfessional(
-                                      xOffset: 0,
-                                      yOffset: 0,
-                                    ));
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                InitScreen()));
+                                                CreateProfessional()));
                                   });
                                 },
                                 child: CardAccount(
@@ -246,15 +241,10 @@ class _SelectAccState extends State<SelectAcc> {
                               GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    stackOrder.clear();
-                                    stackOrder.add(CreateCliente(
-                                      xOffset: 0,
-                                      yOffset: 0,
-                                    ));
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                InitScreen()));
+                                                CreateCliente()));
                                   });
                                 },
                                 child: CardAccount(

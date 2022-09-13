@@ -4,7 +4,7 @@ import 'package:temaqui/data/data.dart';
 
 import '../pages/home/Home_Screen.dart';
 
-Color primaryColor = Color.fromRGBO(115, 50, 142, 1);
+Color primaryColor = Color.fromRGBO(94, 21, 187, 1);
 Color secundaryColor = Color.fromRGBO(255, 204, 41, 1);
 Color bkColor = Color.fromRGBO(81, 37, 227, 1);
 
@@ -39,17 +39,15 @@ LinearGradient buttonGradient = LinearGradient(
   end: Alignment.bottomCenter,
   stops: [
     0,
-    0.2,
-    0.5,
-    0.9,
+    0.4,
+    0.6,
     1,
   ],
   colors: [
     Color.fromRGBO(94, 21, 187, 1),
-    Color.fromRGBO(121, 23, 188, 1),
+    Color.fromRGBO(142, 22, 186, 1),
     Color.fromRGBO(142, 22, 186, 1),
     Color.fromRGBO(94, 21, 187, 1),
-    Color.fromRGBO(121, 23, 188, 1),
   ],
 );
 

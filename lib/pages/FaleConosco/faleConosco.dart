@@ -6,6 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../data/config.dart';
+import '../AreaUsuario/chat/DetailsChat.dart';
 
 class FaleConosco extends StatefulWidget {
   FaleConosco(
@@ -292,14 +293,8 @@ class _FaleConoscoState extends State<FaleConosco> {
                       child: InkWell(
                         onTap: () {
                           try {
-                            showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                      content: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [Text('Chat')],
-                                      ),
-                                    ));
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => DetailsChat()));
                             print('Chat Aberto');
                           } catch (e) {
                             print(e);
@@ -311,7 +306,7 @@ class _FaleConoscoState extends State<FaleConosco> {
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
-                            gradient: buttonGradient,
+                            gradient: appBarGradient,
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,

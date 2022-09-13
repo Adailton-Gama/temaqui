@@ -23,7 +23,7 @@ class _CardAccountState extends State<CardAccount> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 10, bottom: 10),
+      margin: EdgeInsets.only(top: 10),
       decoration: BoxDecoration(
         border:
             Border.all(color: primaryColor, width: 1, style: BorderStyle.solid),
@@ -39,7 +39,7 @@ class _CardAccountState extends State<CardAccount> {
                 child: Container(
                   width: 120,
                   decoration: BoxDecoration(
-                    color: primaryColor,
+                    gradient: appBarGradient,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(15),
                         bottomLeft: Radius.circular(15)),

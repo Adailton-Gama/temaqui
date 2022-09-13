@@ -33,15 +33,12 @@ class _AreaClienteState extends State<AreaCliente> {
   var cpf;
   var endereco;
   //
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('Bem-Vindo!'),
-        backgroundColor: primaryColor,
-      ),
-      drawer: Drawer(
+      key: _key,
+      drawer: new Drawer(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -51,7 +48,7 @@ class _AreaClienteState extends State<AreaCliente> {
                 Container(
                   height: 180,
                   decoration: BoxDecoration(
-                      color: primaryColor,
+                      gradient: appBarGradient,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(30),
                         bottomRight: Radius.circular(30),
@@ -66,6 +63,13 @@ class _AreaClienteState extends State<AreaCliente> {
                             height: 80,
                             width: 80,
                             decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.white,
+                                  blurRadius: 2,
+                                  spreadRadius: 2,
+                                )
+                              ],
                               image: DecorationImage(
                                   image: NetworkImage(
                                       'https://cdn.discordapp.com/avatars/442050854581829656/b128666aa0305da5fbf31a4ed7d664dd.webp?size=128')),
@@ -228,102 +232,168 @@ class _AreaClienteState extends State<AreaCliente> {
           ],
         ),
       ),
-      body: Container(
-        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  width: 150,
-                  height: 150,
-                  margin: EdgeInsets.only(bottom: 10),
+      body: SafeArea(
+        child: Container(
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                Container(
+                  height: 60,
+                  width: Get.size.width,
                   decoration: BoxDecoration(
-                    image: const DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(
-                            'https://cdn.discordapp.com/avatars/442050854581829656/b128666aa0305da5fbf31a4ed7d664dd.webp?size=128')),
-                    borderRadius: BorderRadius.circular(100),
+                    gradient: appBarGradient,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            _key.currentState!.openDrawer();
+                          });
+                        },
+                        child: Ink(
+                          height: 50,
+                          width: 80,
+                          child: Icon(
+                            Icons.menu,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        'BEM-VINDO!',
+                        style: TextStyle(
+                            fontFamily: 'Arial',
+                            decoration: TextDecoration.none,
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(5),
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              Text(
-                'Nome Completo:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text('${nomeCompleto.toString()}'),
-              Text(
-                '\nData de Nascimento:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text('${datadeNascimento.toString()}'),
-              Text(
-                '\nTelefone:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text('${telefone.toString()}'),
-              Text(
-                '\nCPF:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text('${cpf.toString()}'),
-              Text(
-                '\nEndereço:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text('${endereco.toString()}'),
-              //
-              //
-              //
-              SizedBox(height: 20),
-              Text(
-                '\nTraga seus serviços para nosso App!',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => EditPerfil()));
-                },
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  child: Material(
-                    elevation: 2,
-                    borderRadius: BorderRadius.circular(20),
-                    child: Container(
-                      width: Get.width,
-                      height: 40,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: secundaryColor,
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.edit,
-                            color: primaryColor,
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            'Editar Perfil',
-                            style: TextStyle(
+                Container(
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: 150,
+                          height: 150,
+                          margin: EdgeInsets.only(bottom: 10),
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: primaryColor,
+                                blurRadius: 5,
+                                spreadRadius: 3,
+                              )
+                            ],
+                            border: Border.all(
                               color: primaryColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
+                              width: 4,
+                              style: BorderStyle.solid,
+                            ),
+                            image: const DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                    'https://cdn.discordapp.com/avatars/442050854581829656/b128666aa0305da5fbf31a4ed7d664dd.webp?size=128')),
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        'Nome Completo:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text('${nomeCompleto.toString()}'),
+                      Text(
+                        '\nData de Nascimento:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text('${datadeNascimento.toString()}'),
+                      Text(
+                        '\nTelefone:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text('${telefone.toString()}'),
+                      Text(
+                        '\nCPF:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text('${cpf.toString()}'),
+                      Text(
+                        '\nEndereço:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text('${endereco.toString()}'),
+                      //
+                      //
+                      //
+                      SizedBox(height: 20),
+                      Text(
+                        '\nTraga seus serviços para nosso App!',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => EditPerfil()));
+                        },
+                        child: Container(
+                          margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                          child: Material(
+                            elevation: 2,
+                            borderRadius: BorderRadius.circular(20),
+                            child: Container(
+                              width: Get.width,
+                              height: 40,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  color: secundaryColor,
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.edit,
+                                    color: primaryColor,
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    'Editar Perfil',
+                                    style: TextStyle(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

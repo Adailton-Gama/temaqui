@@ -77,22 +77,23 @@ class _CadCategoriasState extends State<CadCategorias> {
                           : Alignment.centerRight,
                       children: [
                         Container(
-                          height: 30,
-                          width: 80,
+                          height: 20,
+                          width: 40,
                           decoration: BoxDecoration(
                             color: isChecked ? primaryColor : secundaryColor,
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
                         AnimatedContainer(
+                          curve: Curves.fastLinearToSlowEaseIn,
                           transform: isChecked
-                              ? Matrix4.translationValues(0, 0, -10)
+                              ? Matrix4.translationValues(0, 0, 0)
                               : Matrix4.translationValues(10, 0, 0),
                           margin: isChecked
                               ? EdgeInsets.only(left: 5)
                               : EdgeInsets.only(right: 15),
-                          width: 25,
-                          height: 25,
+                          width: 15,
+                          height: 15,
                           decoration: BoxDecoration(
                             color: isChecked ? secundaryColor : primaryColor,
                             borderRadius: BorderRadius.circular(50),
@@ -119,6 +120,7 @@ class _CadCategoriasState extends State<CadCategorias> {
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        SizedBox(height: 10),
                         TextField(
                           controller: cat,
                           decoration: InputDecoration(
@@ -152,11 +154,10 @@ class _CadCategoriasState extends State<CadCategorias> {
                         ),
                       ],
                     )
-                  //
-                  //
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        SizedBox(height: 10),
                         Row(
                           children: [
                             Text('Categoria: '),
@@ -229,19 +230,17 @@ class _CadCategoriasState extends State<CadCategorias> {
                                               }),
                                         ));
                               },
-                              child: Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.only(right: 10, left: 10),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: primaryColor,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  height: 25,
-                                  child: Text(
-                                    'Escolher Categoria',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
+                              child: Container(
+                                padding: EdgeInsets.only(right: 10, left: 10),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: primaryColor,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                height: 25,
+                                child: Text(
+                                  'Escolher Categoria',
+                                  style: TextStyle(color: Colors.white),
                                 ),
                               ),
                             ),

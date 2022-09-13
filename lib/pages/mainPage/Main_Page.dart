@@ -63,7 +63,7 @@ class _InitScreenState extends State<InitScreen> {
                               height: 100,
                               width: 100,
                               decoration: BoxDecoration(
-                                color: primaryColor,
+                                gradient: appBarGradient,
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Container(

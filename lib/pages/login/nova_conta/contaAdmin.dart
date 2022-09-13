@@ -5,30 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:temaqui/pages/login/nova_conta/selecionar_conta.dart';
 
 import '../../../data/config.dart';
 import '../../commons/Normal_Buttom.dart';
 import '../../commons/TextForm.dart';
-import '../../mainPage/Main_Page.dart';
-import 'package:temaqui/data/config.dart' as config;
 
-class CreateCliente extends StatefulWidget {
-  CreateCliente({
-    Key? key,
-    this.isDraw = false,
-    this.xOffset = 290,
-    this.yOffset = 80,
-  }) : super(key: key);
-  bool isDraw;
-  double xOffset;
-  double yOffset;
+class ContaAdmin extends StatefulWidget {
+  const ContaAdmin({Key? key}) : super(key: key);
 
   @override
-  State<CreateCliente> createState() => _CreateClienteState();
+  State<ContaAdmin> createState() => _ContaAdminState();
 }
 
-class _CreateClienteState extends State<CreateCliente> {
+class _ContaAdminState extends State<ContaAdmin> {
   //
   final MaskTextInputFormatter normal = MaskTextInputFormatter(mask: '');
   final MaskTextInputFormatter datemask =
@@ -53,13 +42,7 @@ class _CreateClienteState extends State<CreateCliente> {
     Firebase.initializeApp();
   }
 
-  @override
-  bool isDrawerOpen = false;
-  @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    var heigthbar = AppBar().preferredSize.height;
-    var padding = MediaQuery.of(context).padding;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -171,7 +154,7 @@ class _CreateClienteState extends State<CreateCliente> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Lottie.asset('lottie/clients.json',
+                        Lottie.asset('lottie/admin.json',
                             animate: true, height: Get.size.height / 4),
 
                         //Título
@@ -291,7 +274,7 @@ class _CreateClienteState extends State<CreateCliente> {
                                     'cpf': _cpf.text,
                                     'endereco': _endereco.text,
                                     'nascimento': _dtnascimento.text,
-                                    'nivel': 'cliente',
+                                    'nivel': 'admin',
                                   });
                                   ScaffoldMessenger.of(context)
                                       .clearSnackBars();

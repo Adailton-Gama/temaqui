@@ -423,8 +423,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     //Campo de Pesquisa
                                     Container(
                                       height: 50,
-                                      margin:
-                                          EdgeInsets.symmetric(vertical: 10),
+                                      margin: EdgeInsets.only(top: 10),
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 5),
                                       width: Get.size.width,
@@ -630,6 +629,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                             return Container(
                                               margin: EdgeInsets.all(5),
                                               decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                    fit: BoxFit.cover,
+                                                    image: AssetImage(
+                                                        'assets/parceira_01.png'),
+                                                  ),
                                                   gradient: appBarGradient,
                                                   borderRadius:
                                                       BorderRadius.circular(
@@ -662,7 +666,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     Categorias(
                                                         nome: 'Consultoria',
                                                         img:
-                                                            'assets/01_Consultoria.png');
+                                                            'assets/parceira_01.png');
                                                 categorias.add(newCategoria);
                                               });
                                             },
