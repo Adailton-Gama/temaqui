@@ -237,6 +237,12 @@ class _LoginPageState extends State<LoginPage> {
                           label: 'Usuário',
                           userControler: userControler,
                           mask: normal,
+                          validacao: () {
+                            if (userControler.text == null ||
+                                userControler.text.isEmpty) {
+                              return 'Favor Preencher Campo';
+                            }
+                          },
                         ),
 
                         InputPassword(

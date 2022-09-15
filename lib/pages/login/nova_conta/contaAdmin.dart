@@ -35,11 +35,16 @@ class _ContaAdminState extends State<ContaAdmin> {
   TextEditingController _cpf = TextEditingController();
   TextEditingController _endereco = TextEditingController();
   TextEditingController _dtnascimento = TextEditingController();
+  final CollectionReference refUser =
+      FirebaseFirestore.instance.collection('Usuarios');
+  String adminEmail = '';
+  String adminPass = '';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     Firebase.initializeApp();
+    getEmailAdmin();
   }
 
   Widget build(BuildContext context) {
@@ -197,12 +202,24 @@ class _ContaAdminState extends State<ContaAdmin> {
                           userControler: _nome,
                           label: 'Nome Completo',
                           mask: normal,
+                          validacao: () {
+                            if (_endereco.text == null ||
+                                _endereco.text.isEmpty) {
+                              return 'Favor Preencher Campo';
+                            }
+                          },
                         ),
                         CustomTextForm(
                           padding: 5,
                           userControler: _usuario,
                           label: 'E-mail',
                           mask: normal,
+                          validacao: () {
+                            if (_endereco.text == null ||
+                                _endereco.text.isEmpty) {
+                              return 'Favor Preencher Campo';
+                            }
+                          },
                         ),
                         CustomTextForm(
                           isObscure: false,
@@ -210,6 +227,12 @@ class _ContaAdminState extends State<ContaAdmin> {
                           userControler: _senha,
                           label: 'Senha',
                           mask: normal,
+                          validacao: () {
+                            if (_endereco.text == null ||
+                                _endereco.text.isEmpty) {
+                              return 'Favor Preencher Campo';
+                            }
+                          },
                         ),
                         CustomTextForm(
                           padding: 5,
@@ -217,6 +240,12 @@ class _ContaAdminState extends State<ContaAdmin> {
                           label: 'Telefone',
                           mask: telmask,
                           type: TextInputType.numberWithOptions(),
+                          validacao: () {
+                            if (_endereco.text == null ||
+                                _endereco.text.isEmpty) {
+                              return 'Favor Preencher Campo';
+                            }
+                          },
                         ),
                         CustomTextForm(
                           padding: 5,
@@ -224,12 +253,24 @@ class _ContaAdminState extends State<ContaAdmin> {
                           label: 'CPF',
                           mask: cpfmask,
                           type: TextInputType.numberWithOptions(),
+                          validacao: () {
+                            if (_endereco.text == null ||
+                                _endereco.text.isEmpty) {
+                              return 'Favor Preencher Campo';
+                            }
+                          },
                         ),
                         CustomTextForm(
                           padding: 5,
                           userControler: _endereco,
                           label: 'Endereço',
                           mask: normal,
+                          validacao: () {
+                            if (_endereco.text == null ||
+                                _endereco.text.isEmpty) {
+                              return 'Favor Preencher Campo';
+                            }
+                          },
                         ),
                         CustomTextForm(
                           padding: 5,
@@ -238,6 +279,12 @@ class _ContaAdminState extends State<ContaAdmin> {
                           mask: datemask,
                           type: TextInputType.numberWithOptions(),
                           acao: TextInputAction.done,
+                          validacao: () {
+                            if (_endereco.text == null ||
+                                _endereco.text.isEmpty) {
+                              return 'Favor Preencher Campo';
+                            }
+                          },
                         ),
                         SizedBox(
                           height: 5,
@@ -248,61 +295,140 @@ class _ContaAdminState extends State<ContaAdmin> {
                           child: InkWell(
                             borderRadius: BorderRadius.circular(20),
                             onTap: () async {
-                              try {
-                                if (_nome.text != null &&
-                                    _usuario.text != null &&
-                                    _senha.text != null &&
-                                    _telefone.text != null &&
-                                    _cpf.text != null &&
-                                    _endereco.text != null &&
-                                    _dtnascimento.text != null) {
-                                  await FirebaseAuth.instance
-                                      .createUserWithEmailAndPassword(
-                                    email: _usuario.text,
-                                    password: _senha.text,
-                                  );
-                                  var uid =
-                                      FirebaseAuth.instance.currentUser?.uid;
-                                  FirebaseFirestore.instance
-                                      .collection('Usuarios')
-                                      .doc(uid.toString())
-                                      .set({
-                                    'nome': _nome.text,
-                                    'email': _usuario.text,
-                                    'senha': _senha.text,
-                                    'telefone': _telefone.text,
-                                    'cpf': _cpf.text,
-                                    'endereco': _endereco.text,
-                                    'nascimento': _dtnascimento.text,
-                                    'nivel': 'admin',
-                                  });
+                              if (FirebaseAuth.instance.currentUser?.uid ==
+                                  null) {
+                                try {
+                                  if (_nome.text != null &&
+                                      _usuario.text != null &&
+                                      _senha.text != null &&
+                                      _telefone.text != null &&
+                                      _cpf.text != null &&
+                                      _endereco.text != null &&
+                                      _dtnascimento.text != null) {
+                                    await FirebaseAuth.instance
+                                        .createUserWithEmailAndPassword(
+                                      email: _usuario.text,
+                                      password: _senha.text,
+                                    );
+                                    var uid =
+                                        FirebaseAuth.instance.currentUser?.uid;
+                                    FirebaseFirestore.instance
+                                        .collection('Usuarios')
+                                        .doc(uid.toString())
+                                        .set({
+                                      'nome': _nome.text,
+                                      'email': _usuario.text,
+                                      'senha': _senha.text,
+                                      'telefone': _telefone.text,
+                                      'cpf': _cpf.text,
+                                      'endereco': _endereco.text,
+                                      'nascimento': _dtnascimento.text,
+                                      'nivel': 'admin',
+                                      'time': Timestamp.now(),
+                                    });
+                                    ScaffoldMessenger.of(context)
+                                        .clearSnackBars();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            backgroundColor: Colors.green,
+                                            content: Text(
+                                                'Usuário: ${_nome.text} cadastrado com sucesso!')));
+                                    setState(() {
+                                      _nome.clear();
+                                      _usuario.clear();
+                                      _senha.clear();
+                                      _telefone.clear();
+                                      _cpf.clear();
+                                      _endereco.clear();
+                                      _dtnascimento.clear();
+                                    });
+                                  }
+                                } on FirebaseException catch (e) {
                                   ScaffoldMessenger.of(context)
                                       .clearSnackBars();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          backgroundColor: Colors.green,
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                          backgroundColor: Colors.red,
                                           content: Text(
-                                              'Usuário: ${_nome.text} cadastrado com sucesso!')));
-                                  setState(() {
-                                    _nome.clear();
-                                    _usuario.clear();
-                                    _senha.clear();
-                                    _telefone.clear();
-                                    _cpf.clear();
-                                    _endereco.clear();
-                                    _dtnascimento.clear();
-                                  });
+                                            'Error ao se cadastrar\nVerifique se todos os campos estão preenchidos!',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                            textAlign: TextAlign.center,
+                                          )));
                                 }
-                              } on FirebaseException catch (e) {
-                                ScaffoldMessenger.of(context).clearSnackBars();
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                        backgroundColor: Colors.red,
-                                        content: Text(
-                                          'Error ao se cadastrar\nVerifique se todos os campos estão preenchidos!',
-                                          style: TextStyle(color: Colors.white),
-                                          textAlign: TextAlign.center,
-                                        )));
+                              } else {
+                                await FirebaseAuth.instance.signOut();
+
+                                try {
+                                  if (_nome.text != null &&
+                                      _usuario.text != null &&
+                                      _senha.text != null &&
+                                      _telefone.text != null &&
+                                      _cpf.text != null &&
+                                      _endereco.text != null &&
+                                      _dtnascimento.text != null) {
+                                    FirebaseAuth.instance
+                                        .createUserWithEmailAndPassword(
+                                      email: _usuario.text,
+                                      password: _senha.text,
+                                    );
+                                    await Future.delayed(Duration(seconds: 3));
+                                    print(
+                                        ' Usuário Cadastrado: ${FirebaseAuth.instance.currentUser?.uid}');
+                                    FirebaseFirestore.instance
+                                        .collection('Usuarios')
+                                        .doc(FirebaseAuth
+                                            .instance.currentUser?.uid
+                                            .toString())
+                                        .set({
+                                      'nome': _nome.text,
+                                      'email': _usuario.text,
+                                      'senha': _senha.text,
+                                      'telefone': _telefone.text,
+                                      'cpf': _cpf.text,
+                                      'endereco': _endereco.text,
+                                      'nascimento': _dtnascimento.text,
+                                      'nivel': 'admin',
+                                      'time': Timestamp.now(),
+                                    });
+                                    ScaffoldMessenger.of(context)
+                                        .clearSnackBars();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            backgroundColor: Colors.green,
+                                            content: Text(
+                                                'Usuário: ${_nome.text} cadastrado com sucesso!')));
+                                    setState(() {
+                                      _nome.clear();
+                                      _usuario.clear();
+                                      _senha.clear();
+                                      _telefone.clear();
+                                      _cpf.clear();
+                                      _endereco.clear();
+                                      _dtnascimento.clear();
+                                    });
+                                    Future.delayed(Duration(seconds: 1))
+                                        .then((value) {
+                                      FirebaseAuth.instance.signOut();
+                                      FirebaseAuth.instance
+                                          .signInWithEmailAndPassword(
+                                              email: adminEmail,
+                                              password: adminPass);
+                                    });
+                                  }
+                                } on FirebaseException catch (e) {
+                                  ScaffoldMessenger.of(context)
+                                      .clearSnackBars();
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                          backgroundColor: Colors.red,
+                                          content: Text(
+                                            'Error ao se cadastrar\nVerifique se todos os campos estão preenchidos!',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                            textAlign: TextAlign.center,
+                                          )));
+                                }
                               }
                             },
                             child: Ink(
@@ -324,5 +450,17 @@ class _ContaAdminState extends State<ContaAdmin> {
         ),
       ),
     );
+  }
+
+  void getEmailAdmin() async {
+    var mail = await refUser
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .get()
+        .then((value) {
+      var data = value.data() as Map<String, dynamic>;
+      adminEmail = data['email'];
+      adminPass = data['senha'];
+      print(adminEmail + ' | ' + adminPass);
+    });
   }
 }

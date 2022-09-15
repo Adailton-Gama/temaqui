@@ -29,6 +29,8 @@ class CreateCliente extends StatefulWidget {
 }
 
 class _CreateClienteState extends State<CreateCliente> {
+  final CollectionReference refUser =
+      FirebaseFirestore.instance.collection('Usuarios');
   //
   final MaskTextInputFormatter normal = MaskTextInputFormatter(mask: '');
   final MaskTextInputFormatter datemask =
@@ -46,11 +48,15 @@ class _CreateClienteState extends State<CreateCliente> {
   TextEditingController _cpf = TextEditingController();
   TextEditingController _endereco = TextEditingController();
   TextEditingController _dtnascimento = TextEditingController();
+
+  String adminEmail = '';
+  String adminPass = '';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     Firebase.initializeApp();
+    getEmailAdmin();
   }
 
   @override
@@ -214,12 +220,24 @@ class _CreateClienteState extends State<CreateCliente> {
                           userControler: _nome,
                           label: 'Nome Completo',
                           mask: normal,
+                          validacao: () {
+                            if (_endereco.text == null ||
+                                _endereco.text.isEmpty) {
+                              return 'Favor Preencher Campo';
+                            }
+                          },
                         ),
                         CustomTextForm(
                           padding: 5,
                           userControler: _usuario,
                           label: 'E-mail',
                           mask: normal,
+                          validacao: () {
+                            if (_endereco.text == null ||
+                                _endereco.text.isEmpty) {
+                              return 'Favor Preencher Campo';
+                            }
+                          },
                         ),
                         CustomTextForm(
                           isObscure: false,
@@ -227,6 +245,12 @@ class _CreateClienteState extends State<CreateCliente> {
                           userControler: _senha,
                           label: 'Senha',
                           mask: normal,
+                          validacao: () {
+                            if (_endereco.text == null ||
+                                _endereco.text.isEmpty) {
+                              return 'Favor Preencher Campo';
+                            }
+                          },
                         ),
                         CustomTextForm(
                           padding: 5,
@@ -234,6 +258,12 @@ class _CreateClienteState extends State<CreateCliente> {
                           label: 'Telefone',
                           mask: telmask,
                           type: TextInputType.numberWithOptions(),
+                          validacao: () {
+                            if (_endereco.text == null ||
+                                _endereco.text.isEmpty) {
+                              return 'Favor Preencher Campo';
+                            }
+                          },
                         ),
                         CustomTextForm(
                           padding: 5,
@@ -241,12 +271,24 @@ class _CreateClienteState extends State<CreateCliente> {
                           label: 'CPF',
                           mask: cpfmask,
                           type: TextInputType.numberWithOptions(),
+                          validacao: () {
+                            if (_endereco.text == null ||
+                                _endereco.text.isEmpty) {
+                              return 'Favor Preencher Campo';
+                            }
+                          },
                         ),
                         CustomTextForm(
                           padding: 5,
                           userControler: _endereco,
                           label: 'Endereço',
                           mask: normal,
+                          validacao: () {
+                            if (_endereco.text == null ||
+                                _endereco.text.isEmpty) {
+                              return 'Favor Preencher Campo';
+                            }
+                          },
                         ),
                         CustomTextForm(
                           padding: 5,
@@ -255,6 +297,12 @@ class _CreateClienteState extends State<CreateCliente> {
                           mask: datemask,
                           type: TextInputType.numberWithOptions(),
                           acao: TextInputAction.done,
+                          validacao: () {
+                            if (_endereco.text == null ||
+                                _endereco.text.isEmpty) {
+                              return 'Favor Preencher Campo';
+                            }
+                          },
                         ),
                         SizedBox(
                           height: 5,
@@ -265,61 +313,139 @@ class _CreateClienteState extends State<CreateCliente> {
                           child: InkWell(
                             borderRadius: BorderRadius.circular(20),
                             onTap: () async {
-                              try {
-                                if (_nome.text != null &&
-                                    _usuario.text != null &&
-                                    _senha.text != null &&
-                                    _telefone.text != null &&
-                                    _cpf.text != null &&
-                                    _endereco.text != null &&
-                                    _dtnascimento.text != null) {
-                                  await FirebaseAuth.instance
-                                      .createUserWithEmailAndPassword(
-                                    email: _usuario.text,
-                                    password: _senha.text,
-                                  );
-                                  var uid =
-                                      FirebaseAuth.instance.currentUser?.uid;
-                                  FirebaseFirestore.instance
-                                      .collection('Usuarios')
-                                      .doc(uid.toString())
-                                      .set({
-                                    'nome': _nome.text,
-                                    'email': _usuario.text,
-                                    'senha': _senha.text,
-                                    'telefone': _telefone.text,
-                                    'cpf': _cpf.text,
-                                    'endereco': _endereco.text,
-                                    'nascimento': _dtnascimento.text,
-                                    'nivel': 'cliente',
-                                  });
+                              if (FirebaseAuth.instance.currentUser?.uid ==
+                                  null) {
+                                try {
+                                  if (_nome.text != null &&
+                                      _usuario.text != null &&
+                                      _senha.text != null &&
+                                      _telefone.text != null &&
+                                      _cpf.text != null &&
+                                      _endereco.text != null &&
+                                      _dtnascimento.text != null) {
+                                    await FirebaseAuth.instance
+                                        .createUserWithEmailAndPassword(
+                                      email: _usuario.text,
+                                      password: _senha.text,
+                                    );
+                                    var uid =
+                                        FirebaseAuth.instance.currentUser?.uid;
+                                    FirebaseFirestore.instance
+                                        .collection('Usuarios')
+                                        .doc(uid.toString())
+                                        .set({
+                                      'nome': _nome.text,
+                                      'email': _usuario.text,
+                                      'senha': _senha.text,
+                                      'telefone': _telefone.text,
+                                      'cpf': _cpf.text,
+                                      'endereco': _endereco.text,
+                                      'nascimento': _dtnascimento.text,
+                                      'nivel': 'cliente',
+                                      'time': Timestamp.now(),
+                                    });
+                                    ScaffoldMessenger.of(context)
+                                        .clearSnackBars();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            backgroundColor: Colors.green,
+                                            content: Text(
+                                                'Usuário: ${_nome.text} cadastrado com sucesso!')));
+                                    setState(() {
+                                      _nome.clear();
+                                      _usuario.clear();
+                                      _senha.clear();
+                                      _telefone.clear();
+                                      _cpf.clear();
+                                      _endereco.clear();
+                                      _dtnascimento.clear();
+                                    });
+                                  }
+                                } on FirebaseException catch (e) {
                                   ScaffoldMessenger.of(context)
                                       .clearSnackBars();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          backgroundColor: Colors.green,
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                          backgroundColor: Colors.red,
                                           content: Text(
-                                              'Usuário: ${_nome.text} cadastrado com sucesso!')));
-                                  setState(() {
-                                    _nome.clear();
-                                    _usuario.clear();
-                                    _senha.clear();
-                                    _telefone.clear();
-                                    _cpf.clear();
-                                    _endereco.clear();
-                                    _dtnascimento.clear();
-                                  });
+                                            'Error ao se cadastrar\nVerifique se todos os campos estão preenchidos!',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                            textAlign: TextAlign.center,
+                                          )));
                                 }
-                              } on FirebaseException catch (e) {
-                                ScaffoldMessenger.of(context).clearSnackBars();
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                        backgroundColor: Colors.red,
-                                        content: Text(
-                                          'Error ao se cadastrar\nVerifique se todos os campos estão preenchidos!',
-                                          style: TextStyle(color: Colors.white),
-                                          textAlign: TextAlign.center,
-                                        )));
+                              } else {
+                                await FirebaseAuth.instance.signOut();
+                                try {
+                                  if (_nome.text != null &&
+                                      _usuario.text != null &&
+                                      _senha.text != null &&
+                                      _telefone.text != null &&
+                                      _cpf.text != null &&
+                                      _endereco.text != null &&
+                                      _dtnascimento.text != null) {
+                                    FirebaseAuth.instance
+                                        .createUserWithEmailAndPassword(
+                                      email: _usuario.text,
+                                      password: _senha.text,
+                                    );
+                                    await Future.delayed(Duration(seconds: 3));
+                                    print(
+                                        'ID CADASTRADO: ${FirebaseAuth.instance.currentUser?.uid}');
+                                    FirebaseFirestore.instance
+                                        .collection('Usuarios')
+                                        .doc(FirebaseAuth
+                                            .instance.currentUser?.uid
+                                            .toString())
+                                        .set({
+                                      'nome': _nome.text,
+                                      'email': _usuario.text,
+                                      'senha': _senha.text,
+                                      'telefone': _telefone.text,
+                                      'cpf': _cpf.text,
+                                      'endereco': _endereco.text,
+                                      'nascimento': _dtnascimento.text,
+                                      'nivel': 'cliente',
+                                      'time': Timestamp.now(),
+                                    });
+                                    ScaffoldMessenger.of(context)
+                                        .clearSnackBars();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            backgroundColor: Colors.green,
+                                            content: Text(
+                                                'Usuário: ${_nome.text} cadastrado com sucesso!')));
+                                    setState(() {
+                                      _nome.clear();
+                                      _usuario.clear();
+                                      _senha.clear();
+                                      _telefone.clear();
+                                      _cpf.clear();
+                                      _endereco.clear();
+                                      _dtnascimento.clear();
+                                    });
+                                    Future.delayed(Duration(seconds: 1))
+                                        .then((value) {
+                                      FirebaseAuth.instance.signOut();
+                                      FirebaseAuth.instance
+                                          .signInWithEmailAndPassword(
+                                              email: adminEmail,
+                                              password: adminPass);
+                                    });
+                                  }
+                                } on FirebaseException catch (e) {
+                                  ScaffoldMessenger.of(context)
+                                      .clearSnackBars();
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                          backgroundColor: Colors.red,
+                                          content: Text(
+                                            'Error ao se cadastrar\nVerifique se todos os campos estão preenchidos!',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                            textAlign: TextAlign.center,
+                                          )));
+                                }
                               }
                             },
                             child: Ink(
@@ -341,5 +467,17 @@ class _CreateClienteState extends State<CreateCliente> {
         ),
       ),
     );
+  }
+
+  void getEmailAdmin() async {
+    var mail = await refUser
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .get()
+        .then((value) {
+      var data = value.data() as Map<String, dynamic>;
+      adminEmail = data['email'];
+      adminPass = data['senha'];
+      print(adminEmail + ' | ' + adminPass);
+    });
   }
 }

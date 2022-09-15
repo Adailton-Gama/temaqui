@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -9,13 +10,20 @@ import '../../commons/TextForm.dart';
 import '../../login/nova_conta/commons/escolherCategoria.dart';
 
 class EditPerfil extends StatefulWidget {
-  const EditPerfil({Key? key}) : super(key: key);
+  String usuario;
+
+  EditPerfil({
+    Key? key,
+    required this.usuario,
+  }) : super(key: key);
 
   @override
   State<EditPerfil> createState() => _EditPerfilState();
 }
 
 class _EditPerfilState extends State<EditPerfil> {
+  final CollectionReference refCat =
+      FirebaseFirestore.instance.collection('Categorias');
   //
   //
   final MaskTextInputFormatter normal = MaskTextInputFormatter(mask: '');
@@ -23,6 +31,8 @@ class _EditPerfilState extends State<EditPerfil> {
       MaskTextInputFormatter(mask: '###.###.###-##');
   final MaskTextInputFormatter telmask =
       MaskTextInputFormatter(mask: '(##) # ####-####');
+  final MaskTextInputFormatter datemask =
+      MaskTextInputFormatter(mask: "##/##/####");
 
   //
   //
@@ -33,6 +43,13 @@ class _EditPerfilState extends State<EditPerfil> {
   TextEditingController _cpf = TextEditingController();
   TextEditingController _endereco = TextEditingController();
   TextEditingController _profissao = TextEditingController();
+  TextEditingController _dtnascimento = TextEditingController();
+
+  String categoria = '';
+  List subcategoria = [];
+  String subcategoriaStr = '';
+  TextEditingController _datadeNascimento = TextEditingController();
+
   //
   //
   String selectedPlano =
@@ -42,9 +59,17 @@ class _EditPerfilState extends State<EditPerfil> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    planos.add(config.bronze);
-    planos.add(config.prata);
-    planos.add(config.ouro);
+    getDados();
+    if (categoria.isEmpty) {
+      setState(() {
+        categoria = 'Selecione a Categoria';
+      });
+    }
+    if (subcategoriaStr.isEmpty) {
+      setState(() {
+        subcategoriaStr = 'Selecione a Categoria';
+      });
+    }
   }
 
   @override
@@ -86,12 +111,22 @@ class _EditPerfilState extends State<EditPerfil> {
                 userControler: _usuario,
                 label: 'E-mail',
                 mask: normal,
+                validacao: () {
+                  if (_endereco.text == null || _endereco.text.isEmpty) {
+                    return 'Favor Preencher Campo';
+                  }
+                },
               ),
               CustomTextForm(
                 padding: 10,
                 userControler: _senha,
                 label: 'Senha',
                 mask: normal,
+                validacao: () {
+                  if (_endereco.text == null || _endereco.text.isEmpty) {
+                    return 'Favor Preencher Campo';
+                  }
+                },
               ),
               Container(
                 margin: EdgeInsets.only(top: 10),
@@ -111,6 +146,11 @@ class _EditPerfilState extends State<EditPerfil> {
                 userControler: _nome,
                 label: 'Nome Completo',
                 mask: normal,
+                validacao: () {
+                  if (_endereco.text == null || _endereco.text.isEmpty) {
+                    return 'Favor Preencher Campo';
+                  }
+                },
               ),
               CustomTextForm(
                 padding: 10,
@@ -118,6 +158,11 @@ class _EditPerfilState extends State<EditPerfil> {
                 label: 'Telefone',
                 mask: telmask,
                 type: TextInputType.numberWithOptions(),
+                validacao: () {
+                  if (_endereco.text == null || _endereco.text.isEmpty) {
+                    return 'Favor Preencher Campo';
+                  }
+                },
               ),
               CustomTextForm(
                 padding: 10,
@@ -125,203 +170,349 @@ class _EditPerfilState extends State<EditPerfil> {
                 label: 'CPF',
                 mask: cpfmask,
                 type: TextInputType.numberWithOptions(),
+                validacao: () {
+                  if (_endereco.text == null || _endereco.text.isEmpty) {
+                    return 'Favor Preencher Campo';
+                  }
+                },
               ),
               CustomTextForm(
                 padding: 10,
                 userControler: _endereco,
                 label: 'Endereço',
                 mask: normal,
+                validacao: () {
+                  if (_endereco.text == null || _endereco.text.isEmpty) {
+                    return 'Favor Preencher Campo';
+                  }
+                },
               ),
-              //
-              //Profissão
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 10),
-                    alignment: Alignment.topLeft,
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text(
-                      'Dados da Profissão:',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          color: primaryColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  InkWell(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  content: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      //
-                                      Text(
-                                        'Escolha o plano desejado:',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      //
-                                      Container(
-                                        padding: EdgeInsets.only(top: 10),
-                                        height: Get.size.height / 2.3,
-                                        child: ListView.builder(
-                                            itemCount: planos.length,
-                                            itemBuilder: (context, index) {
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    selectedPlano =
-                                                        '${planos[index].nome}    -    R\$ ${planos[index].preco.toStringAsFixed(2)}';
-                                                    Navigator.of(context).pop();
-                                                  });
-                                                },
-                                                child: EscolherCategoria(
-                                                  nome: planos[index].nome,
-                                                  descricao:
-                                                      planos[index].descricao,
-                                                  preco: planos[index].preco,
-                                                ),
-                                              );
-                                            }),
-                                      ),
-                                    ],
-                                  ),
-                                ));
-                      },
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.all(10),
-                        height: 50,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: primaryColor, width: 2),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              CustomTextForm(
+                padding: 5,
+                userControler: _dtnascimento,
+                label: 'Data de Nascimento',
+                mask: datemask,
+                type: TextInputType.numberWithOptions(),
+                acao: TextInputAction.next,
+                validacao: () {
+                  if (_endereco.text == null || _endereco.text.isEmpty) {
+                    return 'Favor Preencher Campo';
+                  }
+                },
+              ),
+              //Para Profissionais
+              _profissao.text == 'profissional'
+                  ? Column(
+                      children: [
+//
+                        //Profissão
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text(
-                              selectedPlano,
-                              style: TextStyle(
-                                color: primaryColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              alignment: Alignment.topLeft,
+                              padding: EdgeInsets.only(left: 10),
+                              child: Text(
+                                'Dados da Profissão:',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color: primaryColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
-                            Icon(
-                              Icons.menu,
-                              color: primaryColor,
+                            //
+                            //Categoria
+                            InkWell(
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                          content: StreamBuilder(
+                                              stream: refCat.snapshots(),
+                                              builder: (context,
+                                                  AsyncSnapshot<QuerySnapshot>
+                                                      snapshot) {
+                                                if (snapshot.hasData) {
+                                                  return Container(
+                                                    height: 200,
+                                                    child: ListView.builder(
+                                                      itemCount: snapshot
+                                                          .data!.docs.length,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        final DocumentSnapshot
+                                                            documentSnapshot =
+                                                            snapshot.data!
+                                                                .docs[index];
+                                                        return GestureDetector(
+                                                          onTap: () =>
+                                                              selecionarCategoria(
+                                                                  documentSnapshot
+                                                                      .id),
+                                                          child: Container(
+                                                            margin: EdgeInsets
+                                                                .fromLTRB(
+                                                                    0, 5, 0, 0),
+                                                            padding: EdgeInsets
+                                                                .fromLTRB(5, 10,
+                                                                    5, 10),
+                                                            decoration: BoxDecoration(
+                                                                color:
+                                                                    primaryColor,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20)),
+                                                            child: Text(
+                                                              '${documentSnapshot['Categoria'].toString()}',
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  );
+                                                } else if (snapshot.hasError) {
+                                                  return Text(
+                                                    'Erro ao Carregar dados!',
+                                                    style: TextStyle(
+                                                        color: Colors.red),
+                                                  );
+                                                }
+
+                                                return Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                );
+                                              }),
+                                        ));
+                              },
+                              child: Container(
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.all(10),
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  border:
+                                      Border.all(color: primaryColor, width: 2),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      categoria.isEmpty
+                                          ? 'Selecione a Categoria'
+                                          : categoria,
+                                      style: TextStyle(
+                                        color: primaryColor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.menu,
+                                      color: primaryColor,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                            ///
+                            SizedBox(height: 5),
+                            //
+                            //SubCategoria
+                            InkWell(
+                              onTap: () {
+                                getSubcategoria(categoria);
+                                Future.delayed(Duration(milliseconds: 500))
+                                    .then((value) => {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              content: ListView.builder(
+                                                shrinkWrap: true,
+                                                itemCount: subcategoria.length,
+                                                itemBuilder: (context, index) {
+                                                  return ListTile(
+                                                    leading: CircleAvatar(
+                                                      backgroundImage:
+                                                          NetworkImage(
+                                                              subcategoria[
+                                                                          index]
+                                                                      ['catImg']
+                                                                  .toString()),
+                                                    ),
+                                                    title: Text(
+                                                        subcategoria[index]
+                                                                ['SubCategoria']
+                                                            .toString()),
+                                                    onTap: () {
+                                                      setState(() {
+                                                        subcategoriaStr =
+                                                            subcategoria[index][
+                                                                    'SubCategoria']
+                                                                .toString();
+                                                      });
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        });
+                              },
+                              child: Container(
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.all(10),
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  border:
+                                      Border.all(color: primaryColor, width: 2),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      subcategoriaStr.isEmpty
+                                          ? 'Selecione a SubCategoria'
+                                          : subcategoriaStr,
+                                      style: TextStyle(
+                                        color: primaryColor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.menu,
+                                      color: primaryColor,
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),
-                      )),
-                ],
-              ),
-              //
-              //Planos
+                        //
+                        //Planos
 
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 10),
-                    alignment: Alignment.topLeft,
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text(
-                      'Planos:',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          color: primaryColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  GestureDetector(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  content: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.min,
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              alignment: Alignment.topLeft,
+                              padding: EdgeInsets.only(left: 10),
+                              child: Text(
+                                'Planos:',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color: primaryColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            content: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                //
+                                                Text(
+                                                  'Escolha o plano desejado:',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                //
+                                                Container(
+                                                  padding:
+                                                      EdgeInsets.only(top: 10),
+                                                  height: Get.size.height / 2.3,
+                                                  child: ListView.builder(
+                                                      itemCount: planos.length,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        return GestureDetector(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              selectedPlano =
+                                                                  '${planos[index].nome}    -    R\$ ${planos[index].preco.toStringAsFixed(2)}';
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            });
+                                                          },
+                                                          child:
+                                                              EscolherCategoria(
+                                                            nome: planos[index]
+                                                                .nome,
+                                                            descricao:
+                                                                planos[index]
+                                                                    .descricao,
+                                                            preco: planos[index]
+                                                                .preco,
+                                                          ),
+                                                        );
+                                                      }),
+                                                ),
+                                              ],
+                                            ),
+                                          ));
+                                },
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: EdgeInsets.all(10),
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: primaryColor, width: 2),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      //
                                       Text(
-                                        'Escolha o plano desejado:',
-                                        textAlign: TextAlign.center,
+                                        selectedPlano,
                                         style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
+                                          color: primaryColor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.normal,
                                         ),
                                       ),
-                                      //
-                                      Container(
-                                        padding: EdgeInsets.only(top: 10),
-                                        height: Get.size.height / 2.3,
-                                        child: ListView.builder(
-                                            itemCount: planos.length,
-                                            itemBuilder: (context, index) {
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    selectedPlano =
-                                                        '${planos[index].nome}    -    R\$ ${planos[index].preco.toStringAsFixed(2)}';
-                                                    Navigator.of(context).pop();
-                                                  });
-                                                },
-                                                child: EscolherCategoria(
-                                                  nome: planos[index].nome,
-                                                  descricao:
-                                                      planos[index].descricao,
-                                                  preco: planos[index].preco,
-                                                ),
-                                              );
-                                            }),
+                                      Icon(
+                                        Icons.menu,
+                                        color: primaryColor,
                                       ),
                                     ],
                                   ),
-                                ));
-                      },
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.all(10),
-                        height: 50,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: primaryColor, width: 2),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              selectedPlano,
-                              style: TextStyle(
-                                color: primaryColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                            Icon(
-                              Icons.menu,
-                              color: primaryColor,
-                            ),
+                                )),
                           ],
                         ),
-                      )),
-                ],
-              ),
-
+                      ],
+                    )
+                  : Column(),
               SizedBox(
                 height: 10,
               ),
@@ -329,17 +520,50 @@ class _EditPerfilState extends State<EditPerfil> {
                 elevation: 3,
                 borderRadius: BorderRadius.circular(20),
                 child: InkWell(
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                              content: Text('Atualizar Account'),
-                            ));
+                  onTap: () async {
+                    try {
+                      if (_nome.text != null &&
+                          _usuario.text != null &&
+                          _senha.text != null &&
+                          _telefone.text != null &&
+                          _cpf.text != null &&
+                          _endereco.text != null &&
+                          _dtnascimento.text != null) {
+                        FirebaseFirestore.instance
+                            .collection('Usuarios')
+                            .doc(widget.usuario.toString())
+                            .update({
+                          'nome': _nome.text,
+                          'email': _usuario.text,
+                          'senha': _senha.text,
+                          'telefone': _telefone.text,
+                          'cpf': _cpf.text,
+                          'endereco': _endereco.text,
+                          'nascimento': _dtnascimento.text,
+                          'categoria': categoria.toString(),
+                          'subcategoria': subcategoriaStr.toString(),
+                        });
+                        ScaffoldMessenger.of(context).clearSnackBars();
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            backgroundColor: Colors.green,
+                            content: Text(
+                                'Usuário: ${_nome.text} Atualizado com sucesso!')));
+                      }
+                    } on FirebaseException catch (e) {
+                      ScaffoldMessenger.of(context).clearSnackBars();
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text(
+                            'Error ao se cadastrar\nVerifique se todos os campos estão preenchidos!',
+                            style: TextStyle(color: Colors.white),
+                            textAlign: TextAlign.center,
+                          )));
+                    }
                   },
                   child: Ink(
                     child: NormalButtom(
                         color: secundaryColor,
-                        labelColor: primaryColor,
+                        labelColor: Colors.white,
                         label: 'Atualizar',
                         width: Get.size.width),
                   ),
@@ -350,5 +574,51 @@ class _EditPerfilState extends State<EditPerfil> {
         ),
       ),
     );
+  }
+
+  selecionarCategoria(String id) {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    final docRef = firebaseFirestore.collection('Categorias').doc(id);
+    docRef.get().then((DocumentSnapshot snapshot) {
+      var data = snapshot.data() as Map<String, dynamic>;
+      setState(() {
+        categoria = data['Categoria'].toString();
+      });
+      Navigator.pop(context);
+    });
+  }
+
+  void getSubcategoria(String categoria) async {
+    final result = await FirebaseFirestore.instance
+        .collection('Subcategorias')
+        .where('Categoria', isEqualTo: categoria)
+        .get();
+    setState(() {
+      subcategoria = result.docs.map((e) => e.data()).toList();
+      subcategoria.sort();
+    });
+  }
+
+  void getDados() {
+    var ref = FirebaseFirestore.instance
+        .collection('Usuarios')
+        .doc(widget.usuario)
+        .get();
+    ref.then((value) {
+      setState(() {
+        //
+        _usuario.text = value['email'];
+        _senha.text = value['senha'];
+        _nome.text = value['nome'];
+        _telefone.text = value['telefone'];
+        _cpf.text = value['cpf'];
+        _endereco.text = value['endereco'];
+        categoria = value['categoria'];
+        subcategoriaStr = value['subcategoria'];
+        _profissao.text = value['nivel'];
+        _dtnascimento.text = value['nascimento'];
+      });
+    });
   }
 }

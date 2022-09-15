@@ -95,7 +95,9 @@ class _AreaClienteState extends State<AreaCliente> {
                       GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => EditPerfil()));
+                              builder: (context) => EditPerfil(
+                                    usuario: widget.uid,
+                                  )));
                         },
                         child: Container(
                           margin: EdgeInsets.symmetric(vertical: 10),
@@ -353,7 +355,9 @@ class _AreaClienteState extends State<AreaCliente> {
                       GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => EditPerfil()));
+                              builder: (context) => EditPerfil(
+                                    usuario: widget.uid,
+                                  )));
                         },
                         child: Container(
                           margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
