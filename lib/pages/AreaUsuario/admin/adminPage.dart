@@ -89,6 +89,7 @@ class _AdminPageState extends State<AdminPage> {
                             child: Text(
                               nomeCompleto.toString(),
                               softWrap: true,
+                              // overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Colors.white,

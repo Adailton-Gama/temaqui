@@ -294,7 +294,12 @@ class _FaleConoscoState extends State<FaleConosco> {
                         onTap: () {
                           try {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => DetailsChat()));
+                                builder: (context) => DetailsChat(
+                                      idMessage: '',
+                                      de: '',
+                                      foto: '',
+                                      nome: '',
+                                    )));
                             print('Chat Aberto');
                           } catch (e) {
                             print(e);

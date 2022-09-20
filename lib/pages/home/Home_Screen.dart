@@ -821,6 +821,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<List<ParseObject>> getData() async {
+    int last = encontrarProfissional.text.length;
+    print(last);
+    String espaco = encontrarProfissional.text.substring(last - 1, last);
+
+    if (espaco == ' ') {
+      encontrarProfissional.text =
+          encontrarProfissional.text.substring(0, last - 1);
+    }
     QueryBuilder<ParseObject> queryRead =
         QueryBuilder<ParseObject>(ParseObject('Categorias'));
     queryRead..whereContains('subCategoria', encontrarProfissional.text);

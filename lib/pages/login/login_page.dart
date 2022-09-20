@@ -234,7 +234,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
 
                         CustomTextForm(
-                          label: 'Usuário',
+                          label: 'E-mail',
                           userControler: userControler,
                           mask: normal,
                           validacao: () {

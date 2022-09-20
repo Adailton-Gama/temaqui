@@ -70,6 +70,9 @@ class _EditPerfilState extends State<EditPerfil> {
         subcategoriaStr = 'Selecione a Categoria';
       });
     }
+    planos.add(config.bronze);
+    planos.add(config.prata);
+    planos.add(config.ouro);
   }
 
   @override
@@ -542,6 +545,7 @@ class _EditPerfilState extends State<EditPerfil> {
                           'nascimento': _dtnascimento.text,
                           'categoria': categoria.toString(),
                           'subcategoria': subcategoriaStr.toString(),
+                          'plano': selectedPlano,
                         });
                         ScaffoldMessenger.of(context).clearSnackBars();
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -596,7 +600,6 @@ class _EditPerfilState extends State<EditPerfil> {
         .get();
     setState(() {
       subcategoria = result.docs.map((e) => e.data()).toList();
-      subcategoria.sort();
     });
   }
 

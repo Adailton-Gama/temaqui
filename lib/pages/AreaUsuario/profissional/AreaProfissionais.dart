@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,13 +22,32 @@ class AreaProfissionais extends StatefulWidget {
 }
 
 class _AreaProfissionaisState extends State<AreaProfissionais> {
+  Timer? timer;
+  void RefreshData() async {
+    timer = new Timer.periodic(Duration(seconds: 5), (timer) {
+      getdDados();
+      print('atualizando');
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    RefreshData();
     getdDados();
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: primaryColor));
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    if (timer != null) {
+      timer!.cancel();
+    }
+    print('Atualização encerrada!');
+    super.dispose();
   }
 
   @override
@@ -35,14 +56,16 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
   var cpf;
   var telefone;
   var email;
-
+  var categoria;
+  var subcategoria;
+  var autorizado;
   //
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       key: _key,
-      drawer: new Drawer(
+      drawer: Drawer(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,14 +73,13 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
             Column(
               children: [
                 Container(
-                  height: 180,
                   decoration: BoxDecoration(
                       gradient: appBarGradient,
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(30),
                         bottomRight: Radius.circular(30),
                       )),
-                  padding: EdgeInsets.fromLTRB(10, 30, 10, 0),
+                  padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
                   child: Column(
                     children: [
                       Row(
@@ -67,41 +89,45 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                             height: 80,
                             width: 80,
                             decoration: BoxDecoration(
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                   color: Colors.white,
                                   blurRadius: 2,
                                   spreadRadius: 2,
                                 )
                               ],
-                              image: DecorationImage(
+                              image: const DecorationImage(
                                   image: NetworkImage(
                                       'https://cdn.discordapp.com/avatars/442050854581829656/b128666aa0305da5fbf31a4ed7d664dd.webp?size=128')),
                               borderRadius: BorderRadius.circular(100),
                             ),
                           ),
-                          Container(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Abraão Lucas',
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
+                          Flexible(
+                            child: Container(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Text(
+                                    nomeCompleto.toString(),
+                                    overflow: TextOverflow.visible,
+                                    textAlign: TextAlign.start,
+                                    softWrap: true,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  'Administrador | T.I. \n| Automação',
-                                  style: TextStyle(
-                                    color: Colors.white,
+                                  Text(
+                                    subcategoria.toString(),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                    textAlign: TextAlign.start,
                                   ),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           )
                         ],
@@ -604,10 +630,10 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
         telefone = value['telefone'];
         email = value['email'];
         // endereco = value['endereco'];
-        // categoria = value[''];
-        // profissao = value[''];
-        // plano = value[''];
-        // autorizado = value[''];
+        categoria = value['categoria'];
+        subcategoria = value['subcategoria'];
+        // plano = value['plano'];
+        autorizado = value['autorizado'];
       });
     });
   }

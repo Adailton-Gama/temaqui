@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,6 +22,8 @@ class WorkPage extends StatefulWidget {
 }
 
 class _WorkPageState extends State<WorkPage> {
+  final CollectionReference refCat =
+      FirebaseFirestore.instance.collection('Categorias');
   double xOffset = 290;
   double yOffset = 80;
   Categorias cat01 = Categorias(
@@ -212,70 +215,48 @@ class _WorkPageState extends State<WorkPage> {
                   children: <Widget>[
                     //
                     //Lista de Categorias
-                    FutureBuilder<List<ParseObject>>(
-                        future: getData(),
-                        builder: (context, snapshot) {
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.waiting:
-                              return Center(
-                                child: Container(
-                                    width: 100,
-                                    height: 100,
-                                    child: CircularProgressIndicator()),
-                              );
-                            default:
-                              if (snapshot.hasError) {
-                                return Center(
-                                  child: Container(
-                                      child: Text(
-                                          'Erro: ${snapshot.error.toString()}')),
-                                );
-                              }
-                              if (!snapshot.hasData) {
-                                return Center(
-                                  child: Container(
-                                      child: Text(
-                                          'Nenhum Profissional Cadastrado nesta categoria')),
-                                );
-                              } else {
-                                return Expanded(
-                                  child: Container(
-                                    height: 200,
-                                    child: ListView.builder(
-                                      physics: BouncingScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemCount: snapshot.data!.length,
-                                      itemBuilder: (context, index) {
-                                        var Categoria = snapshot.data![index];
-                                        var nome =
-                                            Categoria.get<String>('Categoria');
-                                        var imgUrl =
-                                            Categoria.get<ParseFileBase>('img');
-                                        return GestureDetector(
-                                          onTap: () {
-                                            setState(
-                                              () {
-                                                Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            SubCategorias(
-                                                              categoria: nome!,
-                                                              img: imgUrl!,
-                                                            )));
-                                              },
-                                            );
-                                          },
-                                          child: CategoriaTile(
-                                            imgUrl: imgUrl!.url!,
-                                            categoria: nome!,
-                                          ),
-                                        );
-                                      },
+                    StreamBuilder(
+                        stream: refCat.snapshots(),
+                        builder:
+                            (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasData) {
+                            return Container(
+                              height: 200,
+                              child: ListView.builder(
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (context, index) {
+                                  final DocumentSnapshot documentSnapshot =
+                                      snapshot.data!.docs[index];
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SubCategorias(
+                                                    categoria: documentSnapshot[
+                                                        'Categoria'],
+                                                    img: documentSnapshot[
+                                                        'catImg'],
+                                                  )));
+                                    },
+                                    child: CategoriaTile(
+                                      imgUrl: documentSnapshot['catImg'],
+                                      categoria: documentSnapshot['Categoria'],
                                     ),
-                                  ),
-                                );
-                              }
+                                  );
+                                },
+                              ),
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text(
+                              'Erro ao Carregar dados!',
+                              style: TextStyle(color: Colors.red),
+                            );
                           }
+
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
                         }),
                   ],
                 ),
@@ -296,5 +277,14 @@ class _WorkPageState extends State<WorkPage> {
     } else {
       return [];
     }
+  }
+
+  selecionarCategoria(String id) {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    final docRef = firebaseFirestore.collection('Categorias').doc(id);
+    docRef.get().then((DocumentSnapshot snapshot) {
+      var data = snapshot.data() as Map<String, dynamic>;
+    });
   }
 }

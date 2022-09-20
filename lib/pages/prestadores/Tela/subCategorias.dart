@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
@@ -12,18 +13,21 @@ class SubCategorias extends StatefulWidget {
   SubCategorias({Key? key, required this.categoria, required this.img})
       : super(key: key);
   String categoria;
-  ParseFileBase img;
+  String img;
 
   @override
   State<SubCategorias> createState() => _SubCategoriasState();
 }
 
 class _SubCategoriasState extends State<SubCategorias> {
+  // final CollectionReference refSubCat =
+  //     FirebaseFirestore.instance.collection('Subcategorias').where('Categoria',isEqualTo: widget.categoria).get();
   @override
+  List subcategorias = [];
   void initState() {
     // TODO: implement initState
+    getSubcategoria();
     super.initState();
-    Back4app.initParse();
   }
 
   @override
@@ -62,66 +66,36 @@ class _SubCategoriasState extends State<SubCategorias> {
                   ],
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                      image: NetworkImage(widget.img.url!), fit: BoxFit.cover),
+                      image: NetworkImage(widget.img), fit: BoxFit.cover),
                 ),
               ),
               Expanded(
                 child: Container(
                   height: 200,
-                  child: FutureBuilder<List<ParseObject>>(
-                    future: getData(),
-                    builder: (context, snapshot) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.waiting:
-                          return Center(
-                            child: Container(
-                                width: 100,
-                                height: 100,
-                                child: CircularProgressIndicator()),
-                          );
-                        default:
-                          if (snapshot.hasError) {
-                            return Center(
-                              child: Container(
-                                  child: Text(
-                                      'Erro: ${snapshot.error.toString()}')),
+                  child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: subcategorias.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                content: Image.network(
+                                    '${subcategorias[index]['catImg'].toString()}'),
+                              ),
                             );
-                          }
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child: Container(
-                                  child: Text(
-                                      'Nenhum Profissional Cadastrado nesta categoria')),
-                            );
-                          } else {
-                            return ListView.builder(
-                                physics: BouncingScrollPhysics(),
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (context, index) {
-                                  var subCategoria = snapshot.data![index];
-                                  var imgUrl = subCategoria
-                                      .get<ParseFileBase>('subCategoriaImg');
-                                  var nome =
-                                      subCategoria.get<String>('subCategoria');
-
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ListaProfissionais()));
-                                    },
-                                    child: CategoriaTile(
-                                      imgUrl: imgUrl!.url!,
-                                      categoria: nome!,
-                                      readme: ', Ver Mais.',
-                                    ),
-                                  );
-                                });
-                          }
-                      }
-                    },
-                  ),
+                            // Navigator.of(context).push(MaterialPageRoute(
+                            //     builder: (context) => ListaProfissionais()));
+                          },
+                          child: CategoriaTile(
+                            imgUrl: subcategorias[index]['catImg'].toString(),
+                            categoria:
+                                subcategorias[index]['SubCategoria'].toString(),
+                            readme: ', Ver Mais.',
+                          ),
+                        );
+                      }),
                 ),
               ),
             ],
@@ -131,17 +105,13 @@ class _SubCategoriasState extends State<SubCategorias> {
     );
   }
 
-  Future<List<ParseObject>> getData() async {
-    QueryBuilder<ParseObject> queryRead =
-        QueryBuilder<ParseObject>(ParseObject('Categorias'));
-    queryRead..whereContains('Categoria', widget.categoria);
-
-    final ParseResponse apiResponse = await queryRead.query();
-
-    if (apiResponse.success && apiResponse.results != null) {
-      return apiResponse.results as List<ParseObject>;
-    } else {
-      return [];
-    }
+  void getSubcategoria() async {
+    final result = await FirebaseFirestore.instance
+        .collection('Subcategorias')
+        .where('Categoria', isEqualTo: widget.categoria)
+        .get();
+    setState(() {
+      subcategorias = result.docs.map((e) => e.data()).toList();
+    });
   }
 }

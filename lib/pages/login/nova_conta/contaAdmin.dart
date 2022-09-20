@@ -316,6 +316,7 @@ class _ContaAdminState extends State<ContaAdmin> {
                                         .collection('Usuarios')
                                         .doc(uid.toString())
                                         .set({
+                                      'uid': uid.toString(),
                                       'nome': _nome.text,
                                       'email': _usuario.text,
                                       'senha': _senha.text,
