@@ -33,12 +33,16 @@ class _CustomTextFormState extends State<CustomTextForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: widget.padding),
+      margin: EdgeInsets.only(top: widget.padding),
+      padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+              color: primaryColor, width: 2, style: BorderStyle.solid)),
       child: Form(
         autovalidateMode: AutovalidateMode.onUserInteraction,
         child: TextFormField(
           textInputAction: widget.acao,
-          scrollPadding: EdgeInsets.all(40),
           controller: widget.userControler,
           keyboardType: widget.type,
           obscureText: widget.isObscure,
@@ -84,28 +88,14 @@ class _CustomTextFormState extends State<CustomTextForm> {
           },
           style: TextStyle(color: primaryColor),
           decoration: InputDecoration(
+            border: InputBorder.none,
             suffix: Icon(
               Icons.abc,
               color: Colors.transparent,
             ),
-            isDense: true,
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: BorderSide(
-                    color: primaryColor, width: 2, style: BorderStyle.solid)),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: BorderSide(
-                    color: primaryColor, width: 2, style: BorderStyle.solid)),
-            label: Text(
-              widget.label,
-              style: TextStyle(color: primaryColor),
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide(
-                  color: primaryColor, width: 2, style: BorderStyle.solid),
-            ),
+            isCollapsed: true,
+            hintText: widget.label,
+            hintStyle: TextStyle(color: primaryColor),
           ),
         ),
       ),

@@ -52,6 +52,7 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
 
   @override
   //
+  var foto;
   var nomeCompleto;
   var cpf;
   var telefone;
@@ -96,9 +97,8 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                                   spreadRadius: 2,
                                 )
                               ],
-                              image: const DecorationImage(
-                                  image: NetworkImage(
-                                      'https://cdn.discordapp.com/avatars/442050854581829656/b128666aa0305da5fbf31a4ed7d664dd.webp?size=128')),
+                              image: DecorationImage(
+                                  image: NetworkImage(foto.toString())),
                               borderRadius: BorderRadius.circular(100),
                             ),
                           ),
@@ -600,8 +600,7 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                                 style: BorderStyle.solid,
                               ),
                               image: DecorationImage(
-                                  image: NetworkImage(
-                                      'https://cdn.discordapp.com/avatars/442050854581829656/b128666aa0305da5fbf31a4ed7d664dd.webp?size=128')),
+                                  image: NetworkImage(foto.toString())),
                               borderRadius: BorderRadius.circular(100),
                             ),
                           ),
@@ -625,6 +624,7 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
         .get();
     ref.then((value) {
       setState(() {
+        foto = value['foto'];
         nomeCompleto = value['nome'];
         cpf = value['cpf'];
         telefone = value['telefone'];

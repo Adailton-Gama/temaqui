@@ -322,6 +322,7 @@ class _LoginPageState extends State<LoginPage> {
                                       .signInWithEmailAndPassword(
                                           email: userControler.text,
                                           password: passControler.text);
+                                  // await Future.delayed(Duration(seconds: 2));
                                   var uid =
                                       FirebaseAuth.instance.currentUser?.uid;
                                   FirebaseFirestore.instance
@@ -349,6 +350,7 @@ class _LoginPageState extends State<LoginPage> {
                                     }
                                   });
                                 } on FirebaseException catch (error) {
+                                  print(error);
                                   ScaffoldMessenger.of(context)
                                       .clearSnackBars();
                                   ScaffoldMessenger.of(context)

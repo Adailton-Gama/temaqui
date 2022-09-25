@@ -27,6 +27,7 @@ class _AreaClienteState extends State<AreaCliente> {
   }
 
   //
+  var foto;
   var nomeCompleto;
   var telefone;
   var datadeNascimento;
@@ -71,8 +72,7 @@ class _AreaClienteState extends State<AreaCliente> {
                                 )
                               ],
                               image: DecorationImage(
-                                  image: NetworkImage(
-                                      'https://cdn.discordapp.com/avatars/442050854581829656/b128666aa0305da5fbf31a4ed7d664dd.webp?size=128')),
+                                  image: NetworkImage(foto.toString())),
                               borderRadius: BorderRadius.circular(100),
                             ),
                           ),
@@ -309,10 +309,9 @@ class _AreaClienteState extends State<AreaCliente> {
                               width: 4,
                               style: BorderStyle.solid,
                             ),
-                            image: const DecorationImage(
+                            image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: NetworkImage(
-                                    'https://cdn.discordapp.com/avatars/442050854581829656/b128666aa0305da5fbf31a4ed7d664dd.webp?size=128')),
+                                image: NetworkImage(foto.toString())),
                             borderRadius: BorderRadius.circular(100),
                           ),
                         ),
@@ -411,6 +410,7 @@ class _AreaClienteState extends State<AreaCliente> {
         .get();
     ref.then((value) {
       setState(() {
+        foto = value['foto'];
         nomeCompleto = value['nome'];
         cpf = value['cpf'];
         telefone = value['telefone'];

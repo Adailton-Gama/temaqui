@@ -1,6 +1,9 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:temaqui/data/config.dart';
 import '../../../data/config.dart' as config;
@@ -44,12 +47,16 @@ class _EditPerfilState extends State<EditPerfil> {
   TextEditingController _endereco = TextEditingController();
   TextEditingController _profissao = TextEditingController();
   TextEditingController _dtnascimento = TextEditingController();
-
+  String _foto = '';
   String categoria = '';
   List subcategoria = [];
   String subcategoriaStr = '';
   TextEditingController _datadeNascimento = TextEditingController();
-
+  //
+  //
+  PickedFile? foto;
+  String fotoLocal =
+      'https://firebasestorage.googleapis.com/v0/b/temaqui-1d3cb.appspot.com/o/add_foto.png?alt=media&token=0a781fd7-fe9a-489e-b2a6-10eb54e0c03d';
   //
   //
   String selectedPlano =
@@ -86,14 +93,49 @@ class _EditPerfilState extends State<EditPerfil> {
           padding: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
           child: Column(
             children: [
-              Container(
-                height: 100,
-                width: 100,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          'https://cdn.discordapp.com/avatars/442050854581829656/b128666aa0305da5fbf31a4ed7d664dd.webp?size=128')),
-                  borderRadius: BorderRadius.circular(100),
+              GestureDetector(
+                onTap: () async {
+                  final storage = FirebaseStorage.instance;
+
+                  var ref = FirebaseFirestore.instance
+                      .collection('Usuarios')
+                      .doc(widget.usuario);
+
+                  PickedFile? fotoPerfil =
+                      await ImagePicker().getImage(source: ImageSource.gallery);
+                  var file = File(fotoPerfil!.path);
+                  var cadFoto = await storage
+                      .ref()
+                      .child('usuarios/${widget.usuario}/foto/perfil/')
+                      .putFile(file);
+                  //
+                  var imgUrl = await cadFoto.ref.getDownloadURL();
+                  //
+                  ref.update({
+                    'foto': imgUrl,
+                  });
+                  //
+                  setState(() {
+                    fotoLocal = imgUrl;
+                  });
+                  //
+                },
+                child: Container(
+                  height: 100,
+                  width: 100,
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(100),
+                    image: DecorationImage(
+                      image: _foto.isNotEmpty
+                          ? NetworkImage(_foto)
+                          : NetworkImage(
+                              fotoLocal,
+                            ),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ),
               Container(
@@ -611,6 +653,7 @@ class _EditPerfilState extends State<EditPerfil> {
     ref.then((value) {
       setState(() {
         //
+        _foto = value['foto'];
         _usuario.text = value['email'];
         _senha.text = value['senha'];
         _nome.text = value['nome'];

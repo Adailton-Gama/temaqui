@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +26,18 @@ class AdminPage extends StatefulWidget {
 }
 
 class _AdminPageState extends State<AdminPage> {
+  Timer? timer;
+  void RefreshData() async {
+    timer = new Timer.periodic(Duration(seconds: 2), (timer) {
+      getDados();
+      print('atualizando');
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
+    RefreshData();
     getDados();
     super.initState();
     SystemChrome.setSystemUIOverlayStyle(
@@ -34,6 +45,7 @@ class _AdminPageState extends State<AdminPage> {
   }
 
   @override
+  var foto;
   String nomeCompleto = '';
   String cpf = '';
   String telefone = '';
@@ -78,8 +90,9 @@ class _AdminPageState extends State<AdminPage> {
                                 )
                               ],
                               image: DecorationImage(
-                                  image: NetworkImage(
-                                      'https://cdn.discordapp.com/avatars/442050854581829656/b128666aa0305da5fbf31a4ed7d664dd.webp?size=128')),
+                                image: NetworkImage(foto.toString()),
+                                fit: BoxFit.cover,
+                              ),
                               borderRadius: BorderRadius.circular(100),
                             ),
                           ),
@@ -662,8 +675,9 @@ class _AdminPageState extends State<AdminPage> {
                                     style: BorderStyle.solid,
                                   ),
                                   image: DecorationImage(
-                                      image: NetworkImage(
-                                          'https://cdn.discordapp.com/avatars/442050854581829656/b128666aa0305da5fbf31a4ed7d664dd.webp?size=128')),
+                                    image: NetworkImage(foto.toString()),
+                                    fit: BoxFit.cover,
+                                  ),
                                   borderRadius: BorderRadius.circular(100),
                                 ),
                               ),
@@ -689,6 +703,7 @@ class _AdminPageState extends State<AdminPage> {
         .get();
     ref.then((value) {
       setState(() {
+        foto = value['foto'];
         nomeCompleto = value['nome'];
         cpf = value['cpf'];
         telefone = value['telefone'];
