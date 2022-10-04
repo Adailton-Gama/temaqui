@@ -24,9 +24,14 @@ class AreaProfissionais extends StatefulWidget {
 class _AreaProfissionaisState extends State<AreaProfissionais> {
   Timer? timer;
   void RefreshData() async {
-    timer = new Timer.periodic(Duration(seconds: 5), (timer) {
+    setState(() {
       getdDados();
-      print('atualizando');
+      timer = new Timer.periodic(Duration(seconds: 5), (timer) {
+        setState(() {
+          getdDados();
+        });
+        print('atualizando');
+      });
     });
   }
 
@@ -35,7 +40,6 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
     // TODO: implement initState
     super.initState();
     RefreshData();
-    getdDados();
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: primaryColor));
   }
@@ -58,13 +62,15 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
   var telefone;
   var email;
   var categoria;
+  var imgCat;
   var subcategoria;
+  var imgSub;
   var autorizado;
   //
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: primaryColor,
       key: _key,
       drawer: Drawer(
         child: Column(
@@ -98,6 +104,7 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                                 )
                               ],
                               image: DecorationImage(
+                                  fit: BoxFit.cover,
                                   image: NetworkImage(foto.toString())),
                               borderRadius: BorderRadius.circular(100),
                             ),
@@ -255,104 +262,417 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
         ),
       ),
       body: SafeArea(
-        child: Container(
-          child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 60,
-                  width: Get.size.width,
-                  decoration: BoxDecoration(
-                    gradient: appBarGradient,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 60,
+              width: Get.size.width,
+              decoration: BoxDecoration(
+                gradient: appBarGradient,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        _key.currentState!.openDrawer();
+                      });
+                    },
+                    child: Ink(
+                      height: 50,
+                      width: 80,
+                      child: Icon(
+                        Icons.menu,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            _key.currentState!.openDrawer();
-                          });
-                        },
-                        child: Ink(
-                          height: 50,
-                          width: 80,
-                          child: Icon(
-                            Icons.menu,
+                  Text(
+                    'BEM-VINDO!',
+                    style: TextStyle(
+                        fontFamily: 'Arial',
+                        decoration: TextDecoration.none,
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(5),
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Container(
+                color: Colors.white,
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        child: Container(
+                          margin: EdgeInsets.only(top: 10),
+                          padding: EdgeInsets.only(bottom: 10),
+                          decoration: BoxDecoration(
                             color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: primaryColor,
+                            ),
+                          ),
+                          child: Stack(
+                            children: [
+                              Column(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      gradient: appBarGradient,
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(20),
+                                          topRight: Radius.circular(20)),
+                                    ),
+                                    height: 50,
+                                    width: Get.size.width,
+                                  ),
+                                  SizedBox(height: 40),
+                                  Container(
+                                    margin: EdgeInsets.all(10),
+                                    height: 3,
+                                    width: Get.size.width - Get.size.width * .1,
+                                    // color: primaryColor,
+                                  ),
+                                  //
+                                  //NOME COMPLETO
+                                  Container(
+                                    width: Get.size.width,
+                                    margin: EdgeInsets.all(10),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          height: 30,
+                                          margin: EdgeInsets.only(right: 10),
+                                          child: Image.asset(
+                                            'assets/NOME USUARIO.png',
+                                            color: primaryColor,
+                                            filterQuality: FilterQuality.medium,
+                                          ),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Nome completo:',
+                                              style: TextStyle(
+                                                color: primaryColor,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 4),
+                                            ),
+                                            Text(
+                                              nomeCompleto.toString(),
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 2),
+                                              color: primaryColor,
+                                              height: 1.5,
+                                              width: Get.size.width - 100,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  //
+                                  //DOCUMENTO DE IDENTIFICAÇÃO
+                                  Container(
+                                    width: Get.size.width,
+                                    margin: EdgeInsets.all(10),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          height: 30,
+                                          margin: EdgeInsets.only(right: 10),
+                                          child: Image.asset(
+                                            'assets/IDENTIDADE.png',
+                                            color: primaryColor,
+                                            filterQuality: FilterQuality.medium,
+                                          ),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Documento:',
+                                              style: TextStyle(
+                                                color: primaryColor,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 4),
+                                            ),
+                                            Text(
+                                              cpf.toString(),
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 2),
+                                              color: primaryColor,
+                                              height: 1.5,
+                                              width: Get.size.width - 100,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  //
+                                  //TELEFONE
+                                  Container(
+                                    width: Get.size.width,
+                                    margin: EdgeInsets.all(10),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          height: 30,
+                                          margin: EdgeInsets.only(right: 10),
+                                          child: Image.asset(
+                                            'assets/TELEFONE.png',
+                                            color: primaryColor,
+                                            filterQuality: FilterQuality.medium,
+                                          ),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Telefone:',
+                                              style: TextStyle(
+                                                color: primaryColor,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 4),
+                                            ),
+                                            Text(
+                                              telefone.toString(),
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 2),
+                                              color: primaryColor,
+                                              height: 1.5,
+                                              width: Get.size.width - 100,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  //
+                                  //E-MAIL
+                                  Container(
+                                    width: Get.size.width,
+                                    margin: EdgeInsets.all(10),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          height: 30,
+                                          margin: EdgeInsets.only(right: 10),
+                                          child: Image.asset(
+                                            'assets/EMAIL.png',
+                                            color: primaryColor,
+                                            filterQuality: FilterQuality.medium,
+                                          ),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'E-mail:',
+                                              style: TextStyle(
+                                                color: primaryColor,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 4),
+                                            ),
+                                            Text(
+                                              email.toString(),
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 2),
+                                              color: primaryColor,
+                                              height: 1.5,
+                                              width: Get.size.width - 100,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                              builder: (context) => EditPerfil(
+                                                    usuario: widget.uid,
+                                                  )));
+                                    },
+                                    child: Container(
+                                      margin:
+                                          EdgeInsets.fromLTRB(10, 20, 10, 0),
+                                      child: Material(
+                                        elevation: 2,
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Container(
+                                          width: Get.width,
+                                          height: 40,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                              color: secundaryColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.edit,
+                                                color: primaryColor,
+                                              ),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                'Editar Perfil',
+                                                style: TextStyle(
+                                                  color: primaryColor,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Align(
+                                alignment: Alignment.topCenter,
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 10),
+                                  height: 80,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: primaryColor,
+                                        blurRadius: 5,
+                                        spreadRadius: 2,
+                                      )
+                                    ],
+                                    border: Border.all(
+                                      color: primaryColor,
+                                      width: 2,
+                                      style: BorderStyle.solid,
+                                    ),
+                                    image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(foto.toString())),
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      Text(
-                        'BEM-VINDO!',
-                        style: TextStyle(
-                            fontFamily: 'Arial',
-                            decoration: TextDecoration.none,
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
                       Container(
-                        margin: EdgeInsets.all(5),
-                        height: 50,
-                        width: 50,
+                        margin: EdgeInsets.all(10),
+                        padding: EdgeInsets.only(bottom: 10),
                         decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: primaryColor,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  child: Container(
-                    margin: EdgeInsets.only(top: 10),
-                    padding: EdgeInsets.only(bottom: 10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: primaryColor,
-                      ),
-                    ),
-                    child: Stack(
-                      children: [
-                        Column(
+                        child: Column(
                           children: [
                             Container(
+                              alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                color: primaryColor,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20)),
-                              ),
+                                  gradient: appBarGradient,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20))),
                               height: 50,
                               width: Get.size.width,
+                              child: Text(
+                                'DADOS DA PROFISSÃO',
+                                style: TextStyle(
+                                    fontFamily: 'Arial',
+                                    decoration: TextDecoration.none,
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
-                            SizedBox(height: 40),
-                            Container(
-                              margin: EdgeInsets.all(10),
-                              height: 3,
-                              width: Get.size.width - Get.size.width * .1,
-                              // color: primaryColor,
-                            ),
-                            //
-                            //NOME COMPLETO
+                            //Categoria
                             Container(
                               width: Get.size.width,
                               margin: EdgeInsets.all(10),
                               child: Row(
                                 children: [
                                   Container(
-                                    height: 30,
+                                    height: 50,
+                                    width: 50,
                                     margin: EdgeInsets.only(right: 10),
-                                    child: Image.asset(
-                                      'assets/NOME USUARIO.png',
-                                      color: primaryColor,
-                                      filterQuality: FilterQuality.medium,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                          imgCat.toString(),
+                                        ),
+                                        filterQuality: FilterQuality.medium,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                   Column(
@@ -360,7 +680,7 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Nome completo:',
+                                        'Categoria:',
                                         style: TextStyle(
                                           color: primaryColor,
                                           fontSize: 15,
@@ -371,37 +691,50 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                                         margin: EdgeInsets.only(top: 4),
                                       ),
                                       Text(
-                                        nomeCompleto.toString(),
+                                        categoria.toString(),
                                         style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
                                       Container(
-                                        margin: EdgeInsets.only(top: 2),
-                                        color: primaryColor,
-                                        height: 1.5,
-                                        width: Get.size.width - 100,
+                                        width: Get.size.width - 120,
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                margin: EdgeInsets.only(top: 2),
+                                                color: primaryColor,
+                                                height: 1.5,
+                                                width: 2,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
                             ),
-                            //
-                            //DOCUMENTO DE IDENTIFICAÇÃO
                             Container(
                               width: Get.size.width,
                               margin: EdgeInsets.all(10),
                               child: Row(
                                 children: [
                                   Container(
-                                    height: 30,
+                                    height: 50,
+                                    width: 50,
                                     margin: EdgeInsets.only(right: 10),
-                                    child: Image.asset(
-                                      'assets/IDENTIDADE.png',
-                                      color: primaryColor,
-                                      filterQuality: FilterQuality.medium,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                          imgSub.toString(),
+                                        ),
+                                        filterQuality: FilterQuality.medium,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                   Column(
@@ -409,7 +742,7 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Documento:',
+                                        'Profissão:',
                                         style: TextStyle(
                                           color: primaryColor,
                                           fontSize: 15,
@@ -420,17 +753,26 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                                         margin: EdgeInsets.only(top: 4),
                                       ),
                                       Text(
-                                        cpf.toString(),
+                                        subcategoria.toString(),
                                         style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
                                       Container(
-                                        margin: EdgeInsets.only(top: 2),
-                                        color: primaryColor,
-                                        height: 1.5,
-                                        width: Get.size.width - 100,
+                                        width: Get.size.width - 120,
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                margin: EdgeInsets.only(top: 2),
+                                                color: primaryColor,
+                                                height: 1.5,
+                                                width: 2,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -438,103 +780,7 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                               ),
                             ),
                             //
-                            //TELEFONE
-                            Container(
-                              width: Get.size.width,
-                              margin: EdgeInsets.all(10),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    height: 30,
-                                    margin: EdgeInsets.only(right: 10),
-                                    child: Image.asset(
-                                      'assets/TELEFONE.png',
-                                      color: primaryColor,
-                                      filterQuality: FilterQuality.medium,
-                                    ),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Telefone:',
-                                        style: TextStyle(
-                                          color: primaryColor,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 4),
-                                      ),
-                                      Text(
-                                        telefone.toString(),
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 2),
-                                        color: primaryColor,
-                                        height: 1.5,
-                                        width: Get.size.width - 100,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            //
-                            //E-MAIL
-                            Container(
-                              width: Get.size.width,
-                              margin: EdgeInsets.all(10),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    height: 30,
-                                    margin: EdgeInsets.only(right: 10),
-                                    child: Image.asset(
-                                      'assets/EMAIL.png',
-                                      color: primaryColor,
-                                      filterQuality: FilterQuality.medium,
-                                    ),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'E-mail:',
-                                        style: TextStyle(
-                                          color: primaryColor,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 4),
-                                      ),
-                                      Text(
-                                        email.toString(),
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 2),
-                                        color: primaryColor,
-                                        height: 1.5,
-                                        width: Get.size.width - 100,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
+                            //Botão
                             GestureDetector(
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
@@ -560,12 +806,12 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Icon(
-                                          Icons.edit,
+                                          Icons.work,
                                           color: primaryColor,
                                         ),
                                         SizedBox(width: 10),
                                         Text(
-                                          'Editar Perfil',
+                                          'Editar Perfil Profissional',
                                           style: TextStyle(
                                             color: primaryColor,
                                             fontWeight: FontWeight.bold,
@@ -580,38 +826,13 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                             ),
                           ],
                         ),
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Container(
-                            margin: EdgeInsets.only(top: 10),
-                            height: 80,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: primaryColor,
-                                  blurRadius: 5,
-                                  spreadRadius: 2,
-                                )
-                              ],
-                              border: Border.all(
-                                color: primaryColor,
-                                width: 2,
-                                style: BorderStyle.solid,
-                              ),
-                              image: DecorationImage(
-                                  image: NetworkImage(foto.toString())),
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -634,6 +855,24 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
         subcategoria = value['subcategoria'];
         // plano = value['plano'];
         autorizado = value['autorizado'];
+      });
+    });
+    FirebaseFirestore.instance
+        .collection('Categorias')
+        .doc(categoria)
+        .get()
+        .then((value) {
+      setState(() {
+        imgCat = value['catImg'];
+      });
+    });
+    FirebaseFirestore.instance
+        .collection('Subcategorias')
+        .doc(subcategoria)
+        .get()
+        .then((value) {
+      setState(() {
+        imgSub = value['catImg'];
       });
     });
   }

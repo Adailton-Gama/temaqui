@@ -31,7 +31,13 @@ class _InputPasswordState extends State<InputPassword> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 20),
+      margin: EdgeInsets.only(top: 10),
+      padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
+      decoration: BoxDecoration(
+        border:
+            Border.all(color: primaryColor, width: 2, style: BorderStyle.solid),
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Form(
         autovalidateMode: AutovalidateMode.onUserInteraction,
         child: TextFormField(
@@ -49,6 +55,7 @@ class _InputPasswordState extends State<InputPassword> {
           },
           style: TextStyle(color: primaryColor),
           decoration: InputDecoration(
+            isCollapsed: true,
             suffix: widget.isSecret
                 ? GestureDetector(
                     onTap: () {
@@ -71,23 +78,9 @@ class _InputPasswordState extends State<InputPassword> {
                       color: primaryColor,
                     )),
             isDense: true,
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: BorderSide(
-                    color: primaryColor, width: 2, style: BorderStyle.solid)),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: BorderSide(
-                    color: primaryColor, width: 2, style: BorderStyle.solid)),
-            label: Text(
-              'Senha',
-              style: TextStyle(color: primaryColor),
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide(
-                  color: primaryColor, width: 2, style: BorderStyle.solid),
-            ),
+            hintText: 'Senha',
+            hintStyle: TextStyle(color: primaryColor),
+            border: InputBorder.none,
           ),
         ),
       ),

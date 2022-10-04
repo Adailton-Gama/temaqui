@@ -60,209 +60,227 @@ class _WorkPageState extends State<WorkPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: AnimatedContainer(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: widget.isDraw
-              ? BorderRadius.circular(20)
-              : BorderRadius.circular(0),
-          boxShadow: [
-            widget.isDraw
-                ? BoxShadow(color: Colors.grey, blurRadius: 5, spreadRadius: 2)
-                : BoxShadow()
-          ],
-        ),
-        transform: Matrix4.translationValues(widget.xOffset, widget.yOffset, 0)
-          ..scale(widget.isDraw ? 0.85 : 1.00)
-          ..rotateZ(widget.isDraw ? -50 : 0),
-        duration: const Duration(milliseconds: 500),
-        child: Column(
-          children: <Widget>[
-            //AppBar
-            Container(
-              height: 200,
-              decoration: BoxDecoration(
-                color: primaryColor,
-                image: DecorationImage(
-                  opacity: 1,
-                  image: AssetImage('assets/new_banner.png'),
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: widget.isDraw
-                    ? BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
-                        bottomRight: Radius.circular(100),
-                      )
-                    : BorderRadius.only(
-                        bottomRight: Radius.circular(100),
-                      ),
-              ),
+      child: GestureDetector(
+        onTap: widget.isDraw
+            ? () {
+                setState(() {
+                  widget.xOffset = 0;
+                  widget.yOffset = 0;
+                  widget.isDraw = false;
+                });
+              }
+            : null,
+        child: AnimatedContainer(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: widget.isDraw
+                ? BorderRadius.circular(20)
+                : BorderRadius.circular(0),
+            boxShadow: [
+              widget.isDraw
+                  ? BoxShadow(
+                      color: Colors.grey, blurRadius: 5, spreadRadius: 2)
+                  : BoxShadow()
+            ],
+          ),
+          transform:
+              Matrix4.translationValues(widget.xOffset, widget.yOffset, 0)
+                ..scale(widget.isDraw ? 0.85 : 1.00)
+                ..rotateZ(widget.isDraw ? -50 : 0),
+          duration: const Duration(milliseconds: 500),
+          child: Column(
+            children: <Widget>[
               //AppBar
-              child: Container(
-                child: Column(
-                  children: [
-                    //Linha 01
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          widget.isDraw
-                              ? InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      widget.xOffset = 0;
-                                      widget.yOffset = 0;
-                                      widget.isDraw = false;
-                                    });
-                                  },
-                                  child: Ink(
-                                    height: 50,
-                                    width: 80,
-                                    child: Icon(
-                                      Icons.arrow_back_ios,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                )
-                              : InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      widget.xOffset =
-                                          Get.size.width - Get.size.width * 0.1;
-                                      widget.yOffset = 80;
-                                      widget.isDraw = true;
-                                    });
-                                  },
-                                  child: Ink(
-                                    height: 50,
-                                    width: 80,
-                                    child: Icon(
-                                      Icons.menu,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                          Text(
-                            'CATEGORIAS',
-                            style: TextStyle(
-                                fontSize: 25,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Container(
-                            margin: EdgeInsets.all(5),
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    //Linha 02
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(left: 10),
+              Container(
+                height: 200,
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                  image: DecorationImage(
+                    opacity: 1,
+                    image: AssetImage('assets/new_banner.png'),
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: widget.isDraw
+                      ? BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                          bottomRight: Radius.circular(100),
+                        )
+                      : BorderRadius.only(
+                          bottomRight: Radius.circular(100),
+                        ),
+                ),
+                //AppBar
+                child: Container(
+                  child: Column(
+                    children: [
+                      //Linha 01
+                      Container(
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  '',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  '',
-                                  style: TextStyle(
-                                      color: primaryColor,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
+                            widget.isDraw
+                                ? InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        widget.xOffset = 0;
+                                        widget.yOffset = 0;
+                                        widget.isDraw = false;
+                                      });
+                                    },
+                                    child: Ink(
+                                      height: 50,
+                                      width: 80,
+                                      child: Icon(
+                                        Icons.arrow_back_ios,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  )
+                                : InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        widget.xOffset = Get.size.width -
+                                            Get.size.width * 0.1;
+                                        widget.yOffset = 80;
+                                        widget.isDraw = true;
+                                      });
+                                    },
+                                    child: Ink(
+                                      height: 50,
+                                      width: 80,
+                                      child: Icon(
+                                        Icons.menu,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                            Text(
+                              'CATEGORIAS',
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(5),
+                              height: 50,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(100),
+                              ),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
 
-            //Corpo da Tela
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: widget.isDraw
-                      ? const BorderRadius.only(
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
-                        )
-                      : BorderRadius.circular(0),
-                  color: Colors.white,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    //
-                    //Lista de Categorias
-                    StreamBuilder(
-                        stream: refCat.snapshots(),
-                        builder:
-                            (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                          if (snapshot.hasData) {
-                            return Container(
-                              height: 200,
-                              child: ListView.builder(
-                                itemCount: snapshot.data!.docs.length,
-                                itemBuilder: (context, index) {
-                                  final DocumentSnapshot documentSnapshot =
-                                      snapshot.data!.docs[index];
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SubCategorias(
-                                                    categoria: documentSnapshot[
-                                                        'Categoria'],
-                                                    img: documentSnapshot[
-                                                        'catImg'],
-                                                  )));
-                                    },
-                                    child: CategoriaTile(
-                                      imgUrl: documentSnapshot['catImg'],
-                                      categoria: documentSnapshot['Categoria'],
-                                    ),
-                                  );
-                                },
+                      //Linha 02
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Row(
+                            children: <Widget>[
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    '',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    '',
+                                    style: TextStyle(
+                                        color: primaryColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
                               ),
-                            );
-                          } else if (snapshot.hasError) {
-                            return Text(
-                              'Erro ao Carregar dados!',
-                              style: TextStyle(color: Colors.red),
-                            );
-                          }
-
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }),
-                  ],
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+
+              //Corpo da Tela
+              Expanded(
+                child: IgnorePointer(
+                  ignoring: widget.isDraw ? true : false,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: widget.isDraw
+                          ? const BorderRadius.only(
+                              bottomLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                            )
+                          : BorderRadius.circular(0),
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        //
+                        //Lista de Categorias
+                        StreamBuilder(
+                            stream: refCat.snapshots(),
+                            builder: (context,
+                                AsyncSnapshot<QuerySnapshot> snapshot) {
+                              if (snapshot.hasData) {
+                                return Container(
+                                  height: 200,
+                                  child: ListView.builder(
+                                    itemCount: snapshot.data!.docs.length,
+                                    itemBuilder: (context, index) {
+                                      final DocumentSnapshot documentSnapshot =
+                                          snapshot.data!.docs[index];
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SubCategorias(
+                                                        categoria:
+                                                            documentSnapshot[
+                                                                'Categoria'],
+                                                        img: documentSnapshot[
+                                                            'catImg'],
+                                                      )));
+                                        },
+                                        child: CategoriaTile(
+                                          imgUrl: documentSnapshot['catImg'],
+                                          categoria:
+                                              documentSnapshot['Categoria'],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
+                              } else if (snapshot.hasError) {
+                                return Text(
+                                  'Erro ao Carregar dados!',
+                                  style: TextStyle(color: Colors.red),
+                                );
+                              }
+
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
