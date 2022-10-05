@@ -12,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../home/Home_Screen.dart';
 import '../../mainPage/Main_Page.dart';
 import '../widgets/UserDrawerTile.dart';
+import 'telas/PerfilProfissional.dart';
 
 class AreaProfissionais extends StatefulWidget {
   AreaProfissionais({Key? key, required this.uid}) : super(key: key);
@@ -784,7 +785,7 @@ class _AreaProfissionaisState extends State<AreaProfissionais> {
                             GestureDetector(
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => EditPerfil(
+                                    builder: (context) => PerfilProfissional(
                                           usuario: widget.uid,
                                         )));
                               },
