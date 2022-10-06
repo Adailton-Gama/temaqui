@@ -47,6 +47,7 @@ class _CustomTextFormState extends State<CustomTextForm> {
           keyboardType: widget.type,
           obscureText: widget.isObscure,
           inputFormatters: [widget.mask],
+          maxLines: null,
           validator: (value) {
             if (widget.label == 'E-mail') {
               if (value == null ||
