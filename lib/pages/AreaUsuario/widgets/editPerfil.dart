@@ -660,6 +660,7 @@ class _EditPerfilState extends State<EditPerfil> {
         _telefone.text = value['telefone'];
         _cpf.text = value['cpf'];
         _endereco.text = value['endereco'];
+        selectedPlano = value['plano'];
         categoria = value['categoria'];
         subcategoriaStr = value['subcategoria'];
         _profissao.text = value['nivel'];
