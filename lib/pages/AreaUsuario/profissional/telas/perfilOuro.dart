@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -5,7 +6,8 @@ import 'package:temaqui/data/config.dart';
 import 'package:temaqui/pages/commons/TextForm.dart';
 
 class PerfilOuro extends StatefulWidget {
-  const PerfilOuro({Key? key}) : super(key: key);
+  String uid;
+  PerfilOuro({Key? key, required this.uid}) : super(key: key);
 
   @override
   State<PerfilOuro> createState() => _PerfilOuroState();
@@ -15,8 +17,26 @@ class _PerfilOuroState extends State<PerfilOuro> {
   MaskTextInputFormatter telefone =
       MaskTextInputFormatter(mask: '(##) #####-####');
   MaskTextInputFormatter normal = MaskTextInputFormatter();
-  TextEditingController whatsapp = TextEditingController();
   TextEditingController descAtividade = TextEditingController();
+  //
+  //
+  TextEditingController whatsapp = TextEditingController();
+  TextEditingController instagram = TextEditingController();
+  TextEditingController youtube = TextEditingController();
+  TextEditingController descricao = TextEditingController();
+  TextEditingController fotos = TextEditingController();
+  TextEditingController videos = TextEditingController();
+  var lat;
+  var lon;
+//
+//
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getPerfil();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -259,5 +279,26 @@ class _PerfilOuroState extends State<PerfilOuro> {
         ),
       ),
     );
+  }
+
+  getPerfil() {
+    var ref = FirebaseFirestore.instance
+        .collection('Usuarios')
+        .doc(widget.uid.toString())
+        .collection('perfil')
+        .doc('Dados')
+        .get();
+    ref.then((value) {
+      setState(() {
+        whatsapp = value['whatsapp'];
+        instagram = value['instagram'];
+        youtube = value['youtube'];
+        descricao = value['descricao'];
+        fotos = value['fotos'];
+        videos = value['videos'];
+        lat = value['latitude'];
+        lon = value['longetude'];
+      });
+    });
   }
 }

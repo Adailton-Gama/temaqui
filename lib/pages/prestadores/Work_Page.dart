@@ -234,33 +234,37 @@ class _WorkPageState extends State<WorkPage> {
                             builder: (context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasData) {
-                                return Container(
-                                  height: 200,
-                                  child: ListView.builder(
-                                    itemCount: snapshot.data!.docs.length,
-                                    itemBuilder: (context, index) {
-                                      final DocumentSnapshot documentSnapshot =
-                                          snapshot.data!.docs[index];
-                                      return GestureDetector(
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      SubCategorias(
-                                                        categoria:
-                                                            documentSnapshot[
-                                                                'Categoria'],
-                                                        img: documentSnapshot[
-                                                            'catImg'],
-                                                      )));
-                                        },
-                                        child: CategoriaTile(
-                                          imgUrl: documentSnapshot['catImg'],
-                                          categoria:
-                                              documentSnapshot['Categoria'],
-                                        ),
-                                      );
-                                    },
+                                return Expanded(
+                                  child: Container(
+                                    height: 200,
+                                    child: ListView.builder(
+                                      physics: BouncingScrollPhysics(),
+                                      itemCount: snapshot.data!.docs.length,
+                                      itemBuilder: (context, index) {
+                                        final DocumentSnapshot
+                                            documentSnapshot =
+                                            snapshot.data!.docs[index];
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        SubCategorias(
+                                                          categoria:
+                                                              documentSnapshot[
+                                                                  'Categoria'],
+                                                          img: documentSnapshot[
+                                                              'catImg'],
+                                                        )));
+                                          },
+                                          child: CategoriaTile(
+                                            imgUrl: documentSnapshot['catImg'],
+                                            categoria:
+                                                documentSnapshot['Categoria'],
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   ),
                                 );
                               } else if (snapshot.hasError) {

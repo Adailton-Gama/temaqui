@@ -6,7 +6,8 @@ import 'package:temaqui/pages/commons/TextForm.dart';
 import '../../../../data/config.dart';
 
 class PerfilPrata extends StatefulWidget {
-  const PerfilPrata({Key? key}) : super(key: key);
+  String uid;
+  PerfilPrata({Key? key, required this.uid}) : super(key: key);
 
   @override
   State<PerfilPrata> createState() => _PerfilPrataState();
