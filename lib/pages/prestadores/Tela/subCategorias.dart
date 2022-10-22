@@ -78,13 +78,15 @@ class _SubCategoriasState extends State<SubCategorias> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                content: Image.network(
-                                    '${subcategorias[index]['catImg'].toString()}'),
-                              ),
-                            );
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ListaProfissionais()));
+                            // showDialog(
+                            //   context: context,
+                            //   builder: (context) => AlertDialog(
+                            //     content: Image.network(
+                            //         '${subcategorias[index]['catImg'].toString()}'),
+                            //   ),
+                            // );
                             // Navigator.of(context).push(MaterialPageRoute(
                             //     builder: (context) => ListaProfissionais()));
                           },

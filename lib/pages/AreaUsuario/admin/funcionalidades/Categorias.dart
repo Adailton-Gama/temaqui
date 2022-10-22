@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,6 +8,7 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:temaqui/data/back4app.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:temaqui/data/config.dart';
+import 'package:temaqui/pages/AreaUsuario/admin/funcionalidades/EditarCategorias.dart';
 
 class CadCategorias extends StatefulWidget {
   const CadCategorias({Key? key}) : super(key: key);
@@ -38,7 +40,7 @@ class _CadCategoriasState extends State<CadCategorias> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: primaryColor,
-        title: Text('Gerenciar Categorias'),
+        title: Text('Categorias'),
         centerTitle: true,
         bottom: PreferredSize(
           child: Container(
@@ -281,10 +283,36 @@ class _CadCategoriasState extends State<CadCategorias> {
                     ),
               isChecked
                   ? ElevatedButton(
-                      onPressed: () => addCategoria(), child: Text('Cadastrar'))
+                      style: ElevatedButton.styleFrom(primary: primaryColor),
+                      onPressed: () => addCategoria(),
+                      child: Text('Cadastrar'))
                   : ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: primaryColor),
                       onPressed: () => addSubCategoria(),
                       child: Text('Cadastrar')),
+              //
+              //
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                height: 2,
+                width: Get.size.width,
+                color: Colors.grey[400],
+              ),
+              //
+              //
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: secundaryColor),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => EditarCategorias()));
+                },
+                child: Text(
+                  'Ver e Editar Cadastros',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -347,6 +375,7 @@ class _CadCategoriasState extends State<CadCategorias> {
     var imgUrl = await imgSubCat.ref.getDownloadURL();
 
     colection.doc(subCat.text).set({
+      'Id': subCat.text,
       'Categoria': categoria.toString(),
       'SubCategoria': subCat.text,
       'catImg': imgUrl,

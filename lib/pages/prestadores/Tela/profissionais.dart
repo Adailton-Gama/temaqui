@@ -22,150 +22,209 @@ class _ListaProfissionaisState extends State<ListaProfissionais> {
   PickedFile? subCatImg;
   final storage = FirebaseStorage.instance;
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Back4app.initParse();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: primaryColor,
-        bottom: PreferredSize(
-          child: Container(
-            height: 20,
-          ),
-          preferredSize: Size.fromHeight(40),
-        ),
-      ),
-      body: Container(
-        padding: EdgeInsets.all(10),
-        child: SingleChildScrollView(
+      body: SafeArea(
+        child: Container(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextField(
-                controller: cat,
-                decoration: InputDecoration(
-                  label: Text('Nome da Categoria'),
-                ),
-              ),
-              GestureDetector(
-                onTap: () async {
-                  PickedFile? categoriaImg =
-                      await ImagePicker().getImage(source: ImageSource.gallery);
-                  setState(() {
-                    catImg = categoriaImg;
-                  });
-                },
-                child: catImg != null
-                    ? Container(
-                        height: 200,
-                        width: 200,
-                        child: Image.file(File(catImg!.path)),
-                      )
-                    : Container(
-                        height: 200,
-                        width: 200,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black)),
-                        child: Align(
-                            alignment: Alignment.center,
-                            child: Text('Inserir Imagem da Categoria')),
+              Stack(
+                children: [
+                  Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30),
                       ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Divider(
-                color: Colors.red,
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              TextField(
-                controller: subCat,
-                decoration: InputDecoration(
-                  label: Text('Nome da subcategoria'),
-                ),
-              ),
-              GestureDetector(
-                onTap: () async {
-                  PickedFile? subCat =
-                      await ImagePicker().getImage(source: ImageSource.gallery);
-                  setState(() {
-                    subCatImg = subCat;
-                  });
-                },
-                child: subCatImg != null
-                    ? Container(
-                        height: 200,
-                        width: 200,
-                        child: Image.file(File(subCatImg!.path)),
-                      )
-                    : Container(
-                        height: 200,
-                        width: 200,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black)),
-                        child: Align(
-                            alignment: Alignment.center,
-                            child: Text('Inserir Imagem da subcategoria')),
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                            'https://blog.ead.unipar.br/wp-content/uploads/2021/04/inovacao-e-tecnologia.jpg'),
                       ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 10, top: 10),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: GestureDetector(
+                          child: Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.white,
+                      )),
+                    ),
+                  ),
+                ],
               ),
-              ElevatedButton(
-                  onPressed: () => addCategoria(), child: Text('Cadastrar')),
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                  height: 50,
+                  width: Get.size.width,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        width: Get.size.width,
+                        margin: EdgeInsets.only(bottom: 20),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 50,
+                              width: 50,
+                              margin: EdgeInsets.only(right: 10),
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(100),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey,
+                                    blurRadius: 3,
+                                    spreadRadius: 2,
+                                    blurStyle: BlurStyle.normal,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Abraão Lucas'.toUpperCase(),
+                                  style: TextStyle(
+                                    color: primaryColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Container(
+                                  height: 2,
+                                  width: Get.size.width * .75,
+                                  color: Colors.grey[300],
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Avaliações:',
+                                      style: TextStyle(
+                                        color: primaryColor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      size: 20,
+                                      color: secundaryColor,
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      size: 20,
+                                      color: secundaryColor,
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      size: 20,
+                                      color: secundaryColor,
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      size: 20,
+                                      color: secundaryColor,
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      size: 20,
+                                      color: secundaryColor,
+                                    ),
+                                  ],
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      Text(
+                        'Profissão',
+                        style: TextStyle(
+                          color: primaryColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text('data ' * 20),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                        height: 2,
+                        width: Get.size.width * .75,
+                        color: Colors.grey[300],
+                      ),
+                      Text(
+                        'Redes Sociais',
+                        style: TextStyle(
+                          color: primaryColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(top: 10),
+                                height: 50,
+                                child: Image.network(
+                                  'https://www.ufpb.br/ufpb/icons/redes-sociais/whatsapp.png/@@images/f903d7ef-3419-4ecf-a375-67f23c374a30.png',
+                                  filterQuality: FilterQuality.medium,
+                                ),
+                              ),
+                              Text('(74) 99999-9999'),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(top: 10),
+                                height: 50,
+                                child: Image.network(
+                                  'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png',
+                                  filterQuality: FilterQuality.medium,
+                                ),
+                              ),
+                              Text('@abraao.lucas'),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(top: 10),
+                                height: 50,
+                                child: Image.network(
+                                  'https://cdn-icons-png.flaticon.com/512/1384/1384060.png',
+                                  filterQuality: FilterQuality.medium,
+                                ),
+                              ),
+                              Text('Canal do Abraão'),
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         ),
       ),
     );
-  }
-
-  addCategoria() async {
-    final ref = storage.ref();
-    var colection = FirebaseFirestore.instance.collection('Categorias');
-
-    cat.text;
-    catImg;
-    subCat.text;
-    subCatImg;
-    // ParseFileBase? parseCatImg;
-    // parseCatImg = ParseFile(File(catImg!.path));
-    // ParseFileBase? parseSubCatImg;
-    // parseSubCatImg = ParseFile(File(subCatImg!.path));
-    var file = File(catImg!.path);
-    var imgCat = await storage.ref().child('images/${cat.text}/').putFile(file);
-    var imgUrl = await imgCat.ref.getDownloadURL();
-
-    colection.doc(cat.text).set({
-      'Categoria': cat.text,
-      'catImg': imgUrl,
-    });
-    print(imgUrl.toString());
-
-    // var categoria = ParseObject('Categorias')
-    //   ..set('Categoria', cat.text)
-    //   ..set('subCategoria', subCat.text)
-    //   ..set('subCategoriaImg', parseSubCatImg);
-    // await categoria.save();
-
-    // var nomeCategoria = ParseObject('NomesCategorias')
-    //   ..set('Categoria', cat.text)
-    //   ..set('catImg', parseCatImg);
-    // await nomeCategoria.save();
-
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text('Cadastrado com sucesso!')));
-    setState(() {
-      cat.text = '';
-      subCat.text = '';
-      catImg = null;
-      subCatImg = null;
-    });
   }
 }

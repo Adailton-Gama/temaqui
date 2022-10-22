@@ -87,8 +87,10 @@ class _PerfilProfissionalState extends State<PerfilProfissional> {
             //Corpo da Página
             if (plano.toString().contains('Bronze'))
               PerfilBronze(uid: widget.usuario),
-            if (plano.toString().contains('Prata')) PerfilPrata(uid: widget.usuario),
-            if (plano.toString().contains('Ouro')) PerfilOuro(uid: widget.usuario),
+            if (plano.toString().contains('Prata'))
+              PerfilPrata(uid: widget.usuario),
+            if (plano.toString().contains('Ouro'))
+              PerfilOuro(uid: widget.usuario),
           ],
         ),
       ),
