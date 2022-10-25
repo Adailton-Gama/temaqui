@@ -49,84 +49,170 @@ class _EditarSubCategoriaState extends State<EditarSubCategoria> {
         backgroundColor: primaryColor,
         bottom: PreferredSize(
           child: Container(
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(primary: secundaryColor),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => StatefulBuilder(
-                    builder: ((context, StateSetter setState) => AlertDialog(
-                          content: SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  'Editar Dados da categoria'.toUpperCase(),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(height: 20),
-                                TextFormField(
-                                  controller: nomeCategoria,
-                                  decoration: InputDecoration(
-                                      labelText: widget.id,
-                                      isDense: true,
-                                      border: OutlineInputBorder()),
-                                ),
-                                SizedBox(height: 20),
-                                GestureDetector(
-                                  onTap: () async {
-                                    PickedFile? categoriaImg =
-                                        await ImagePicker().getImage(
-                                            source: ImageSource.gallery);
-                                    setState(() => catImg = categoriaImg);
-                                  },
-                                  child: catImg != null
-                                      ? Container(
-                                          height: 200,
-                                          child: Image.file(File(catImg!.path)),
-                                        )
-                                      : Container(
-                                          height: 200,
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: NetworkImage(widget.img),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: secundaryColor),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => StatefulBuilder(
+                        builder: ((context, StateSetter setState) =>
+                            AlertDialog(
+                              content: SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      'Editar Dados da categoria'.toUpperCase(),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 20),
+                                    TextFormField(
+                                      controller: nomeCategoria,
+                                      decoration: InputDecoration(
+                                          labelText: widget.id,
+                                          isDense: true,
+                                          border: OutlineInputBorder()),
+                                    ),
+                                    SizedBox(height: 20),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        PickedFile? categoriaImg =
+                                            await ImagePicker().getImage(
+                                                source: ImageSource.gallery);
+                                        setState(() => catImg = categoriaImg);
+                                      },
+                                      child: catImg != null
+                                          ? Container(
+                                              height: 200,
+                                              child: Image.file(
+                                                  File(catImg!.path)),
+                                            )
+                                          : Container(
+                                              height: 200,
+                                              decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                    fit: BoxFit.cover,
+                                                    image: NetworkImage(
+                                                        widget.img),
+                                                  ),
+                                                  border: Border.all(
+                                                      color: Colors.black)),
+                                              child: Align(
+                                                alignment:
+                                                    Alignment.bottomCenter,
+                                                child: Text(
+                                                  'Aperte para Alterar a Imagem',
+                                                  style: TextStyle(
+                                                      color: Colors.red,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
                                               ),
-                                              border: Border.all(
-                                                  color: Colors.black)),
-                                          child: Align(
-                                            alignment: Alignment.bottomCenter,
-                                            child: Text(
-                                              'Aperte para Alterar a Imagem',
-                                              style: TextStyle(
-                                                  color: Colors.red,
-                                                  fontWeight: FontWeight.bold),
                                             ),
-                                          ),
-                                        ),
+                                    ),
+                                    SizedBox(height: 20),
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        atualizarCategoria();
+                                        this.setState(() {});
+                                      },
+                                      child: Text('ATUALIZAR'),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(height: 20),
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    atualizarCategoria();
-                                    this.setState(() {});
-                                  },
-                                  child: Text('ATUALIZAR'),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )),
+                              ),
+                            )),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'Editar Categoria',
+                    style: TextStyle(color: Colors.black),
                   ),
-                );
-              },
-              child: Text(
-                'Editar Categoria',
-                style: TextStyle(color: Colors.black),
-              ),
+                ),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(primary: Colors.red),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => StatefulBuilder(
+                              builder: (context, StateSetter setState) =>
+                                  AlertDialog(
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          'ATENÇÃO!',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),
+                                        Text(
+                                            'Deseja realmente apagar a Categoria?'),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  primary: Colors.green),
+                                              onPressed: () async {
+                                                try {
+                                                  deletarCategoria();
+                                                  Navigator.of(context).pop();
+                                                  Navigator.of(context).pop();
+                                                  ScaffoldMessenger.of(context)
+                                                      .clearSnackBars();
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(SnackBar(
+                                                          backgroundColor:
+                                                              Colors.green,
+                                                          content: Text(
+                                                            'Categoria: ${widget.categoria} excluída com sucesso!',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                          )));
+                                                } catch (e) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .clearSnackBars();
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(SnackBar(
+                                                          backgroundColor:
+                                                              Colors.green,
+                                                          content: Text(
+                                                            'Erro ao Deletar ${e.toString()}',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                          )));
+                                                }
+                                              },
+                                              child: Text('Sim'),
+                                            ),
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  primary: Colors.redAccent),
+                                              onPressed: () {
+                                                ScaffoldMessenger.of(context)
+                                                    .clearSnackBars();
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text('Não'),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  )));
+                    },
+                    child: Text('Deletar Categoria')),
+              ],
             ),
           ),
           preferredSize: Size.fromHeight(40),
@@ -171,93 +257,204 @@ class _EditarSubCategoriaState extends State<EditarSubCategoria> {
                             showDialog(
                               context: context,
                               builder: (context) => StatefulBuilder(
-                                builder: ((context, StateSetter setState) =>
-                                    AlertDialog(
-                                      content: SingleChildScrollView(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              'Editar Dados da Subcategoria'
-                                                  .toUpperCase(),
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                builder:
+                                    ((context, StateSetter setState) =>
+                                        AlertDialog(
+                                          content: SingleChildScrollView(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.stretch,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(
+                                                  'Editar Dados da Subcategoria'
+                                                      .toUpperCase(),
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 20),
+                                                TextFormField(
+                                                  controller: nomeCategoria,
+                                                  decoration: InputDecoration(
+                                                      labelText:
+                                                          nomeCategoria.text,
+                                                      isDense: true,
+                                                      border:
+                                                          OutlineInputBorder()),
+                                                ),
+                                                SizedBox(height: 20),
+                                                TextFormField(
+                                                  controller: nomeSubCategoria,
+                                                  decoration: InputDecoration(
+                                                      labelText:
+                                                          nomeSubCategoria.text,
+                                                      isDense: true,
+                                                      border:
+                                                          OutlineInputBorder()),
+                                                ),
+                                                SizedBox(height: 20),
+                                                GestureDetector(
+                                                  onTap: () async {
+                                                    PickedFile?
+                                                        subCategoriaImg =
+                                                        await ImagePicker()
+                                                            .getImage(
+                                                                source:
+                                                                    ImageSource
+                                                                        .gallery);
+                                                    setState(() => subCatImg =
+                                                        subCategoriaImg);
+                                                  },
+                                                  child: subCatImg != null
+                                                      ? Container(
+                                                          height: 200,
+                                                          child: Image.file(
+                                                              File(subCatImg!
+                                                                  .path)),
+                                                        )
+                                                      : Container(
+                                                          height: 200,
+                                                          decoration: BoxDecoration(
+                                                              image: DecorationImage(
+                                                                  image: NetworkImage(
+                                                                      subcategorias[index]
+                                                                              [
+                                                                              'catImg']
+                                                                          .toString())),
+                                                              border: Border.all(
+                                                                  color: Colors
+                                                                      .black)),
+                                                          child: Align(
+                                                              alignment: Alignment
+                                                                  .bottomCenter,
+                                                              child: Text(
+                                                                'Aperte para Alterar a Imagem',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .red,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              )),
+                                                        ),
+                                                ),
+                                                ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          primary:
+                                                              secundaryColor),
+                                                  onPressed: () async {
+                                                    editSubCategoria();
+                                                    this.setState(() {});
+                                                  },
+                                                  child: Text(
+                                                    'ATUALIZAR',
+                                                    style: TextStyle(
+                                                        color: Colors.black),
+                                                  ),
+                                                ),
+                                                ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          primary: Colors.red),
+                                                  onPressed: () async {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) =>
+                                                          StatefulBuilder(
+                                                        builder: (context,
+                                                                StateSetter
+                                                                    setState) =>
+                                                            AlertDialog(
+                                                          content: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            children: [
+                                                              Text(
+                                                                'ATENÇÃO!',
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        16),
+                                                              ),
+                                                              Text(
+                                                                  'Deseja realmente apagar a Categoria?'),
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceAround,
+                                                                children: [
+                                                                  ElevatedButton(
+                                                                    style: ElevatedButton.styleFrom(
+                                                                        primary:
+                                                                            Colors.green),
+                                                                    onPressed:
+                                                                        () async {
+                                                                      try {
+                                                                        deletarSubCategoria();
+                                                                        Navigator.of(context)
+                                                                            .pop();
+                                                                        Navigator.of(context)
+                                                                            .pop();
+                                                                        Navigator.of(context)
+                                                                            .pop();
+                                                                        ScaffoldMessenger.of(context)
+                                                                            .clearSnackBars();
+                                                                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                            backgroundColor: Colors.green,
+                                                                            content: Text(
+                                                                              'Categoria: ${widget.categoria} excluída com sucesso!',
+                                                                              textAlign: TextAlign.center,
+                                                                            )));
+                                                                      } catch (e) {
+                                                                        ScaffoldMessenger.of(context)
+                                                                            .clearSnackBars();
+                                                                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                            backgroundColor: Colors.green,
+                                                                            content: Text(
+                                                                              'Erro ao Deletar ${e.toString()}',
+                                                                              textAlign: TextAlign.center,
+                                                                            )));
+                                                                      }
+                                                                    },
+                                                                    child: Text(
+                                                                        'Sim'),
+                                                                  ),
+                                                                  ElevatedButton(
+                                                                    style: ElevatedButton.styleFrom(
+                                                                        primary:
+                                                                            Colors.redAccent),
+                                                                    onPressed:
+                                                                        () {
+                                                                      ScaffoldMessenger.of(
+                                                                              context)
+                                                                          .clearSnackBars();
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .pop();
+                                                                    },
+                                                                    child: Text(
+                                                                        'Não'),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                    this.setState(() {});
+                                                  },
+                                                  child: Text('DELETAR'),
+                                                ),
+                                              ],
                                             ),
-                                            SizedBox(height: 20),
-                                            TextFormField(
-                                              controller: nomeCategoria,
-                                              decoration: InputDecoration(
-                                                  labelText: nomeCategoria.text,
-                                                  isDense: true,
-                                                  border: OutlineInputBorder()),
-                                            ),
-                                            SizedBox(height: 20),
-                                            TextFormField(
-                                              controller: nomeSubCategoria,
-                                              decoration: InputDecoration(
-                                                  labelText:
-                                                      nomeSubCategoria.text,
-                                                  isDense: true,
-                                                  border: OutlineInputBorder()),
-                                            ),
-                                            SizedBox(height: 20),
-                                            GestureDetector(
-                                              onTap: () async {
-                                                PickedFile? subCategoriaImg =
-                                                    await ImagePicker()
-                                                        .getImage(
-                                                            source: ImageSource
-                                                                .gallery);
-                                                setState(() => subCatImg =
-                                                    subCategoriaImg);
-                                              },
-                                              child: subCatImg != null
-                                                  ? Container(
-                                                      height: 200,
-                                                      child: Image.file(File(
-                                                          subCatImg!.path)),
-                                                    )
-                                                  : Container(
-                                                      height: 200,
-                                                      decoration: BoxDecoration(
-                                                          image: DecorationImage(
-                                                              image: NetworkImage(
-                                                                  subcategorias[
-                                                                              index]
-                                                                          [
-                                                                          'catImg']
-                                                                      .toString())),
-                                                          border: Border.all(
-                                                              color: Colors
-                                                                  .black)),
-                                                      child: Align(
-                                                          alignment: Alignment
-                                                              .bottomCenter,
-                                                          child: Text(
-                                                            'Aperte para Alterar a Imagem',
-                                                            style: TextStyle(
-                                                                color:
-                                                                    Colors.red,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          )),
-                                                    ),
-                                            ),
-                                            ElevatedButton(
-                                              onPressed: () async {
-                                                editSubCategoria();
-                                                this.setState(() {});
-                                              },
-                                              child: Text('ATUALIZAR'),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )),
+                                          ),
+                                        )),
                               ),
                             );
                           },
@@ -276,6 +473,21 @@ class _EditarSubCategoriaState extends State<EditarSubCategoria> {
         ),
       ),
     );
+  }
+
+  deletarSubCategoria() async {
+    final ref = storage.ref();
+    var colection = FirebaseFirestore.instance.collection('Subcategorias');
+    var imgSubCat = await ref.child('images/${nomeSubCategoria.text}').delete();
+    colection.doc(subIndex.toString()).delete();
+  }
+
+  deletarCategoria() async {
+    final ref = storage.ref();
+    var colection = FirebaseFirestore.instance.collection('Categorias');
+    var imgCat =
+        await storage.ref().child('images/${widget.categoria}').delete();
+    colection.doc(widget.categoria).delete();
   }
 
   atualizarCategoria() async {
