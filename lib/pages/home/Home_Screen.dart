@@ -8,6 +8,7 @@ import 'package:temaqui/pages/commons/Item_Categorias.dart';
 
 import '../commons/CategoriaTile.dart';
 import '../mainPage/Main_Page.dart';
+import '../prestadores/Tela/listProfissionais.dart';
 import '../prestadores/Tela/profissionais.dart';
 import '../prestadores/Work_Page.dart';
 
@@ -403,12 +404,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                                         return GestureDetector(
                                                           onTap: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .push(MaterialPageRoute(
+                                                            Navigator.of(context).push(
+                                                                MaterialPageRoute(
                                                                     builder:
                                                                         (context) =>
-                                                                            ListaProfissionais()));
+                                                                            ListaProfissionais(
+                                                                              subcategoria: 'Pedreiro',
+                                                                            )));
                                                           },
                                                           child: CategoriaTile(
                                                             imgUrl:
@@ -598,12 +600,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                                         return GestureDetector(
                                                           onTap: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .push(MaterialPageRoute(
+                                                            Navigator.of(context).push(
+                                                                MaterialPageRoute(
                                                                     builder:
                                                                         (context) =>
-                                                                            ListaProfissionais()));
+                                                                            ListaProfissionais(
+                                                                              subcategoria: 'Pedreiro',
+                                                                            )));
                                                           },
                                                           child: ItemCategorias(
                                                             img: imgUrl!.url!,

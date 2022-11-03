@@ -8,6 +8,7 @@ import 'package:temaqui/data/data.dart';
 import 'package:temaqui/pages/prestadores/Tela/profissionais.dart';
 
 import '../../commons/CategoriaTile.dart';
+import 'listProfissionais.dart';
 
 class SubCategorias extends StatefulWidget {
   SubCategorias({Key? key, required this.categoria, required this.img})
@@ -79,7 +80,11 @@ class _SubCategoriasState extends State<SubCategorias> {
                         return GestureDetector(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ListaProfissionais()));
+                                builder: (context) => ListaProfissionais(
+                                      subcategoria: subcategorias[index]
+                                              ['SubCategoria']
+                                          .toString(),
+                                    )));
                             // showDialog(
                             //   context: context,
                             //   builder: (context) => AlertDialog(

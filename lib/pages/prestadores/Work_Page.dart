@@ -230,54 +230,54 @@ class _WorkPageState extends State<WorkPage> {
                         //
                         //Lista de Categorias
                         StreamBuilder(
-                            stream: refCat.snapshots(),
-                            builder: (context,
-                                AsyncSnapshot<QuerySnapshot> snapshot) {
-                              if (snapshot.hasData) {
-                                return Expanded(
-                                  child: Container(
-                                    height: 200,
-                                    child: ListView.builder(
-                                      physics: BouncingScrollPhysics(),
-                                      itemCount: snapshot.data!.docs.length,
-                                      itemBuilder: (context, index) {
-                                        final DocumentSnapshot
-                                            documentSnapshot =
-                                            snapshot.data!.docs[index];
-                                        return GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        SubCategorias(
-                                                          categoria:
-                                                              documentSnapshot[
-                                                                  'Categoria'],
-                                                          img: documentSnapshot[
-                                                              'catImg'],
-                                                        )));
-                                          },
-                                          child: CategoriaTile(
-                                            imgUrl: documentSnapshot['catImg'],
-                                            categoria:
-                                                documentSnapshot['Categoria'],
-                                          ),
-                                        );
-                                      },
-                                    ),
+                          stream: refCat.snapshots(),
+                          builder:
+                              (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if (snapshot.hasData) {
+                              return Expanded(
+                                child: Container(
+                                  height: 200,
+                                  child: ListView.builder(
+                                    physics: BouncingScrollPhysics(),
+                                    itemCount: snapshot.data!.docs.length,
+                                    itemBuilder: (context, index) {
+                                      final DocumentSnapshot documentSnapshot =
+                                          snapshot.data!.docs[index];
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SubCategorias(
+                                                        categoria:
+                                                            documentSnapshot[
+                                                                'Categoria'],
+                                                        img: documentSnapshot[
+                                                            'catImg'],
+                                                      )));
+                                        },
+                                        child: CategoriaTile(
+                                          imgUrl: documentSnapshot['catImg'],
+                                          categoria:
+                                              documentSnapshot['Categoria'],
+                                        ),
+                                      );
+                                    },
                                   ),
-                                );
-                              } else if (snapshot.hasError) {
-                                return Text(
-                                  'Erro ao Carregar dados!',
-                                  style: TextStyle(color: Colors.red),
-                                );
-                              }
-
-                              return Center(
-                                child: CircularProgressIndicator(),
+                                ),
                               );
-                            }),
+                            } else if (snapshot.hasError) {
+                              return Text(
+                                'Erro ao Carregar dados!',
+                                style: TextStyle(color: Colors.red),
+                              );
+                            }
+
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -288,17 +288,6 @@ class _WorkPageState extends State<WorkPage> {
         ),
       ),
     );
-  }
-
-  Future<List<ParseObject>> getData() async {
-    QueryBuilder<ParseObject> queryData =
-        QueryBuilder<ParseObject>(ParseObject('NomesCategorias'));
-    final ParseResponse apiResponse = await queryData.query();
-    if (apiResponse.success && apiResponse.results != null) {
-      return apiResponse.results as List<ParseObject>;
-    } else {
-      return [];
-    }
   }
 
   selecionarCategoria(String id) {

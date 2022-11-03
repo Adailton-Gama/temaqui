@@ -19,53 +19,31 @@ class _ItemCategoriasState extends State<ItemCategorias> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 180,
-      width: widget.widht,
-      child: Card(
-        elevation: 1,
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-              color: primaryColor, width: 2, style: BorderStyle.solid),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(widget.img),
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                  ),
+      margin: EdgeInsets.only(right: 10),
+      child: Column(
+        children: [
+          Container(
+            height: 110,
+            width: widget.widht,
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(widget.img),
+                  fit: BoxFit.cover,
                 ),
+                border: Border.all(
+                    color: primaryColor, width: 3, style: BorderStyle.solid),
+                borderRadius: BorderRadius.circular(20),
               ),
             ),
-            Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(5),
-              width: Get.size.width,
-              decoration: BoxDecoration(
-                gradient: buttonGradient,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20)),
-              ),
-              child: Wrap(
-                children: [
-                  Text(
-                    widget.nome,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+          ),
+          Text(
+            widget.nome,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: primaryColor, fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+        ],
       ),
     );
   }

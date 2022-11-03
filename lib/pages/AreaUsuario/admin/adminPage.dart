@@ -45,6 +45,13 @@ class _AdminPageState extends State<AdminPage> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    timer!.cancel();
+  }
+
+  @override
   var foto;
   String nomeCompleto = '';
   String cpf = '';
